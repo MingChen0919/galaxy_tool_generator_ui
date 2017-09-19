@@ -1,8 +1,9 @@
 name = Galaxy Tool Generator UI
 description = A module to build user interfaces for Galaxy Tool Generator module
 core = 7.x
-project = Galaxy
+package = Galaxy
 version = 7.x-1.x
 
 dependencies[] = webform
 dependencies[] = galaxy_tool_generator
+dependencies[] = xml_field

@@ -1,5 +1,31 @@
 <?php
 
 /**
- *
+ * Implements hook_menu().
  */
+function galaxy_tool_generator_ui_menu() {
+  $items['galaxy_tool_xml'] = [
+    'title' => 'Galaxy Tool XML',
+    'description' => t('A page to view Galaxy tool XML'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['galaxy_tool_xml_form'],
+    'access arguments' => ['access content'],
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'includes/galaxy_tool_xml_form.inc',
+    'path' => drupal_get_path('module', 'galaxy_tool_generator_ui'),
+  ];
+  $items['test'] = [
+    'title' => 'Test',
+    'description' => t('Test'),
+    'page callback' => 'test_page',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'access arguments' => ['access content'],
+  ];
+
+  // save menu link
+  return $items;
+}
+
+function test_page() {
+  return 'test page';
+}
