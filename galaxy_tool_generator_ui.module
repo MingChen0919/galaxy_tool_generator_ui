@@ -8,7 +8,6 @@ function galaxy_tool_generator_ui_menu() {
     'title' => 'Galaxy Tool XML',
     'description' => t('A page to view Galaxy tool XML'),
     'page callback' => 'drupal_get_form',
-    'page callback' => 'page_test',
     'page arguments' => ['galaxy_tool_xml_form'],
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
@@ -18,4 +17,14 @@ function galaxy_tool_generator_ui_menu() {
   ];
 
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function galaxy_tool_generator_ui_menu_alter(&$items) {
+  unset($items['node/%webform_menu/webform/components']);
+  unset($items['node/%webform_menu/webform/conditionals']);
+  unset($items['node/%webform_menu/webform/emails']);
+  unset($items['node/%webform_menu/webform/configure']);
 }
