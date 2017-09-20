@@ -2,62 +2,17 @@
 
 
 /**
- * Create menu links.
+ * implements hook_install().
  */
 function galaxy_tool_generator_ui_install() {
-  $menu_links = [
-    [
-      'menu_name' => 'main-menu',
-      'link_path' => 'node/add/webform',
-      'link_title' => t('Create New Galaxy Tool'),
-      'weight' => 1,
-      'customized' => 1,
-    ],
-    [
-      'menu_name' => 'main-menu',
-      'link_path' => 'galaxy_tool_xml',
-      'link_title' => t('Galaxy Tool XML'),
-      'router_path' => 'galaxy_tool_xml',
-      'weight' => 2,
-      'customized' => 1,
-    ],
-    [
-      'menu_name' => 'main-menu',
-      'link_path' => 'publish_to_test_toolshed',
-      'link_title' => t('Publish to Test Toolshed'),
-      'weight' => 3,
-      'router_path' => 'publish_to_test_toolshed',
-      'customized' => 1,
-    ],
-    [
-      'menu_name' => 'main-menu',
-      'link_path' => 'publish_to_toolshed',
-      'link_title' => t('Publish to Toolshed'),
-      'router_path' => 'publish_to_toolshed',
-      'weight' => 4,
-      'customized' => 1,
-    ],
+  $menu_link = [
+    'menu_name' => 'main-menu',
+    'link_title' => 'Create New Galaxy Tool',
+    'link_path' => 'node/add/webform',
+    'weight' => 1,
   ];
+  menu_link_save($menu_link);
 
-  // save menu links
-  foreach ($menu_links as $menu_link) {
-    // check if menu link already exists.
-    $mlid = db_query("SELECT mlid from {menu_links} WHERE link_title=:link_title AND link_path=:link_path", [
-      ':link_title' => $menu_link['link_title'],
-      ':link_path' => $menu_link['link_path'],
-    ])->fetchField();
-    if (!$mlid) {
-      //      menu_link_save($menu_link);
-    }
-  }
-}
-
-
-/**
- * Implement hook_install().
- * Grant some webform permissions to anonymous users and authenticated users.
- */
-function galaxy_tool_generator_ui_update_7010() {
   $permissions = [
     'create webform content',
     'edit own webform content',
@@ -69,3 +24,5 @@ function galaxy_tool_generator_ui_update_7010() {
   // Authenticated users
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
+
+
