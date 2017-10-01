@@ -91,5 +91,13 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
  * webform_node_form form submitter.
  */
 function create_galaxy_tool($form, &$form_state) {
-  dpm('form submitted');
+  // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
+  if ($form_state['values']['existing_or_new_tool'] == 'Existing') {
+    $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
+  } else {
+    $galaxy_tool_name = $form_state['values']['new_galaxy_tool'];
+  }
+  $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+  dpm($directory);
+  file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
 }
