@@ -28,4 +28,68 @@ function galaxy_tool_generator_ui_menu_alter(&$items) {
   unset($items['node/%webform_menu/webform/emails']);
   unset($items['node/%webform_menu/webform/configure']);
   $items['node/%webform_menu/webform']['title'] = 'XML components';
+  // TODO: change add webform page title
+  // $items['node/add/webform']['title'] = 'Start a New Galaxy Tool';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_state, $form_id) {
+
+  $form['existing_or_new_tool'] = [
+    '#type' => 'radios',
+    '#title' => t('Existing or new galaxy tool?'),
+    '#description' => t('New tool XML file can be added to an existing Galaxy tool or
+      a new Galaxy tool.'),
+    '#options' => drupal_map_assoc([
+      'New',
+      'Existing',
+    ]),
+    '#default_value' => 'New',
+    '#weight' => -10,
+  ];
+  $form['new_galaxy_tool'] = [
+    '#type' => 'textfield',
+    '#title' => t('New Galaxy tool'),
+    '#description' => t('Enter a name for your galaxy tool. This will be the name for 
+      the tool in Galaxy toolshed or testtoolshed'),
+    '#weight' => -9,
+    '#states' => [
+      'visible' => [
+        ':input[name="existing_or_new_tool"]' => ['value' => 'New'],
+      ],
+    ],
+  ];
+  $form['existing_galaxy_tool'] = [
+    '#type' => 'select',
+    '#title' => t('Existing Galaxy tool'),
+    '#description' => t('Select an existing Galaxy tool'),
+    '#weight' => -9,
+    '#options' => [],
+    '#states' => [
+      'visible' => [
+        ':input[name="existing_or_new_tool"]' => ['value' => 'Existing'],
+      ],
+    ],
+  ];
+  // change one field title from the form on the add-webform page
+  $form['title'] = [
+    '#type' => 'textfield',
+    '#title' => t('XML file name'),
+    '#description' => t('Galaxy tool XML file name without extension. For example, 
+      if your tool XML file name is <span style="color: #FF5666">hisat2.xml</span>, you should
+      enter <span style="color: #FF5666">hisat2</span>.'),
+    '#required' => TRUE,
+    '#maxlength' => 255,
+    '#weight' => -5,
+  ];
+  $form['actions']['submit']['#submit'][] = 'create_galaxy_tool';
+}
+
+/**
+ * webform_node_form form submitter.
+ */
+function create_galaxy_tool($form, &$form_state) {
+  dpm('form submitted');
 }
