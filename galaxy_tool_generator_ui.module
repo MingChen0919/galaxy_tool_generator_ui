@@ -152,7 +152,8 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   // add form validator
   $form['#validate'][] = 'create_galaxy_tool_form_validate';
 
-  dpm($form);
+  // TODO: when a webform is created, the webform needs to be altered to contain
+  // several basic components.
 }
 
 /**
@@ -212,10 +213,10 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
   }
 
   //==========validate xml file name========
-  if (!preg_match('/^[a-z]+[0-9_]*/', $form_state['values']['title'])) {
+  if (!preg_match('/^[a-z]+[0-9_]*\.xml/', $form_state['values']['title'])) {
     form_set_error('', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
-        and starts with letters.'));
+        and starts with letters and ends with exsion <span style="color: #FF5666">.xml</span>'));
   }
   $xml_file = $form_state['values']['title'] . '.xml';
   $xml_file_path = $directory . '/' . $xml_file;
@@ -227,9 +228,11 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
 /**
  * implement hook_node_view().
  */
-function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
+function galaxy_tool_generator_ui_node_view_alter(&$build) {
   // TODO: display xml file name and galaxy tool name (which directory the xml file comes from)
-  dpm($node);
-
   // TODO: write XML components into XML file
+}
+
+function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
+//  $node->title = $node->title . '.xml';
 }
