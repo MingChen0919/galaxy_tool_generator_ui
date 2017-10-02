@@ -199,7 +199,7 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
       form_set_error('new_galaxy_tool', t('This Galaxy tool name already exists. Please use a different name.'));
     }
     // check if galaxy tool name is legal.
-    if (!preg_match('/^[a-z]+[0-9_]+/', $galaxy_tool_name)) {
+    if (!preg_match('/^[a-z]+[0-9_]*/', $galaxy_tool_name)) {
       form_set_error('new_galaxy_tool', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters.'));
@@ -212,7 +212,7 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
   }
 
   //==========validate xml file name========
-  if (!preg_match('/^[a-z]+[0-9_]+/', $form_state['values']['title'])) {
+  if (!preg_match('/^[a-z]+[0-9_]*/', $form_state['values']['title'])) {
     form_set_error('', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters.'));
