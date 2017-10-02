@@ -42,7 +42,7 @@ function galaxy_tool_generator_ui_install() {
 /**
  * Implements hook_schema().
  */
-function galaxy_tool_generator_ui() {
+function galaxy_tool_generator_ui_schema() {
   $schema['galaxy_tool_names_and_xml_files'] = [
     'description' => 'The table for galaxy tool names and associated xml file names',
     'fields' => [
