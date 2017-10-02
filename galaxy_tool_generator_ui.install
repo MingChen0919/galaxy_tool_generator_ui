@@ -67,7 +67,7 @@ function galaxy_tool_generator_ui() {
         'default' => '',
       ],
     ],
-    'primary key' => [xmlid],
+    'primary key' => ['xmlid'],
   ];
   return $schema;
 }

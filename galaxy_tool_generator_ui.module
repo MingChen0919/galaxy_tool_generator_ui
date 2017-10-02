@@ -179,7 +179,11 @@ function create_galaxy_tool($form, &$form_state) {
     drupal_set_message(t($e->getMessage()), 'error');
   }
 
-  // TODO: store galaxy tool name and tool xml file names in a database table.
+  // store galaxy tool name and tool xml file names in a database table.
+  $record = [];
+  $record['tool_name'] = $galaxy_tool_name;
+  $record['xml_file_name'] = $xml_file;
+  drupal_write_record('galaxy_tool_names_and_xml_files', $record);
 }
 
 /**
