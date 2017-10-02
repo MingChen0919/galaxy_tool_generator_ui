@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * implements hook_install().
  */
@@ -11,6 +10,19 @@ function galaxy_tool_generator_ui_install() {
     'link_path' => 'node/add/webform',
     'weight' => 1,
   ];
+  $menu_link = [
+    'menu_name' => 'main-menu',
+    'link_title' => 'All Galaxy Tools',
+    'link_path' => 'all_galaxy_tools',
+    'weight' => 2,
+  ];
+  $menu_link = [
+    'menu_name' => 'main-menu',
+    'link_title' => 'Publish Tool',
+    'link_path' => 'publish_tool',
+    'weight' => 3,
+  ];
+
   menu_link_save($menu_link);
 
   $permissions = [
