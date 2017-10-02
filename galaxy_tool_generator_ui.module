@@ -11,7 +11,7 @@ function galaxy_tool_generator_ui_menu() {
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
-//    'file' => 'includes/galaxy_tool_xml.form.inc',
+    //    'file' => 'includes/galaxy_tool_xml.form.inc',
     'weight' => 2,
   ];
 
@@ -43,20 +43,20 @@ function publish_tool_page() {
 }
 
 
-
 /**
  * Implements hook_menu_alter().
  */
 function galaxy_tool_generator_ui_menu_alter(&$items) {
-  // only keep the webform components page.
+dpm($items);
   unset($items['node/%webform_menu/webform/components']);
   unset($items['node/%webform_menu/webform/conditionals']);
   unset($items['node/%webform_menu/webform/emails']);
   unset($items['node/%webform_menu/webform/configure']);
   $items['node/%webform_menu/webform']['title'] = 'XML components';
 
-  // remove unuseful menu items for webform.
+
   foreach (array_keys($items) as $menu_link) {
+    // remove unuseful menu items for webform.
     if (preg_match('/webform-results/', $menu_link)) {
       unset($items[$menu_link]);
     }
@@ -100,7 +100,8 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   file_prepare_directory($galaxy_tools_directory, FILE_CREATE_DIRECTORY);
   // get all galaxy tools names by scanning the galaxy_tools directory.
   $directories_in_galaxy_tools = scandir($galaxy_tools_directory);
-    // remove '.' an '..' directories.
+  // remove '.' an '..' directories.
+  $all_galaxy_tools = [];
   foreach ($directories_in_galaxy_tools as $directory) {
     if (!in_array($directory, ['.', '..'])) {
       $all_galaxy_tools[] = $directory;
@@ -110,9 +111,17 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   $all_galaxy_tools = array_values($all_galaxy_tools);
   if (count($all_galaxy_tools) == 0) {
     $form['existing_galaxy_tool'] = [
-      '#markup' => t('No existing Galaxy tools available. Please create a new one.')
+      '#markup' => t('<span style="color: #19B5FE">No existing Galaxy tools 
+            available. Please create a new one.</span>'),
+      '#weight' => -9,
+      '#states' => [
+        'invisible' => [
+          ':input[name="existing_or_new_tool"]' => ['value' => 'Existing'],
+        ],
+      ],
     ];
-  } else {
+  }
+  else {
     $form['existing_galaxy_tool'] = [
       '#type' => 'select',
       '#title' => t('Existing Galaxy tool'),
