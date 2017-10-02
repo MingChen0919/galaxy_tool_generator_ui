@@ -47,7 +47,6 @@ function publish_tool_page() {
  * Implements hook_menu_alter().
  */
 function galaxy_tool_generator_ui_menu_alter(&$items) {
-dpm($items);
   unset($items['node/%webform_menu/webform/components']);
   unset($items['node/%webform_menu/webform/conditionals']);
   unset($items['node/%webform_menu/webform/emails']);
@@ -56,7 +55,7 @@ dpm($items);
 
 
   foreach (array_keys($items) as $menu_link) {
-    // remove unuseful menu items for webform.
+    // remove unneeded menu items for webform.
     if (preg_match('/webform-results/', $menu_link)) {
       unset($items[$menu_link]);
     }
@@ -107,15 +106,17 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
       $all_galaxy_tools[] = $directory;
     }
   }
-  // convert $all_galaxy_tools to an unassociative array.
+  // convert $all_galaxy_tools to a non-associative array.
   $all_galaxy_tools = array_values($all_galaxy_tools);
-  if (count($all_galaxy_tools) == 0) {
+  if (count($all_galaxy_tools) > 0) {
     $form['existing_galaxy_tool'] = [
-      '#markup' => t('<span style="color: #19B5FE">No existing Galaxy tools 
-            available. Please create a new one.</span>'),
+      '#type' => 'select',
+      '#title' => t('Existing Galaxy tool'),
+      '#description' => t('Select an existing Galaxy tool'),
       '#weight' => -9,
+      '#options' => drupal_map_assoc($all_galaxy_tools),
       '#states' => [
-        'invisible' => [
+        'visible' => [
           ':input[name="existing_or_new_tool"]' => ['value' => 'Existing'],
         ],
       ],
@@ -123,12 +124,10 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   }
   else {
     $form['existing_galaxy_tool'] = [
-      '#type' => 'select',
-      '#title' => t('Existing Galaxy tool'),
-      '#description' => t('Select an existing Galaxy tool'),
-      '#required' => TRUE,
+      '#type' => 'item',
+      '#markup' => '<span style="color: #FF5666">No existing galaxy tools are available. 
+        Please create a new galaxy tools',
       '#weight' => -9,
-      '#options' => drupal_map_assoc($all_galaxy_tools),
       '#states' => [
         'visible' => [
           ':input[name="existing_or_new_tool"]' => ['value' => 'Existing'],
@@ -148,7 +147,10 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     '#maxlength' => 255,
     '#weight' => -5,
   ];
+  // add submit handler
   $form['actions']['submit']['#submit'][] = 'create_galaxy_tool';
+  // add form validator
+  $form['#validate'][] = 'create_galaxy_tool_form_validate';
 }
 
 /**
@@ -164,7 +166,53 @@ function create_galaxy_tool($form, &$form_state) {
   }
   $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
   file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
-  // create tool xml file
+  // create an empty tool xml file
   $xml_file = $form_state['values']['title'] . '.xml';
-  file_create_filename($xml_file, $directory);
+  //  $xml_file_path = file_create_filename($xml_file, $directory);
+  $xml_file_path = $directory . '/' . $xml_file;
+  try {
+    file_put_contents($xml_file_path, '');
+    drupal_set_message('The XML file ' . $xml_file . ' has been successfully created.');
+  } catch (Exception $e) {
+    drupal_set_message(t($e->getMessage()), 'error');
+  }
+
+}
+
+/**
+ * Create galaxy tool form validator
+ */
+function create_galaxy_tool_form_validate($form, &$form_state) {
+  if ($form_state['values']['existing_or_new_tool'] == 'New') {
+    //==========validate galaxy tool name=====
+    $galaxy_tool_name = $form_state['values']['new_galaxy_tool'];
+    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+    // check if directory already exists.
+    if (is_dir($directory)) {
+      form_set_error('new_galaxy_tool', t('This Galaxy tool name already exists. Please use a different name.'));
+    }
+    // check if galaxy tool name is legal.
+    if (!preg_match('/^[a-z]+[0-9_]+/', $galaxy_tool_name)) {
+      form_set_error('new_galaxy_tool', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
+        <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
+        and starts with letters.'));
+    }
+  }
+  else {
+    // no need to check galaxy tool name from existing galaxy tools list.
+    $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
+    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+  }
+
+  //==========validate xml file name========
+  if (!preg_match('/^[a-z]+[0-9_]+/', $form_state['values']['title'])) {
+    form_set_error('', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
+        <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
+        and starts with letters.'));
+  }
+  $xml_file = $form_state['values']['title'] . '.xml';
+  $xml_file_path = $directory . '/' . $xml_file;
+  if (file_exists($xml_file_path)) {
+    form_set_error('title', t('The file ' . $xml_file . ' already exists. Please use a different name.'));
+  }
 }
