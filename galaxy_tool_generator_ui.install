@@ -39,4 +39,35 @@ function galaxy_tool_generator_ui_install() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
 
-
+/**
+ * Implements hook_schema().
+ */
+function galaxy_tool_generator_ui() {
+  $schema['galaxy_tool_names_and_xml_files'] = [
+    'description' => 'The table for galaxy tool names and associated xml file names',
+    'fields' => [
+      'xmlid' => [
+        'description' => 'The primary identifier for an xml file name.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'tool_name' => [
+        'description' => 'The galaxy tool name, which corresponds to a directory within the directory galaxy_tools',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'xml_file_name' => [
+        'description' => 'The tool xml file name',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+    ],
+    'primary key' => [xmlid],
+  ];
+  return $schema;
+}
