@@ -5,7 +5,7 @@
  */
 function galaxy_tool_generator_ui_menu() {
   $items['all_galaxy_tools'] = [
-    'title' => '',
+    'title' => 'All Galaxy Tools',
     'description' => t('A page to view all Galaxy tools'),
     'page callback' => 'all_galaxy_tools_page',
     'access arguments' => ['access content'],
@@ -16,7 +16,7 @@ function galaxy_tool_generator_ui_menu() {
   ];
 
   $items['publish_tool'] = [
-    'title' => '',
+    'title' => 'Publish Tool',
     'description' => t('A page for publishing tools to toolshed or testtoolshed.'),
     'page callback' => 'publish_tool_page',
     'access arguments' => ['access content'],
