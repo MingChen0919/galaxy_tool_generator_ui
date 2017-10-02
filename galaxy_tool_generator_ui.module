@@ -4,32 +4,66 @@
  * Implements hook_menu().
  */
 function galaxy_tool_generator_ui_menu() {
-  $items['galaxy_tool_xml'] = [
-    'title' => 'Galaxy Tool XML',
-    'description' => t('A page to view Galaxy tool XML'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => ['galaxy_tool_xml_form'],
+  $items['all_galaxy_tools'] = [
+    'title' => '',
+    'description' => t('A page to view all Galaxy tools'),
+    'page callback' => 'all_galaxy_tools_page',
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
-    'file' => 'includes/galaxy_tool_xml.form.inc',
+//    'file' => 'includes/galaxy_tool_xml.form.inc',
     'weight' => 2,
+  ];
+
+  $items['publish_tool'] = [
+    'title' => '',
+    'description' => t('A page for publishing tools to toolshed or testtoolshed.'),
+    'page callback' => 'publish_tool_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 3,
   ];
 
   return $items;
 }
 
 /**
+ * Page callback for all_galaxy_tools page.
+ */
+function all_galaxy_tools_page() {
+  return 'all galaxy tools';
+}
+
+/**
+ * Page callback for publish_tool page.
+ */
+function publish_tool_page() {
+  return 'publish tool';
+}
+
+
+
+/**
  * Implements hook_menu_alter().
  */
 function galaxy_tool_generator_ui_menu_alter(&$items) {
+  // only keep the webform components page.
   unset($items['node/%webform_menu/webform/components']);
   unset($items['node/%webform_menu/webform/conditionals']);
   unset($items['node/%webform_menu/webform/emails']);
   unset($items['node/%webform_menu/webform/configure']);
   $items['node/%webform_menu/webform']['title'] = 'XML components';
-  // TODO: change add webform page title
-  // $items['node/add/webform']['title'] = 'Start a New Galaxy Tool';
+
+  // remove unuseful menu items for webform.
+  foreach (array_keys($items) as $menu_link) {
+    if (preg_match('/webform-results/', $menu_link)) {
+      unset($items[$menu_link]);
+    }
+  }
+
+  // hide webform node edit page
+  $items['node/%node/edit']['access callback'] = FALSE;
 }
 
 /**
@@ -61,18 +95,39 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
       ],
     ],
   ];
-  $form['existing_galaxy_tool'] = [
-    '#type' => 'select',
-    '#title' => t('Existing Galaxy tool'),
-    '#description' => t('Select an existing Galaxy tool'),
-    '#weight' => -9,
-    '#options' => [],
-    '#states' => [
-      'visible' => [
-        ':input[name="existing_or_new_tool"]' => ['value' => 'Existing'],
+  // create galaxy_tools directory if it doesn't exist.
+  $galaxy_tools_directory = 'public://galaxy_tools/';
+  file_prepare_directory($galaxy_tools_directory, FILE_CREATE_DIRECTORY);
+  // get all galaxy tools names by scanning the galaxy_tools directory.
+  $directories_in_galaxy_tools = scandir($galaxy_tools_directory);
+    // remove '.' an '..' directories.
+  foreach ($directories_in_galaxy_tools as $directory) {
+    if (!in_array($directory, ['.', '..'])) {
+      $all_galaxy_tools[] = $directory;
+    }
+  }
+  // convert $all_galaxy_tools to an unassociative array.
+  $all_galaxy_tools = array_values($all_galaxy_tools);
+  if (count($all_galaxy_tools) == 0) {
+    $form['existing_galaxy_tool'] = [
+      '#markup' => t('No existing Galaxy tools available. Please create a new one.')
+    ];
+  } else {
+    $form['existing_galaxy_tool'] = [
+      '#type' => 'select',
+      '#title' => t('Existing Galaxy tool'),
+      '#description' => t('Select an existing Galaxy tool'),
+      '#required' => TRUE,
+      '#weight' => -9,
+      '#options' => drupal_map_assoc($all_galaxy_tools),
+      '#states' => [
+        'visible' => [
+          ':input[name="existing_or_new_tool"]' => ['value' => 'Existing'],
+        ],
       ],
-    ],
-  ];
+    ];
+  }
+
   // change one field title from the form on the add-webform page
   $form['title'] = [
     '#type' => 'textfield',
@@ -94,10 +149,13 @@ function create_galaxy_tool($form, &$form_state) {
   // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
   if ($form_state['values']['existing_or_new_tool'] == 'Existing') {
     $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
-  } else {
+  }
+  else {
     $galaxy_tool_name = $form_state['values']['new_galaxy_tool'];
   }
   $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-  dpm($directory);
   file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
+  // create tool xml file
+  $xml_file = $form_state['values']['title'] . '.xml';
+  file_create_filename($xml_file, $directory);
 }
