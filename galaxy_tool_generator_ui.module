@@ -179,21 +179,12 @@ function create_galaxy_tool($form, &$form_state) {
     drupal_set_message(t($e->getMessage()), 'error');
   }
 
-  // store galaxy tool name and tool xml file names in a database table.
-  // This submit function will run after the original functions. When this function
-  // runs, the node has been created for this webform and so the $nid is available.
-  $record = [];
-  $record['nid'] = $form_state['values']['nid'];
-  $record['tool_name'] = $galaxy_tool_name;
-  $record['xml_file_name'] = $xml_file;
-  drupal_write_record('galaxy_tool_names_and_xml_files', $record);
-
-  // update node title
+  // add galaxy_tool_name to node table for later use.
   db_update('node')
     ->fields([
-      'title' => $xml_file . ' (from Galaxy tool <span style="color: #FF5666">' . $galaxy_tool_name . '</span>',
+      'galaxy_tool_name' => $galaxy_tool_name,
     ])
-    ->condition('nid', $record['nid'])
+    ->condition('nid', $form_state['values']['nid'])
     ->execute();
 }
 
