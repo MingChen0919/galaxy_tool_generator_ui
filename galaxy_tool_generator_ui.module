@@ -149,7 +149,6 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   // add form validator
   $form['#validate'][] = 'create_galaxy_tool_form_validate';
 
-  dpm($form);
   // TODO: when a webform is created, the webform needs to be altered to contain
   // several basic components.
 }
@@ -235,6 +234,9 @@ function galaxy_tool_generator_ui_node_view_alter(&$build) {
 }
 
 function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
+  if(!isset($node->webform)) {
+    return;
+  }
   // get galaxy tool name and xml file name;
   $query = db_select('node', 'n')
     ->fields('n')
