@@ -246,5 +246,7 @@ function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
   // write xml components into xml file.
   $xml_file_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/' . $xml_file;
   $xml = build_galaxy_tool_xml($node->webform['components']);
-  file_put_contents($xml_file_path, $xml);
+  // remove version tag from xml string
+  $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
+  file_put_contents($xml_file_path, $xml_no_version_tag);
 }
