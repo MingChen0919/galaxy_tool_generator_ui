@@ -6,6 +6,12 @@
 function publish_tool_form($form, &$form_state) {
   // select a galaxy tool to publish.
   $all_galaxy_tools = get_galaxy_tools();
+  if (empty($all_galaxy_tools)) {
+    $form['no_galaxy_tools'] = [
+      '#markup' => 'No Galaxy tools available. Please ' . l('create a Galaxy tool', 'node/add/webform') . ' first.',
+    ];
+    return $form;
+  }
   $form['galaxy_tool_directory'] = [
     '#type' => 'select',
     '#title' => t('Select a Galaxy tool'),
@@ -64,11 +70,11 @@ function publish_tool_form($form, &$form_state) {
     '#type' => 'select',
     '#title' => t('The repository type'),
     '#options' => drupal_map_assoc([
-      'Data Managers',
-      'Packages',
-      'Tool Suites',
-      'Tools',
+      'unrestricted',
+      'tool_dependency_definition',
+      'repository_suite_definition',
     ]),
+    '#default_value' => 'unrestricted',
   ];
   $form['prepare_repository']['categories'] = [
     '#type' => 'textarea',
@@ -88,18 +94,28 @@ function publish_tool_form($form, &$form_state) {
  * publish_tool_form submit callback.
  */
 function publish_tool_form_submit($form, &$form_state) {
-  dpm($form_state);
   $galaxy_tool_name = $form_state['values']['galaxy_tool_directory'];
-  $shed_yml = 'public://galaxy_tools/' . $galaxy_tool_name . '/.shed.yml';
-  $shed_yml_string = 'name: ' . $form_state['values']['name'];
-  $shed_yml_string .= 'owner: ' . $form_state['values']['owner'];
-  $shed_yml_string .= 'description: ' . $form_state['values']['description'];
-  $shed_yml_string .= 'long_description' . $form_state['values']['long_description'];
-  $shed_yml_string .= 'remote_repository_url: ' . $form_state['values']['remote_repository_url'];
-  $shed_yml_string .= 'type: ' . $form_state['values']['type'];
-  $shed_yml_string .= 'categories: ' . $form_state['values']['categories'];
+  $shed_yml_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/.shed.yml';
+  $shed_yml = [];
+  $shed_yml['name'] = $form_state['values']['name'];
+  $shed_yml['owner'] = $form_state['values']['owner'];
+  $shed_yml['description'] = $form_state['values']['description'];
+  $shed_yml['long_description'] = $form_state['values']['long_description'];
+  $shed_yml['remote_repository_url'] = $form_state['values']['remote_repository_url'];
+  $shed_yml['type'] = $form_state['values']['type'];
+  $shed_yml['categories'] = $form_state['values']['categories'];
 
-  file_put_contents($shed_yml, $shed_yml_string);
+  $shed_yml_string = yaml_emit($shed_yml);
+  file_put_contents($shed_yml_path, $shed_yml_string);
+
+  // publish tool
+  $tool_directory = '/var/www/html/sites/default/files/galaxy_tools/' . $galaxy_tool_name;
+  $command = 'cd ' . $tool_directory;
+  $command .= ' && planemo shed_create --shed_target testtoolshed';
+  $command .= ' && planemo shed_update --check_diff --shed_target testtoolshed';
+  $command .= ' && ls -lth';
+  exec($command, $output);
+  dpm($output);
 
   $form_state['rebuild'] = TRUE;
 }
