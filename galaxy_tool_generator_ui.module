@@ -32,15 +32,14 @@ function galaxy_tool_generator_ui_menu() {
  * Page callback for all_galaxy_tools page.
  */
 function all_galaxy_tools_page() {
+  //===== build a table to display and manage all tool xml files ======
   $records = db_select('node', 'n')
     ->fields('n')
     ->condition('type', 'webform', '=')
     ->execute();
-  dpm($records);
   // view: node/$nid
-  // edit: node/$nid/webform?destination=node
-  // delete: node/$nid/delete?destination=node
-  // TODO: build a table to list all xml files and the galaxy tool directory it comes from
+  // edit: node/$nid/webform
+  // delete: node/$nid/delete
   $header = [
     [
       'data' => 'XML File',
