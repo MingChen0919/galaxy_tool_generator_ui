@@ -69,7 +69,6 @@ function galaxy_tool_generator_ui_menu_alter(&$items) {
  * Implements hook_form_FORM_ID_alter().
  */
 function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_state, $form_id) {
-
   $form['existing_or_new_tool'] = [
     '#type' => 'radios',
     '#title' => t('Existing or new galaxy tool?'),
@@ -140,9 +139,7 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   $form['title'] = [
     '#type' => 'textfield',
     '#title' => t('XML file name'),
-    '#description' => t('Galaxy tool XML file name without extension. For example, 
-      if your tool XML file name is <span style="color: #FF5666">hisat2.xml</span>, you should
-      enter <span style="color: #FF5666">hisat2</span>.'),
+    '#description' => t('Galaxy tool XML file name with extension, e.g. <span style="color: #FF5666">hisat2.xml, bowtie2.xml</span>.'),
     '#required' => TRUE,
     '#maxlength' => 255,
     '#weight' => -5,
@@ -154,12 +151,16 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
 
   // TODO: when a webform is created, the webform needs to be altered to contain
   // several basic components.
+  dpm($form);
+  dpm($form_state);
 }
 
 /**
  * webform_node_form form submitter.
  */
 function create_galaxy_tool($form, &$form_state) {
+  dpm($form);
+  dpm($form_state);
   // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
   if ($form_state['values']['existing_or_new_tool'] == 'Existing') {
     $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
@@ -170,7 +171,7 @@ function create_galaxy_tool($form, &$form_state) {
   $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
   file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
   // create an empty tool xml file
-  $xml_file = $form_state['values']['title'] . '.xml';
+  $xml_file = $form_state['values']['title'];
   //  $xml_file_path = file_create_filename($xml_file, $directory);
   $xml_file_path = $directory . '/' . $xml_file;
   try {
@@ -200,7 +201,7 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
       form_set_error('new_galaxy_tool', t('This Galaxy tool name already exists. Please use a different name.'));
     }
     // check if galaxy tool name is legal.
-    if (!preg_match('/^[a-z]+[0-9_]*/', $galaxy_tool_name)) {
+    if (!preg_match('/^[a-z]+[a-z0-9_]*/', $galaxy_tool_name)) {
       form_set_error('new_galaxy_tool', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters.'));
@@ -213,7 +214,7 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
   }
 
   //==========validate xml file name========
-  if (!preg_match('/^[a-z]+[0-9_]*\.xml/', $form_state['values']['title'])) {
+  if (!preg_match('/^[a-z]+[a-z0-9_]*\.xml/', $form_state['values']['title'])) {
     form_set_error('', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters and ends with exsion <span style="color: #FF5666">.xml</span>'));
