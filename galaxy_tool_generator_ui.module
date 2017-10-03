@@ -135,7 +135,7 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     ];
   }
 
-  // change one field title from the form on the add-webform page
+  // change field title from the form on the add-webform page
   $form['title'] = [
     '#type' => 'textfield',
     '#title' => t('XML file name'),
@@ -149,18 +149,16 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   // add form validator
   $form['#validate'][] = 'create_galaxy_tool_form_validate';
 
+  dpm($form);
   // TODO: when a webform is created, the webform needs to be altered to contain
   // several basic components.
-  dpm($form);
-  dpm($form_state);
 }
 
 /**
  * webform_node_form form submitter.
  */
 function create_galaxy_tool($form, &$form_state) {
-  dpm($form);
-  dpm($form_state);
+
   // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
   if ($form_state['values']['existing_or_new_tool'] == 'Existing') {
     $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
@@ -182,10 +180,21 @@ function create_galaxy_tool($form, &$form_state) {
   }
 
   // store galaxy tool name and tool xml file names in a database table.
+  // This submit function will run after the original functions. When this function
+  // runs, the node has been created for this webform and so the $nid is available.
   $record = [];
+  $record['nid'] = $form_state['values']['nid'];
   $record['tool_name'] = $galaxy_tool_name;
   $record['xml_file_name'] = $xml_file;
   drupal_write_record('galaxy_tool_names_and_xml_files', $record);
+
+  // update node title
+  db_update('node')
+    ->fields([
+      'title' => $xml_file . ' (from Galaxy tool <span style="color: #FF5666">' . $galaxy_tool_name . '</span>',
+    ])
+    ->condition('nid', $record['nid'])
+    ->execute();
 }
 
 /**
@@ -235,5 +244,6 @@ function galaxy_tool_generator_ui_node_view_alter(&$build) {
 }
 
 function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
-//  $node->title = $node->title . '.xml';
+  dpm($node);
+  //  $node->title = $node->title . '.xml';
 }

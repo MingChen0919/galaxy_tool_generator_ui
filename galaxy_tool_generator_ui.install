@@ -49,8 +49,15 @@ function galaxy_tool_generator_ui_schema() {
       'xmlid' => [
         'description' => 'The primary identifier for an xml file name.',
         'type' => 'serial',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'nid' => [
+        'description' => 'The nid of the webform node',
+        'type' => 'integer',
         'unsigned' => TRUE,
         'not null' => TRUE,
+
       ],
       'tool_name' => [
         'description' => 'The galaxy tool name, which corresponds to a directory within the directory galaxy_tools',
