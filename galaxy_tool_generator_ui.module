@@ -235,8 +235,16 @@ function galaxy_tool_generator_ui_node_view_alter(&$build) {
 }
 
 function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
-  dpm($node);
-  // TODO: extract xml tags from webform
-  // TODO: identify which tool the xml file comes from and write xml tags into xml file.
-  //  $node->title = $node->title . '.xml';
+  // get galaxy tool name and xml file name;
+  $query = db_select('node', 'n')
+    ->fields('n')
+    ->condition('nid', $node->nid, '=')
+    ->execute()
+    ->fetchAssoc();
+  $galaxy_tool_name = $query['galaxy_tool_name'];
+  $xml_file = $query['title'];
+  // write xml components into xml file.
+  $xml_file_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/' . $xml_file;
+  $xml = build_galaxy_tool_xml($node->webform['components']);
+  file_put_contents($xml_file_path, $xml);
 }
