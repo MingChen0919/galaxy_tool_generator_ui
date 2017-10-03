@@ -47,23 +47,40 @@ function publish_tool_form($form, &$form_state) {
     '#description' => t('A short description for the tool.'),
     '#required' => TRUE,
   ];
-  $form['prepare_repository']['remote_repository_url'] = [
-    '#type' => 'textfield',
-    '#title' => t('Remote repository URL'),
-    '#description' => t('A github URL to your tool.'),
-  ];
   $form['prepare_repository']['long_description'] = [
     '#type' => 'textarea',
     '#title' => t('Long description'),
-    '#description' => t('A more detailed description for the tool.'),
+    '#description' => t('A longer README type description of the package, as tool 
+      dependencies do no currently support README files.'),
   ];
-  $form['prepare_repository']['category'] = [
+  $form['prepare_repository']['remote_repository_url'] = [
+    '#type' => 'textfield',
+    '#title' => t('Remote repository URL'),
+    '#description' => t('This should be the path to the folder in your github repository, 
+      on the branch you create releases from (usually master). This will eventually 
+      be used with the toolshed for update hooks.'),
+  ];
+  $form['prepare_repository']['type'] = [
+    '#type' => 'select',
+    '#title' => t('The repository type'),
+    '#options' => drupal_map_assoc([
+      'Data Managers',
+      'Packages',
+      'Tool Suites',
+      'Tools',
+    ]),
+  ];
+  $form['prepare_repository']['categories'] = [
     '#type' => 'textarea',
-    '#title' => t('Category'),
+    '#title' => t('Categories'),
     '#description' => t('The category that this tool should belong to. Multiple
       categories can be separated by comma, space or newline.'),
   ];
 
+  $form['submit'] = [
+    '#type' => 'submit',
+    '#value' => t('Publish'),
+  ];
   return $form;
 }
 
@@ -72,4 +89,17 @@ function publish_tool_form($form, &$form_state) {
  */
 function publish_tool_form_submit($form, &$form_state) {
   dpm($form_state);
+  $galaxy_tool_name = $form_state['values']['galaxy_tool_directory'];
+  $shed_yml = 'public://galaxy_tools/' . $galaxy_tool_name . '/.shed.yml';
+  $shed_yml_string = 'name: ' . $form_state['values']['name'];
+  $shed_yml_string .= 'owner: ' . $form_state['values']['owner'];
+  $shed_yml_string .= 'description: ' . $form_state['values']['description'];
+  $shed_yml_string .= 'long_description' . $form_state['values']['long_description'];
+  $shed_yml_string .= 'remote_repository_url: ' . $form_state['values']['remote_repository_url'];
+  $shed_yml_string .= 'type: ' . $form_state['values']['type'];
+  $shed_yml_string .= 'categories: ' . $form_state['values']['categories'];
+
+  file_put_contents($shed_yml, $shed_yml_string);
+
+  $form_state['rebuild'] = TRUE;
 }
