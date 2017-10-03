@@ -54,10 +54,9 @@ function galaxy_tool_generator_ui_schema() {
       ],
       'nid' => [
         'description' => 'The nid of the webform node',
-        'type' => 'integer',
+        'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-
       ],
       'tool_name' => [
         'description' => 'The galaxy tool name, which corresponds to a directory within the directory galaxy_tools',
