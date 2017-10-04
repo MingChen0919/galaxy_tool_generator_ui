@@ -39,7 +39,7 @@ function galaxy_tool_generator_ui_install() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
   // delete Home menu_link.
-  db_delete('menu_link')
+  db_delete('menu_links')
     ->condition('link_title', 'Home')
     ->execute();
 
@@ -54,13 +54,7 @@ function galaxy_tool_generator_ui_install() {
       ->execute();
   }
 
-}
-
-/**
- * Implements hook_update_N().
- * Add a column to table node for galaxy tool name.
- */
-function galaxy_tool_generator_ui_update_7101() {
+  // Add a column to table node for galaxy tool name.
   $galaxy_tool_name_spec = [
     'description' => 'The galaxy tool name, which corresponds to a directory within the directory galaxy_tools',
     'type' => 'varchar',
