@@ -110,12 +110,17 @@ function publish_tool_form_submit($form, &$form_state) {
 
   // publish tool
   $tool_directory = '/var/www/html/sites/default/files/galaxy_tools/' . $galaxy_tool_name;
-  $command = 'cd ' . $tool_directory;
-  $command .= ' && planemo shed_create --shed_target testtoolshed';
-  $command .= ' && planemo shed_update --check_diff --shed_target testtoolshed';
-  $command .= ' && ls -lth';
-  exec($command, $output);
-  dpm($output);
+  dpm($tool_directory);
+
+  $command_create_repo = 'sudo -u root planemo shed_create --shed_target testtoolshed '. $tool_directory;
+  exec($command_create_repo, $create_repo_output, $return_var_create);
+  dpm($create_repo_output);
+  dpm($return_var_create);
+
+  $command_update_repo = 'sudo -u root planemo shed_update --shed_target testtoolshed ' . $tool_directory;
+  exec($command_update_repo, $update_repo_output, $return_var_update);
+  dpm($update_repo_output);
+  dpm($return_var_update);
 
   $form_state['rebuild'] = TRUE;
 }
