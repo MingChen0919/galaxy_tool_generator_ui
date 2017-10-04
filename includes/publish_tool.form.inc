@@ -110,17 +110,26 @@ function publish_tool_form_submit($form, &$form_state) {
 
   // publish tool
   $tool_directory = '/var/www/html/sites/default/files/galaxy_tools/' . $galaxy_tool_name;
-  dpm($tool_directory);
 
+  // create repo
   $command_create_repo = 'sudo -u root planemo shed_create --shed_target testtoolshed '. $tool_directory;
   exec($command_create_repo, $create_repo_output, $return_var_create);
-  dpm($create_repo_output);
-  dpm($return_var_create);
+  if(!empty($create_repo_output)) {
+    $create_repo_output = implode('<br/>', $create_repo_output);
+    if (preg_match('/successfully/', $create_repo_output)) {
+      drupal_set_message('Repository has been successfully created!');
+    }
+  }
 
+  // update repo
   $command_update_repo = 'sudo -u root planemo shed_update --shed_target testtoolshed ' . $tool_directory;
   exec($command_update_repo, $update_repo_output, $return_var_update);
-  dpm($update_repo_output);
-  dpm($return_var_update);
+  if(!empty($update_repo_output)) {
+    $update_repo_output = implode('<br/>', $update_repo_output);
+    if (preg_match('/successfully/', $update_repo_output)) {
+      drupal_set_message('Repository has been successfully updated!');
+    }
+  }
 
   $form_state['rebuild'] = TRUE;
 }

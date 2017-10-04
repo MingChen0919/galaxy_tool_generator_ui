@@ -43,7 +43,7 @@ function galaxy_tool_generator_ui_install() {
  * Implements hook_update_N().
  * Add a column to table node for galaxy tool name.
  */
-function galaxy_tool_generator_ui_update_7102() {
+function galaxy_tool_generator_ui_update_7103() {
   $galaxy_tool_name_spec = [
     'description' => 'The galaxy tool name, which corresponds to a directory within the directory galaxy_tools',
     'type' => 'varchar',
