@@ -7,3 +7,4 @@ version = 7.x-1.x
 dependencies[] = webform
 dependencies[] = galaxy_tool_generator
 dependencies[] = xml_field
+dependencies[] = libraries

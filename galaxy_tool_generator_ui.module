@@ -3,6 +3,45 @@
 require drupal_get_path('module', 'galaxy_tool_generator_ui') . '/galaxy_tool_generator_ui.api.inc';
 
 /**
+ * Implements hook_init().
+ */
+function galaxy_tool_generator_ui_init() {
+  $library = libraries_detect('blend4php');
+  if (!$library) {
+    drupal_set_message(t('The blend4php library is not installed. Please <code>git clone</code> 
+        the module from ' . l('here', 'https://github.com/galaxyproject/blend4php.git') .
+      ' and place it into the <span style="color: #FF5666">sites/all/libraries/</span> directory.'), 'warning');
+  }
+
+  // Try to load the blend4php library.
+  $library = libraries_load('blend4php');
+  if (empty($library['loaded'])) {
+    drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
+  }
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function galaxy_tool_generator_ui() {
+  $libraries['blend4php'] = array(
+    'name' => 'blend4php',
+    'vendor url' => 'https://github.com/galaxyproject/blend4php',
+    'download url' => 'https://github.com/galaxyproject/blend4php',
+    'version arguments' => array(
+      'file' => 'version.txt',
+      'pattern' => '/^(.*)$/',
+      'lines' => 1,
+    ),
+    'files' => array(
+      'php' => array('galaxy.inc'),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
  * Implements hook_menu().
  */
 function galaxy_tool_generator_ui_menu() {
