@@ -23,20 +23,20 @@ function galaxy_tool_generator_ui_init() {
 /**
  * Implements hook_libraries_info().
  */
-function galaxy_tool_generator_ui() {
-  $libraries['blend4php'] = array(
+function galaxy_tool_generator_ui_libraries_info() {
+  $libraries['blend4php'] = [
     'name' => 'blend4php',
     'vendor url' => 'https://github.com/galaxyproject/blend4php',
     'download url' => 'https://github.com/galaxyproject/blend4php',
-    'version arguments' => array(
+    'version arguments' => [
       'file' => 'version.txt',
       'pattern' => '/^(.*)$/',
       'lines' => 1,
-    ),
-    'files' => array(
-      'php' => array('galaxy.inc'),
-    ),
-  );
+    ],
+    'files' => [
+      'php' => ['galaxy.inc'],
+    ],
+  ];
 
   return $libraries;
 }
