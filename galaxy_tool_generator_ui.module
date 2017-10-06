@@ -1,6 +1,9 @@
 <?php
 
 require drupal_get_path('module', 'galaxy_tool_generator_ui') . '/galaxy_tool_generator_ui.api.inc';
+require 'GalaxyToolshed/GalaxyToolshed.php';
+require 'GalaxyToolshed/GalaxyToolshedRequest.php';
+require 'GalaxyToolshed/GalaxyToolshedResponse.php';
 
 /**
  * Implements hook_init().
@@ -18,6 +21,8 @@ function galaxy_tool_generator_ui_init() {
   if (empty($library['loaded'])) {
     drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
   }
+
+  new GalaxyToolshed();
 }
 
 /**
