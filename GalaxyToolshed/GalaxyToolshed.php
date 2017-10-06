@@ -2,21 +2,18 @@
 /**
  * Class GalaxyToolshed
  * ================================
- * Provides methods to interact with Galaxy toolshed.
+ * A base class to collect necessary data for interacting with toolshed.
  *
  * @file GalaxyToolshed/GalaxyToolshed.php
  */
 class GalaxyToolshed {
+  protected $owner;
   protected $key;
+  protected $tool_shed_url;
 
-  public function __construct() {
-    $this->key = '6650626edf6ef75b2ed1fbf21141a660';
-
-    dpm(GalaxyToolshedRequest::get('/api/repositories/get_repository_revision_install_info', [
-        'name' => 'test_galaxy_tool_generator',
-        'owner' => 'mingchen0919',
-        'changeset_revision' => '20bc2025c2ea',
-    ]));
+  public function __construct($toolshed_url, $owner, $key) {
+    $this->tool_shed_url = $toolshed_url;
+    $this->owner = $owner;
+    $this->key = $key;
   }
-
 }

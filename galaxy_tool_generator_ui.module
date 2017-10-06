@@ -4,6 +4,7 @@ require drupal_get_path('module', 'galaxy_tool_generator_ui') . '/galaxy_tool_ge
 require 'GalaxyToolshed/GalaxyToolshed.php';
 require 'GalaxyToolshed/GalaxyToolshedRequest.php';
 require 'GalaxyToolshed/GalaxyToolshedResponse.php';
+require 'GalaxyToolshed/GTRepositories.php';
 
 /**
  * Implements hook_init().
@@ -22,7 +23,12 @@ function galaxy_tool_generator_ui_init() {
     drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
   }
 
-  new GalaxyToolshed();
+  $gtrepositories = new GTRepositories('https://testtoolshed.g2.bx.psu.edu/', 'mingchen0919', '6650626edf6ef75b2ed1fbf21141a660');
+//  dpm($gtrepositories->create('test_galaxy_tool_generator_3', 'web api test'));
+//  dpm($gtrepositories->add_repository_registry_entry());
+//  dpm($gtrepositories->index('', 10, 10, '', '', '', 'mingchen0919'));
+//  dpm($gtrepositories->repository_ids_for_setting_metadata());
+  dpm($gtrepositories->create('test_galaxy_tool_generator_4', 'test tool'));
 }
 
 /**

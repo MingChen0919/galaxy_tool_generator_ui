@@ -30,7 +30,7 @@ class GalaxyToolshedRequest {
    * @return mixed
    */
   public static function post($endpoint, $data = NULL) {
-    return static::send('GET', $endpoint, $data);
+    return static::send('POST', $endpoint, $data);
   }
 
   /**
@@ -42,7 +42,7 @@ class GalaxyToolshedRequest {
    * @return mixed
    */
   public static function delete($endpoint, $data = NULL) {
-    return static::send('GET', $endpoint, $data);
+    return static::send('DELETE', $endpoint, $data);
   }
 
   /**
@@ -54,9 +54,17 @@ class GalaxyToolshedRequest {
    * @return mixed
    */
   public static function put($endpoint, $data = NULL) {
-    return static::send('GET', $endpoint, $data);
+    return static::send('PUT', $endpoint, $data);
   }
 
+  /**
+   * // TODO: implement PATCH request function.
+   * @param string $endpoint
+   * @param null $data
+   */
+  public static function patch($endpoint, $data = NULL) {
+
+  }
   /**
    * Create a curl HTTP request.
    *
@@ -97,6 +105,7 @@ class GalaxyToolshedRequest {
     }
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    dpm($url);
     $result = curl_exec($curl);
     curl_close($curl);
     return json_decode($result);
