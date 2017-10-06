@@ -4,6 +4,11 @@
  * class GTRepositories
  * ============================
  * provides methods to interact with Galaxy Toolshed repositories
+ *
+ * info:
+ * Many methods use {encoded_repository_id} as parameter. The Toolshed API documentation
+ * does not have much information about this. I figured out that the {encoded_repository_id}
+ * is the id that can be obtained by running the GTRepositories->index() method.
  */
 class GTRepositories extends GalaxyToolshed {
 
@@ -178,7 +183,10 @@ class GTRepositories extends GalaxyToolshed {
    */
   public function show($encoded_repository_id) {
     $endpoint = '/api/repositories/' . $encoded_repository_id;
-    return GalaxyToolshedRequest::get($endpoint);
+    $data = [
+      'id' => $encoded_repository_id,
+    ];
+    return GalaxyToolshedRequest::get($endpoint, $data);
   }
 
   /**
@@ -285,8 +293,12 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
-  public function create_changeset_revision($encoded_repository_id) {
+  public function create_changeset_revision($encoded_repository_id, $commit_message) {
     $endpoint = '/api/repositories/' . $encoded_repository_id . '/changeset_revision';
-    return GalaxyToolshedRequest::post($endpoint);
+    $data = array_filter([
+      'id' => $encoded_repository_id,
+      'commit_message' => $commit_message,
+    ]);
+    return GalaxyToolshedRequest::post($endpoint, $data);
   }
 }

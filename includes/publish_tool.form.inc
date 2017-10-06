@@ -112,6 +112,10 @@ function publish_tool_form_submit($form, &$form_state) {
   $tool_directory = '/var/www/html/sites/default/files/galaxy_tools/' . $galaxy_tool_name;
 
   // create repo
+  // TODO: first check if the repository already exists.
+  // TODO: if repository doesn't exist, use GTRepositories->index() to create the repository.
+  // TODO: if repository already exists, use     to update the repository.
+
   $command_create_repo = 'sudo -u root planemo shed_create --shed_target testtoolshed '. $tool_directory;
   exec($command_create_repo, $create_repo_output, $return_var_create);
   if(!empty($create_repo_output)) {
