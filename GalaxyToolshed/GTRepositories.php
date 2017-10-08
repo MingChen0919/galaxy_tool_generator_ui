@@ -6,9 +6,10 @@
  * provides methods to interact with Galaxy Toolshed repositories
  *
  * info:
- * Many methods use {encoded_repository_id} as parameter. The Toolshed API documentation
- * does not have much information about this. I figured out that the {encoded_repository_id}
- * is the id that can be obtained by running the GTRepositories->index() method.
+ * Many methods use {encoded_repository_id} as parameter. The Toolshed API
+ * documentation does not have much information about this. I figured out that
+ * the {encoded_repository_id} is the id that can be obtained by running the
+ * GTRepositories->index() method.
  */
 class GTRepositories extends GalaxyToolshed {
 
@@ -231,8 +232,6 @@ class GTRepositories extends GalaxyToolshed {
   }
 
   /**
-   * // TODO: implement PATCH request.
-   *
    * @param string $encoded_repository_id the encoded id of the Repository
    *   object
    * @param string $name repo’s name (optional)
@@ -246,20 +245,49 @@ class GTRepositories extends GalaxyToolshed {
    */
   public function update($encoded_repository_id, $name = '', $synopsis = '', $description = '', $remote_repository_url = '', $homepage_url = '', $category_ids = []) {
     $endpoint = '/api/repositories/' . $encoded_repository_id;
-    $data = array_filter([
-      'id' => $encoded_repository_id,
-      'payload' => [
-        'name' => $name,
-        'synposis' => $synopsis,
-        'description' => $description,
-        'remote_repository_url' => $remote_repository_url,
-        'homepage_url' => $homepage_url,
-        'categories_ids' => $category_ids,
-      ],
+    $input = array_filter([
+      'name' => $name,
+      'synopsis' => $synopsis,
+      'description' => $description,
+      'remote_repository_url' => $remote_repository_url,
+      'homepage_url' => $homepage_url,
+      'categories_ids' => $category_ids,
     ]);
-    return GalaxyToolshedRequest::patch($endpoint, $data);
+
+    foreach ($input as $key => $value) {
+      $data = [
+        'key' => $this->key,
+        $key => $value,
+      ];
+
+      dpm($data);
+      GalaxyToolshedRequest::patch($endpoint, $data);
+    }
   }
 
+  public function patch($encoded_repository_id, $field, $value = NULL) {
+    if ($value) {
+      return $this->sendPatch($encoded_repository_id, $field, $value);
+    }
+
+    $responses = [];
+    if (is_array($field)) {
+      foreach ($field as $key => $value) {
+        $responses[] = GalaxyToolshedRequest::patch($encoded_repository_id, $key, $value);
+      }
+      return $responses;
+    }
+
+    return FALSE;
+  }
+
+  protected function sendPatch($encoded_repository_id, $field, $value) {
+    $endpoint = '/api/repositories/' . $encoded_repository_id;
+    return GalaxyToolshedRequest::patch($endpoint, [
+      'key' => $this->key,
+      $field => $value,
+    ]);
+  }
 
   /**
    * @param string $name new repo’s name (required)
@@ -287,16 +315,20 @@ class GTRepositories extends GalaxyToolshed {
     return GalaxyToolshedRequest::post($endpoint, $data);
   }
 
+
   /**
-   * @param string $encoded_repository_id the encoded id of the Repository
-   *   object
+   * @param string $encoded_repository_id
+   * @param string $tar_ball_path
+   * @param string $commit_message
    *
    * @return mixed
    */
-  public function create_changeset_revision($encoded_repository_id, $commit_message) {
+  public function create_changeset_revision($encoded_repository_id, $tar_ball_path, $commit_message = 'update') {
     $endpoint = '/api/repositories/' . $encoded_repository_id . '/changeset_revision';
     $data = array_filter([
+      'key' => $this->key,
       'id' => $encoded_repository_id,
+      'tar_ball_path' => $tar_ball_path,
       'commit_message' => $commit_message,
     ]);
     return GalaxyToolshedRequest::post($endpoint, $data);

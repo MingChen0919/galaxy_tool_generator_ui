@@ -29,11 +29,17 @@ function galaxy_tool_generator_ui_init() {
 //  dpm($gtrepositories->index('', 10, 10, '', '', '', 'mingchen0919'));
 //  dpm($gtrepositories->repository_ids_for_setting_metadata());
 //  dpm($gtrepositories->create('test_galaxy_tool_generator_4', 'test tool'));
-  dpm($gtrepositories->index('', '', '', '', '', '', '', 'test_galaxy_tool_generator_3'));
-  dpm($gtrepositories->get_ordered_installable_revisions('test_galaxy_tool_generator_3'));
-  dpm($gtrepositories->show('52911a00dd530676'));
+//  dpm($gtrepositories->index('', '', '', '', '', '', '', 'test_galaxy_tool_generator_4'));
+//  dpm($gtrepositories->get_ordered_installable_revisions('test_galaxy_tool_generator_3'));
+  dpm($gtrepositories->show('e55c0ae923f1d2c4'));
+//  dpm($gtrepositories->create_changeset_revision('e55c0ae923f1d2c4', 'test create_changeset_revision api'));
   //  dpm($gtrepositories->remove_repository_registry_entry('text_galaxy_tool_generator_4'));
 //  dpm($gtrepositories->get_repository_revision_install_info('text_galaxy_tool_generator_2', ''));
+//  dpm($gtrepositories->index('', '', '', '', '', '', '', 'test_galaxy_tool_generator_4'));
+//  dpm($gtrepositories->patch('e55c0ae923f1d2c4', 'homepage_url', 'some url'));
+//  dpm($gtrepositories->import_capsule('test_galaxy_tool_generator_5'));
+//  dpm($gtrepositories->create_changeset_revision('e55c0ae923f1d2c4', 'hahahahah'));
+
 }
 
 /**

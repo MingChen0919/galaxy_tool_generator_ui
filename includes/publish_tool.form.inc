@@ -111,29 +111,36 @@ function publish_tool_form_submit($form, &$form_state) {
   // publish tool
   $tool_directory = '/var/www/html/sites/default/files/galaxy_tools/' . $galaxy_tool_name;
 
+  // construct a tar/zip archive from the files within the galaxy tool directory.
+  $phar = new PharData($tool_directory . '.tar');
+  dpm($tool_directory);
+  dpm($phar->buildFromDirectory($tool_directory));
+  $gtrepositories = new GTRepositories('https://testtoolshed.g2.bx.psu.edu/', 'mingchen0919', '6650626edf6ef75b2ed1fbf21141a660');
+  $gtrepositories->create_changeset_revision('e55c0ae923f1d2c4', $tool_directory . '.tar', 'update new xml files');
+
   // create repo
   // TODO: first check if the repository already exists.
   // TODO: if repository doesn't exist, use GTRepositories->index() to create the repository.
   // TODO: if repository already exists, use     to update the repository.
 
-  $command_create_repo = 'sudo -u root planemo shed_create --shed_target testtoolshed '. $tool_directory;
-  exec($command_create_repo, $create_repo_output, $return_var_create);
-  if(!empty($create_repo_output)) {
-    $create_repo_output = implode('<br/>', $create_repo_output);
-    if (preg_match('/successfully/', $create_repo_output)) {
-      drupal_set_message('Repository has been successfully created!');
-    }
-  }
-
-  // update repo
-  $command_update_repo = 'sudo -u root planemo shed_update --shed_target testtoolshed ' . $tool_directory;
-  exec($command_update_repo, $update_repo_output, $return_var_update);
-  if(!empty($update_repo_output)) {
-    $update_repo_output = implode('<br/>', $update_repo_output);
-    if (preg_match('/successfully/', $update_repo_output)) {
-      drupal_set_message('Repository has been successfully updated!');
-    }
-  }
+  //  $command_create_repo = 'sudo -u root planemo shed_create --shed_target testtoolshed '. $tool_directory;
+  //  exec($command_create_repo, $create_repo_output, $return_var_create);
+  //  if(!empty($create_repo_output)) {
+  //    $create_repo_output = implode('<br/>', $create_repo_output);
+  //    if (preg_match('/successfully/', $create_repo_output)) {
+  //      drupal_set_message('Repository has been successfully created!');
+  //    }
+  //  }
+  //
+  //  // update repo
+  //  $command_update_repo = 'sudo -u root planemo shed_update --shed_target testtoolshed ' . $tool_directory;
+  //  exec($command_update_repo, $update_repo_output, $return_var_update);
+  //  if(!empty($update_repo_output)) {
+  //    $update_repo_output = implode('<br/>', $update_repo_output);
+  //    if (preg_match('/successfully/', $update_repo_output)) {
+  //      drupal_set_message('Repository has been successfully updated!');
+  //    }
+  //  }
 
   $form_state['rebuild'] = TRUE;
 }
