@@ -3,7 +3,7 @@
 /**
  * Form handler for publishing galaxy tools.
  */
-function publish_tool_form($form, &$form_state) {
+function publish_to_test_tool_shed_form($form, &$form_state) {
   // select a galaxy tool to publish.
   $all_galaxy_tools = get_galaxy_tools();
   if (empty($all_galaxy_tools)) {
@@ -93,7 +93,7 @@ function publish_tool_form($form, &$form_state) {
 /**
  * publish_tool_form submit callback.
  */
-function publish_tool_form_submit($form, &$form_state) {
+function publish_to_test_tool_shed_form_submit($form, &$form_state) {
   $galaxy_tool_name = $form_state['values']['galaxy_tool_directory'];
   $shed_yml_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/.shed.yml';
   $shed_yml = [];
@@ -108,39 +108,45 @@ function publish_tool_form_submit($form, &$form_state) {
   $shed_yml_string = yaml_emit($shed_yml);
   file_put_contents($shed_yml_path, $shed_yml_string);
 
+
   // publish tool
   $tool_directory = '/var/www/html/sites/default/files/galaxy_tools/' . $galaxy_tool_name;
 
-  // construct a tar/zip archive from the files within the galaxy tool directory.
-  $phar = new PharData($tool_directory . '.tar');
-  dpm($tool_directory);
-  dpm($phar->buildFromDirectory($tool_directory));
-  $gtrepositories = new GTRepositories('https://testtoolshed.g2.bx.psu.edu/', 'mingchen0919', '6650626edf6ef75b2ed1fbf21141a660');
-  $gtrepositories->create_changeset_revision('e55c0ae923f1d2c4', $tool_directory . '.tar', 'update new xml files');
+
+  // TODO: unable to get some toolshed API working, therefore, switch to the planemo method to upload updated files.
+//  // construct a tar/zip archive from the files within the galaxy tool directory.
+//  if (file_exists($tool_directory . '.tar.gz')) {
+//    unlink($tool_directory . '.tar.gz');
+//  }
+//  $phar = new PharData($tool_directory . '.tar');
+//  $phar->compress(Phar::GZ);
+//  $gtrepositories = new GTRepositories('https://testtoolshed.g2.bx.psu.edu/', 'mingchen0919', '6650626edf6ef75b2ed1fbf21141a660');
+//  $gtrepositories->create_changeset_revision('e55c0ae923f1d2c4', $tool_directory . '.tar.gz', 'update new xml files');
+
 
   // create repo
   // TODO: first check if the repository already exists.
   // TODO: if repository doesn't exist, use GTRepositories->index() to create the repository.
   // TODO: if repository already exists, use     to update the repository.
 
-  //  $command_create_repo = 'sudo -u root planemo shed_create --shed_target testtoolshed '. $tool_directory;
-  //  exec($command_create_repo, $create_repo_output, $return_var_create);
-  //  if(!empty($create_repo_output)) {
-  //    $create_repo_output = implode('<br/>', $create_repo_output);
-  //    if (preg_match('/successfully/', $create_repo_output)) {
-  //      drupal_set_message('Repository has been successfully created!');
-  //    }
-  //  }
-  //
-  //  // update repo
-  //  $command_update_repo = 'sudo -u root planemo shed_update --shed_target testtoolshed ' . $tool_directory;
-  //  exec($command_update_repo, $update_repo_output, $return_var_update);
-  //  if(!empty($update_repo_output)) {
-  //    $update_repo_output = implode('<br/>', $update_repo_output);
-  //    if (preg_match('/successfully/', $update_repo_output)) {
-  //      drupal_set_message('Repository has been successfully updated!');
-  //    }
-  //  }
+    $command_create_repo = 'sudo -u root planemo shed_create --shed_target testtoolshed '. $tool_directory;
+    exec($command_create_repo, $create_repo_output, $return_var_create);
+    if(!empty($create_repo_output)) {
+      $create_repo_output = implode('<br/>', $create_repo_output);
+      if (preg_match('/successfully/', $create_repo_output)) {
+        drupal_set_message('Repository has been successfully created!');
+      }
+    }
+
+    // update repo
+    $command_update_repo = 'sudo -u root planemo shed_update --shed_target testtoolshed ' . $tool_directory;
+    exec($command_update_repo, $update_repo_output, $return_var_update);
+    if(!empty($update_repo_output)) {
+      $update_repo_output = implode('<br/>', $update_repo_output);
+      if (preg_match('/successfully/', $update_repo_output)) {
+        drupal_set_message('Repository has been successfully updated!');
+      }
+    }
 
   $form_state['rebuild'] = TRUE;
 }

@@ -13,13 +13,21 @@
  */
 class GTRepositories extends GalaxyToolshed {
 
+  /**
+   * @param string $repository_name
+   *
+   * @return mixed
+   */
+  // TODO: testing
   public function add_repository_registry_entry($repository_name = '') {
     $endpoint = '/api/repositories/add_repository_registry_entry';
     $data = [
       'key' => $this->key,
-      'tool_shed_url' => $this->tool_shed_url,
-      'name' => $repository_name,
-      'owner' => $this->owner,
+      'payload' => [
+        'tool_shed_url' => urlencode($this->tool_shed_url),
+        'name' => urlencode($repository_name),
+        'owner' => urlencode($this->owner),
+      ],
     ];
     return GalaxyToolshedRequest::post($endpoint, $data);
   }
@@ -48,9 +56,9 @@ class GTRepositories extends GalaxyToolshed {
   public function get_repository_revision_install_info($name, $changeset_revision) {
     $endpoint = '/api/repositories/get_repository_revision_install_info';
     $data = [
-      'name' => $name,
-      'owner' => $this->owner,
-      'changeset_revision' => $changeset_revision,
+      'name' => urlencode($name),
+      'owner' => urlencode($this->owner),
+      'changeset_revision' => urlencode($changeset_revision),
     ];
     return GalaxyToolshedRequest::get($endpoint, $data);
   }
@@ -73,12 +81,15 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
+  // TODO: testing failed.
   public function import_capsule($capsule_file_name) {
     $endpoint = '/api/repositories/new/import_capsule';
     $data = [
       'key' => $this->key,
-      'tool_shed_url' => $this->tool_shed_url,
-      'capsule_file_name' => $capsule_file_name,
+      'payload' => [
+        'tool_shed_url' => urlencode($this->tool_shed_url),
+        'capsule_file_name' => urlencode($capsule_file_name),
+      ]
     ];
     return GalaxyToolshedRequest::post($endpoint, $data);
   }
@@ -119,13 +130,16 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
+  // TODO: testing
   public function remove_repository_registry_entry($name) {
     $endpoint = '/api/repositories/remove_repository_registry_entry';
     $data = [
       'key' => $this->key,
-      'tool_shed_url' => $this->tool_shed_url,
-      'name' => $name,
-      'owner' => $this->owner,
+      'payload' => [
+        'tool_shed_url' => $this->tool_shed_url,
+        'name' => $name,
+        'owner' => $this->owner,
+      ],
     ];
     return GalaxyToolshedRequest::post($endpoint, $data);
   }
@@ -137,6 +151,7 @@ class GTRepositories extends GalaxyToolshed {
    * @return mixed display an array of repository ids ordered for setting
    *   metadata.
    */
+  // TODO: testing
   public function repository_ids_for_setting_metadata($my_writable = FALSE) {
     $endpoint = '/api/repository_ids_for_setting_metadata';
     $data = [
@@ -152,6 +167,7 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
+  // TODO: testing
   public function reset_metadata_on_repositories($my_writable = FALSE) {
     $endpoint = '/api/repositories/reset_metadata_on_repositories';
     $data = [
@@ -167,6 +183,7 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
+  // TODO: testing
   public function reset_metadata_on_repository($repository_id) {
     $endpoint = '/api/repositories/reset_metadata_on_repository';
     $data = [
@@ -198,6 +215,7 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
+  // TODO: testing
   public function updates($name, $changeset_revision, $hexlify = NULL) {
     $endpoint = '/api/repositories/updates';
     $data = [
@@ -323,14 +341,19 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
+  // TODO: need testing
   public function create_changeset_revision($encoded_repository_id, $tar_ball_path, $commit_message = 'update') {
     $endpoint = '/api/repositories/' . $encoded_repository_id . '/changeset_revision';
     $data = array_filter([
       'key' => $this->key,
       'id' => $encoded_repository_id,
-      'tar_ball_path' => $tar_ball_path,
-      'commit_message' => $commit_message,
+      'payload' => [
+//        'file' => $tar_ball_path,
+        'commit_message' => urlencode($commit_message),
+      ],
     ]);
+    dpm(realpath($tar_ball_path));
+    //    dpm(json_encode($data));
     return GalaxyToolshedRequest::post($endpoint, $data);
   }
 }

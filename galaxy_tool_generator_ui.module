@@ -22,24 +22,6 @@ function galaxy_tool_generator_ui_init() {
   if (empty($library['loaded'])) {
     drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
   }
-
-  $gtrepositories = new GTRepositories('https://testtoolshed.g2.bx.psu.edu/', 'mingchen0919', '6650626edf6ef75b2ed1fbf21141a660');
-//  dpm($gtrepositories->create('test_galaxy_tool_generator_3', 'web api test'));
-//  dpm($gtrepositories->add_repository_registry_entry());
-//  dpm($gtrepositories->index('', 10, 10, '', '', '', 'mingchen0919'));
-//  dpm($gtrepositories->repository_ids_for_setting_metadata());
-//  dpm($gtrepositories->create('test_galaxy_tool_generator_4', 'test tool'));
-//  dpm($gtrepositories->index('', '', '', '', '', '', '', 'test_galaxy_tool_generator_4'));
-//  dpm($gtrepositories->get_ordered_installable_revisions('test_galaxy_tool_generator_3'));
-  dpm($gtrepositories->show('e55c0ae923f1d2c4'));
-//  dpm($gtrepositories->create_changeset_revision('e55c0ae923f1d2c4', 'test create_changeset_revision api'));
-  //  dpm($gtrepositories->remove_repository_registry_entry('text_galaxy_tool_generator_4'));
-//  dpm($gtrepositories->get_repository_revision_install_info('text_galaxy_tool_generator_2', ''));
-//  dpm($gtrepositories->index('', '', '', '', '', '', '', 'test_galaxy_tool_generator_4'));
-//  dpm($gtrepositories->patch('e55c0ae923f1d2c4', 'homepage_url', 'some url'));
-//  dpm($gtrepositories->import_capsule('test_galaxy_tool_generator_5'));
-//  dpm($gtrepositories->create_changeset_revision('e55c0ae923f1d2c4', 'hahahahah'));
-
 }
 
 /**
@@ -76,17 +58,38 @@ function galaxy_tool_generator_ui_menu() {
     'type' => MENU_NORMAL_ITEM,
     'weight' => 2,
   ];
-
-  $items['publish_tool'] = [
-    'title' => 'Publish Tool',
-    'description' => t('A page for publishing tools to toolshed or testtoolshed.'),
-    'page callback' => 'publish_tool_page',
+  $items['publish_to_test_tool_shed'] = [
+    'title' => 'Publish to Test Tool Shed',
+    'description' => t('A page for publishing tools to testtoolshed.'),
+    'page callback' => 'publish_to_test_tool_shed_page',
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
-    'file' => 'publish_tool.form.inc',
+    'file' => 'publish_to_test_tool_shed.form.inc',
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
     'weight' => 3,
+  ];
+  $items['test_tool_on_galaxy_server'] = [
+    'title' => 'Test Tool on Galaxy Server',
+    'description' => t('A page for testing tool on Galaxy server.'),
+    'page callback' => 'test_tool_on_galaxy_server_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'test_tool_on_galaxy_server.form.inc',
+    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
+    'weight' => 4,
+  ];
+  $items['publish_to_tool_shed'] = [
+    'title' => 'Publish to Tool Shed',
+    'description' => t('A page for publishing tools to toolshed.'),
+    'page callback' => 'publish_to_tool_shed_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'publish_to_tool_shed.form.inc',
+    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
+    'weight' => 5,
   ];
 
   return $items;
@@ -135,9 +138,17 @@ function all_galaxy_tools_page() {
 /**
  * Page callback for publish_tool page.
  */
-function publish_tool_page() {
+function publish_to_test_tool_shed_page() {
   // TODO: build a form to list all xml files and the galaxy tool directory it comes from
-  return drupal_get_form('publish_tool_form');
+  return drupal_get_form('publish_to_test_tool_shed_form');
+}
+
+function test_tool_on_galaxy_server_page() {
+  return 'test tool page';
+}
+
+function publish_to_tool_shed_page() {
+  return 'publish to tool shed page';
 }
 
 

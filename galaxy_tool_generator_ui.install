@@ -20,11 +20,24 @@ function galaxy_tool_generator_ui_install() {
   menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
-    'link_title' => 'Publish Tool',
-    'link_path' => 'publish_tool',
+    'link_title' => 'Publish to Test Tool Shed',
+    'link_path' => 'publish_to_test_tool_shed',
     'weight' => 3,
   ];
-
+  menu_link_save($menu_link);
+  $menu_link = [
+    'menu_name' => 'main-menu',
+    'link_title' => 'Test Tool on Galaxy Server',
+    'link_path' => 'test_tool_on_galaxy_server',
+    'weight' => 4,
+  ];
+  menu_link_save($menu_link);
+  $menu_link = [
+    'menu_name' => 'main-menu',
+    'link_title' => 'Publish to Tool Shed',
+    'link_path' => 'publish_to_tool_shed',
+    'weight' => 5,
+  ];
   menu_link_save($menu_link);
 
   $permissions = [

@@ -69,66 +69,57 @@ class GalaxyToolshedRequest {
     return static::send('PATCH', $endpoint, $data);
   }
 
+
   /**
-   * Create a curl HTTP request.
-   *
-   * @param string $method One of GET, PUT, POST or DELETE. Must be
-   *   capitalized.
-   * @param string $endpoint The url to call. If base_url is set, this value
-   *   will be appended to base_url.
-   * @param null|string|array $data
+   * @param $method
+   * @param $endpoint
+   * @param null $data
    *
    * @return mixed
+   * @throws \Exception
    */
   public static function send($method, $endpoint, $data = NULL) {
     if (!empty(static::$toolshed_url)) {
       $url = static::$toolshed_url . $endpoint;
     }
+    if ($data) {
+      $url = sprintf("%s?%s", $url, http_build_query($data));
+      dpm($url);
+    }
     $curl = curl_init();
     switch ($method) {
       case "POST":
-        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POST, TRUE);
         if ($data) {
-          curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+          if ($data['payload']['file']) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, [
+              'file' => '@' . realpath($data['payload']['file']),
+            ]);
+          }
         }
         break;
       case "DELETE":
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-        if ($data) {
-          curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
         break;
       case "PUT":
         curl_setopt($curl, CURLOPT_PUT, 1);
-        if ($data) {
-          $url = sprintf("%s?%s", $url, http_build_query($data));
-        }
         break;
       case "PATCH":
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
-        if ($data) {
-          curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        }
-      default:
-        if ($data) {
-          $url = sprintf("%s?%s", $url, http_build_query($data));
-        }
     }
     dpm($url);
 
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_HEADER, TRUE);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-    //curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept' => 'application/json']);
     $result = curl_exec($curl);
     $status = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
     $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
 
-    if($status < 200 || $status > 300) {
+    if ($status < 200 || $status > 300) {
       throw new Exception("Request to {$url} returned status code: {$status}", $status);
     }
 
-    //dpm(curl_getinfo($curl));
     $result = substr($result, $header_size);
     curl_close($curl);
     return json_decode($result);
