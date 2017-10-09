@@ -60,6 +60,13 @@ function associate_accounts_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => 'Submit',
   ];
-  $form_state['rebuild'] = TRUE;
+
   return $form;
+}
+
+/**
+ * Form submission handler.
+ */
+function associate_accounts_form_submit($form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
 }
