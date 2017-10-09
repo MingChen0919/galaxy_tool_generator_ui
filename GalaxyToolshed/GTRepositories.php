@@ -277,8 +277,6 @@ class GTRepositories extends GalaxyToolshed {
         'key' => $this->key,
         $key => $value,
       ];
-
-      dpm($data);
       GalaxyToolshedRequest::patch($endpoint, $data);
     }
   }
@@ -352,8 +350,6 @@ class GTRepositories extends GalaxyToolshed {
         'commit_message' => urlencode($commit_message),
       ],
     ]);
-    dpm(realpath($tar_ball_path));
-    //    dpm(json_encode($data));
     return GalaxyToolshedRequest::post($endpoint, $data);
   }
 }

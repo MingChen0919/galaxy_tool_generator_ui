@@ -84,7 +84,6 @@ class GalaxyToolshedRequest {
     }
     if ($data) {
       $url = sprintf("%s?%s", $url, http_build_query($data));
-      dpm($url);
     }
     $curl = curl_init();
     switch ($method) {
@@ -107,7 +106,6 @@ class GalaxyToolshedRequest {
       case "PATCH":
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
     }
-    dpm($url);
 
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_HEADER, TRUE);
