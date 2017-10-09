@@ -50,6 +50,10 @@ function test_tool_on_galaxy_server_form($form, &$form_state) {
     '#options' => drupal_map_assoc($tools_by_owner_options),
   ];
 
+  $form['install_tool_on_galaxy'] = [
+    '#type' => 'fieldset',
+    '#title' => t('')
+  ];
   return $form;
 }
 

@@ -49,6 +49,15 @@ function galaxy_tool_generator_ui_libraries_info() {
  * Implements hook_menu().
  */
 function galaxy_tool_generator_ui_menu() {
+  $items['associate_accounts'] = [
+    'title' => 'Associate accounts',
+    'description' => t('A page to collect API keys for tool development and testing'),
+    'page callback' => 'associate_accounts_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 0,
+  ];
   $items['all_galaxy_tools'] = [
     'title' => 'All Galaxy Tools',
     'description' => t('A page to view all Galaxy tools'),
@@ -61,8 +70,8 @@ function galaxy_tool_generator_ui_menu() {
   $items['publish_to_test_tool_shed'] = [
     'title' => 'Publish to Test Tool Shed',
     'description' => t('A page for publishing tools to testtoolshed.'),
-    'page callback' => 'publish_to_test_tool_shed_page',
-    'access arguments' => ['access content'],
+    'page callback' => 'drupal_get_form',
+    'access arguments' => ['associate_accounts_form'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
     'file' => 'publish_to_test_tool_shed.form.inc',
