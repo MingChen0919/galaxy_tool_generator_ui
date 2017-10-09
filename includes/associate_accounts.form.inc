@@ -56,6 +56,10 @@ function associate_accounts_form($form, &$form_state) {
     '#description' => t('The associated API key of a Galaxy server that you have admin permission.'),
   ];
 
+  $form['submit'] = [
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  ];
   $form_state['rebuild'] = TRUE;
   return $form;
 }

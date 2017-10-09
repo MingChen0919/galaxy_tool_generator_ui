@@ -56,6 +56,8 @@ function galaxy_tool_generator_ui_menu() {
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
+    'file' => 'associate_accounts.form.inc',
+    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
     'weight' => 0,
   ];
   $items['all_galaxy_tools'] = [
@@ -70,8 +72,8 @@ function galaxy_tool_generator_ui_menu() {
   $items['publish_to_test_tool_shed'] = [
     'title' => 'Publish to Test Tool Shed',
     'description' => t('A page for publishing tools to testtoolshed.'),
-    'page callback' => 'drupal_get_form',
-    'access arguments' => ['associate_accounts_form'],
+    'page callback' => 'publish_to_test_tool_shed_page',
+    'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
     'file' => 'publish_to_test_tool_shed.form.inc',
@@ -142,6 +144,13 @@ function all_galaxy_tools_page() {
     ];
   }
   return theme('table', ['header' => $header, 'rows' => $rows]);
+}
+
+/**
+ * page callback for associate accounts.
+ */
+function associate_accounts_page() {
+  return drupal_get_form('associate_accounts_form');
 }
 
 /**
