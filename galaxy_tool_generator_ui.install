@@ -89,37 +89,38 @@ function galaxy_tool_generator_ui_install() {
  * Implements hook_schema().
  */
 function galaxy_tool_generator_ui_schema() {
-  $schema['galaxy_tool_names_and_xml_files'] = [
-    'description' => 'The table for galaxy tool names and associated xml file names',
+  $schema['galaxy_tool_generator_accounts'] = [
+    'description' => 'This table stores user names and API keys for galaxy tool generator',
     'fields' => [
-      'xmlid' => [
-        'description' => 'The primary identifier for an xml file name.',
+      'gaid' => [
+        'description' => 'The primary identifier for an account.',
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
       ],
-      'nid' => [
-        'description' => 'The nid of the webform node',
-        'type' => 'int',
-        'not null' => TRUE,
-        'default' => 0,
-      ],
-      'tool_name' => [
-        'description' => 'The galaxy tool name, which corresponds to a directory within the directory galaxy_tools',
+      'platform' => [
+        'description' => 'The platform that the account is associated',
         'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
         'default' => '',
       ],
-      'xml_file_name' => [
-        'description' => 'The tool xml file name',
+      'username' => [
+        'description' => 'The account username',
+        'type' => 'varchar',
+        'default' => '',
+      ],
+      'api_key' => [
+        'description' => 'The account API key',
+        'type' => 'varchar',
+        'default' => '',
+      ],
+      'http_url' => [
+        'description' => 'The http url',
         'type' => 'varchar',
         'length' => 255,
-        'not null' => TRUE,
         'default' => '',
       ],
     ],
-    'primary key' => ['xmlid'],
+    'primary key' => ['gaid'],
   ];
   return $schema;
 }
