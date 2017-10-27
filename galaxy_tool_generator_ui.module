@@ -6,6 +6,7 @@ require 'GalaxyToolshed/GalaxyToolshedRequest.php';
 require 'GalaxyToolshed/GalaxyToolshedResponse.php';
 require 'GalaxyToolshed/GTRepositories.php';
 
+
 /**
  * Implements hook_init().
  */
@@ -225,6 +226,17 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     ],
   ];
 
+  $form['start_with_tool_template'] = [
+      '#type' => 'radios',
+      '#title' => t('Start with an R Markdown tool template'),
+      '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
+      '#options' => drupal_map_assoc([
+          'Yes',
+          'No'
+      ]),
+      '#default_value' => 'Yes',
+  ];
+
   $all_galaxy_tools = get_galaxy_tools();
   if (count($all_galaxy_tools) > 0) {
     $form['existing_galaxy_tool'] = [
@@ -304,6 +316,16 @@ function create_galaxy_tool($form, &$form_state) {
     ])
     ->condition('nid', $form_state['values']['nid'])
     ->execute();
+
+  // TODO: add default components to webform_component table
+  if ($form_state['values']['start_with_tool_template'] == 'Yes') {
+    foreach (get_tool_template_components() as $component) {
+        $component['nid'] = $form_state['values']['nid'];
+        $res = db_insert('webform_component')
+                ->fields($component)
+                ->execute();
+    }
+  }
 }
 
 /**
