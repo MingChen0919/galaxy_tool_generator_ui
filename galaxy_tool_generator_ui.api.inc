@@ -61,7 +61,7 @@ function get_tool_template_components() {
         ],
         [
             'cid' => 4,
-            'pid' => 3,
+            'pid' => 2,
             'form_key' => 'r_getopt',
             'name' => 'r_getopt',
             'type' => 'tool_requirements_requirement',
@@ -72,7 +72,7 @@ function get_tool_template_components() {
         ],
         [
             'cid' => 5,
-            'pid' => 4,
+            'pid' => 2,
             'form_key' => 'r_rmarkdown',
             'name' => 'r_rmarkdown',
             'type' => 'tool_requirements_requirement',
@@ -83,7 +83,7 @@ function get_tool_template_components() {
         ],
         [
             'cid' => 6,
-            'pid' => 5,
+            'pid' => 2,
             'form_key' => 'r-htmltools',
             'name' => 'r-htmltools',
             'type' => 'tool_requirements_requirement',
@@ -94,7 +94,7 @@ function get_tool_template_components() {
         ],
         [
             'cid' => 7,
-            'pid' => 6,
+            'pid' => 2,
             'form_key' => 'r-dplyr',
             'name' => 'r-dplyr',
             'type' => 'tool_requirements_requirement',
