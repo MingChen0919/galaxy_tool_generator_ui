@@ -126,7 +126,15 @@ function get_tool_template_components()
             'extra' => serialize([
                 'galaxy_tool_xml_tag' => 'command',
                 'attributes' => [
-                    'XML_VALUE' => 'some descriptions about the tool.',
+                    //  keep the space at the first line.
+                    'XML_VALUE' => '
+                    Rscript \'${__tool_directory__}/tool_template_render.R\'
+                        -e $echo
+                        -r $report
+                        -d $report.files_path
+                        -s $sink_message
+                        -t \'${__tool_directory__}/tool_template.Rmd
+                    ',
                 ],
                 'private' => 0,
             ]),
