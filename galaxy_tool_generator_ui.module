@@ -188,7 +188,6 @@ function publish_to_tool_shed_page()
  */
 function galaxy_tool_generator_ui_menu_alter(&$items)
 {
-    dpm($items);
     unset($items['node/%webform_menu/webform/components']);
     unset($items['node/%webform_menu/webform/conditionals']);
     unset($items['node/%webform_menu/webform/emails']);
@@ -300,7 +299,6 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
  */
 function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_state, $form_id)
 {
-    dpm($form);
     // add a new submission function 'node_delete_confirm_delete_xml' to delete corresponding xml file.
     // this function has to be run after the original submit function 'node_delete_confirm_submit', which delete the webform node.
     $form['#submit'] = [
