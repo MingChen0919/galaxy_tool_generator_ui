@@ -3,28 +3,30 @@
 /**
  *
  */
-function get_galaxy_tools() {
-  // create galaxy_tools directory if it doesn't exist.
-  $galaxy_tools_directory = 'public://galaxy_tools/';
-  file_prepare_directory($galaxy_tools_directory, FILE_CREATE_DIRECTORY);
-  // get all galaxy tools names by scanning the galaxy_tools directory.
-  $directories_in_galaxy_tools = scandir($galaxy_tools_directory);
-  // remove '.' an '..' directories.
-  $all_galaxy_tools = [];
-  foreach ($directories_in_galaxy_tools as $directory) {
-    if (!in_array($directory, ['.', '..'])) {
-      $all_galaxy_tools[] = $directory;
+function get_galaxy_tools()
+{
+    // create galaxy_tools directory if it doesn't exist.
+    $galaxy_tools_directory = 'public://galaxy_tools/';
+    file_prepare_directory($galaxy_tools_directory, FILE_CREATE_DIRECTORY);
+    // get all galaxy tools names by scanning the galaxy_tools directory.
+    $directories_in_galaxy_tools = scandir($galaxy_tools_directory);
+    // remove '.' an '..' directories.
+    $all_galaxy_tools = [];
+    foreach ($directories_in_galaxy_tools as $directory) {
+        if (!in_array($directory, ['.', '..'])) {
+            $all_galaxy_tools[] = $directory;
+        }
     }
-  }
-  // convert $all_galaxy_tools to a non-associative array.
-  $all_galaxy_tools = array_values($all_galaxy_tools);
-  return $all_galaxy_tools;
+    // convert $all_galaxy_tools to a non-associative array.
+    $all_galaxy_tools = array_values($all_galaxy_tools);
+    return $all_galaxy_tools;
 }
 
 /**
  * Return an array to build tool template components.
  */
-function get_tool_template_components() {
+function get_tool_template_components()
+{
     $tool_template_components = [
         [
             'cid' => 1,
@@ -105,14 +107,31 @@ function get_tool_template_components() {
         ],
         [
             'cid' => 8,
-            'pid' => 0,
+            'pid' => 1,
             'form_key' => 'description',
             'name' => 'description',
             'type' => 'tool_description',
             'value' => '',
             'extra' => 'a:3:{s:19:"galaxy_tool_xml_tag";s:11:"description";s:10:"attributes";a:1:{s:9:"XML_VALUE";s:33:"some descriptions about the tool.";}s:7:"private";i:0;}',
             'required' => 0,
-            'weight' => 7,
+            'weight' => 2,
+        ],
+        [
+            'cid' => 9,
+            'pid' => 1,
+            'form_key' => 'command',
+            'name' => 'command',
+            'type' => 'tool_command',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'command',
+                'attributes' => [
+                    'XML_VALUE' => 'some descriptions about the tool.',
+                ],
+                'private' => 0,
+            ]),
+            'required' => 0,
+            'weight' => 3,
         ],
     ];
 
