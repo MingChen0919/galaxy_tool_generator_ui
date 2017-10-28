@@ -103,6 +103,17 @@ function get_tool_template_components() {
             'required' => 0,
             'weight' => 6,
         ],
+        [
+            'cid' => 8,
+            'pid' => 0,
+            'form_key' => 'description',
+            'name' => 'description',
+            'type' => 'tool_description',
+            'value' => '',
+            'extra' => 'a:3:{s:19:"galaxy_tool_xml_tag";s:11:"description";s:10:"attributes";a:1:{s:9:"XML_VALUE";s:33:"some descriptions about the tool.";}s:7:"private";i:0;}',
+            'required' => 0,
+            'weight' => 7,
+        ],
     ];
 
     return $tool_template_components;
