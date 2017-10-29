@@ -210,6 +210,129 @@ function get_tool_template_components()
             'required' => 0,
             'weight' => 3,
         ],
+        [
+            'cid' => 10,
+            'pid' => 1,
+            'form_key' => 'inputs',
+            'name' => 'inputs',
+            'type' => 'tool_inputs',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'inputs',
+                'attributes' =>
+                    [
+                        'check_values' => NULL,
+                        'method' => NULL,
+                        'nginx_upload' => NULL,
+                    ],
+                'private' => 0,
+            ]),
+            'required' => 0,
+            'weight' => 4,
+        ],
+        [
+            'cid' => 11,
+            'pid' => 1,
+            'form_key' => 'input_boolean',
+            'name' => 'input_boolean',
+            'type' => 'tool_inputs_param_type_boolean',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'param',
+                'attributes' =>
+                    [
+                        'type' => 'integer',
+                        'name' => 'echo',
+                        'optional' => 'False',
+                        'refresh_on_change' => NULL,
+                        'checked' => 'False',
+                        'truevalue' => 'TRUE',
+                        'falsevalue' => 'FALSE',
+                    ],
+                'private' => 0
+            ]),
+            'required' => 0,
+            'weight' => 5,
+        ],
+        [
+            'cid' => 12,
+            'pid' => 1,
+            'form_key' => 'outputs',
+            'name' => 'outputs',
+            'type' => 'tool_outputs',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'outputs',
+                'attributes' => [],
+                'private' => 0,
+            ]),
+            'required' => 0,
+            'weight' => 5,
+        ],
+        [
+            'cid' => 13,
+            'pid' => 12,
+            'form_key' => 'output_1',
+            'name' => 'output_1',
+            'type' => 'tool_outputs_data',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'data',
+                'attributes' =>
+                    [
+                        'name' => 'report',
+                        'auto_format' => NULL,
+                        'format' => 'html',
+                        'label' => 'tool name report',
+                        'hidden' => 'false',
+                    ],
+                'private' => 0,
+            ]),
+            'required' => 0,
+            'weight' => 6,
+        ],
+        [
+            'cid' => 14,
+            'pid' => 12,
+            'form_key' => 'output_2',
+            'name' => 'output_2',
+            'type' => 'tool_outputs_data',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'data',
+                'attributes' =>
+                    [
+                        'name' => 'sink_message',
+                        'auto_format' => NULL,
+                        'format' => 'txt',
+                        'label' => 'Warnings and Errors',
+                        'from_work_dir' => 'warnings_and_errors.txt',
+                        'hidden' => 'false',
+                    ],
+                'private' => 0,
+            ]),
+            'required' => 0,
+            'weight' => 7,
+        ],
+        [
+            'cid' => 15,
+            'pid' => 1,
+            'form_key' => 'help',
+            'name' => 'help',
+            'type' => 'tool_outputs_data',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'help',
+                'attributes' =>
+                    [
+                        'XML_VALUE' => 'some help text',
+                    ],
+                'private' => 0,
+            ]),
+            'required' => 0,
+            'weight' => 6,
+        ],
+
     ];
 
     return $tool_template_components;
