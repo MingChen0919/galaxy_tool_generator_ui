@@ -319,7 +319,7 @@ function get_tool_template_components()
             'pid' => 1,
             'form_key' => 'help',
             'name' => 'help',
-            'type' => 'tool_outputs_data',
+            'type' => 'tool_help',
             'value' => '',
             'extra' => serialize([
                 'galaxy_tool_xml_tag' => 'help',
