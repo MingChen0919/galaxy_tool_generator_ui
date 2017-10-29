@@ -175,7 +175,22 @@ function get_tool_template_components()
             'type' => 'tool_description',
             'value' => '',
             'extra' => serialize([
-                'galaxy_tool_xml_tag' => 'description',
+                'galaxy_tool_xml_tag' => 'stido',
+                'private' => 0,
+                'attributes' => '',
+            ]),
+            'required' => 0,
+            'weight' => 2,
+        ],
+        [
+            'cid' => 9,
+            'pid' => 1,
+            'form_key' => 'stdio',
+            'name' => 'stdio',
+            'type' => 'tool_stdio',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'stdio',
                 'attributes' =>
                     [
                         'XML_VALUE' => 'some descriptions about the tool.',
@@ -183,10 +198,31 @@ function get_tool_template_components()
                 'private' => 0
             ]),
             'required' => 0,
-            'weight' => 2,
+            'weight' => 3,
         ],
         [
-            'cid' => 9,
+            'cid' => 10,
+            'pid' => 9,
+            'form_key' => 'regex',
+            'name' => 'regex',
+            'type' => 'tool_stdio_regex',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'regex',
+                'attributes' =>
+                    [
+                        'source' => 'stderr',
+                        'match' => 'XXX',
+                        'level' => 'warning',
+                        'description' => 'Check the warnings_and_errors.txt file for more details.',
+                    ],
+                'private' => 0
+            ]),
+            'required' => 0,
+            'weight' => 9,
+        ],
+        [
+            'cid' => 11,
             'pid' => 1,
             'form_key' => 'command',
             'name' => 'command',
@@ -208,10 +244,10 @@ function get_tool_template_components()
                 'private' => 0,
             ]),
             'required' => 0,
-            'weight' => 3,
+            'weight' => 4,
         ],
         [
-            'cid' => 10,
+            'cid' => 12,
             'pid' => 1,
             'form_key' => 'inputs',
             'name' => 'inputs',
@@ -228,11 +264,11 @@ function get_tool_template_components()
                 'private' => 0,
             ]),
             'required' => 0,
-            'weight' => 4,
+            'weight' => 5,
         ],
         [
-            'cid' => 11,
-            'pid' => 10,
+            'cid' => 13,
+            'pid' => 12,
             'form_key' => 'input_boolean',
             'name' => 'input_boolean',
             'type' => 'tool_inputs_param_type_boolean',
@@ -253,10 +289,10 @@ function get_tool_template_components()
                 'private' => 0
             ]),
             'required' => 0,
-            'weight' => 5,
+            'weight' => 7,
         ],
         [
-            'cid' => 12,
+            'cid' => 14,
             'pid' => 1,
             'form_key' => 'outputs',
             'name' => 'outputs',
@@ -268,11 +304,11 @@ function get_tool_template_components()
                 'private' => 0,
             ]),
             'required' => 0,
-            'weight' => 5,
+            'weight' => 6,
         ],
         [
-            'cid' => 13,
-            'pid' => 12,
+            'cid' => 15,
+            'pid' => 14,
             'form_key' => 'output_1',
             'name' => 'output_1',
             'type' => 'tool_outputs_data',
@@ -290,11 +326,11 @@ function get_tool_template_components()
                 'private' => 0,
             ]),
             'required' => 0,
-            'weight' => 6,
+            'weight' => 8,
         ],
         [
-            'cid' => 14,
-            'pid' => 12,
+            'cid' => 16,
+            'pid' => 14,
             'form_key' => 'output_2',
             'name' => 'output_2',
             'type' => 'tool_outputs_data',
@@ -313,10 +349,10 @@ function get_tool_template_components()
                 'private' => 0,
             ]),
             'required' => 0,
-            'weight' => 7,
+            'weight' => 9,
         ],
         [
-            'cid' => 15,
+            'cid' => 17,
             'pid' => 1,
             'form_key' => 'help',
             'name' => 'help',
@@ -331,7 +367,48 @@ function get_tool_template_components()
                 'private' => 0,
             ]),
             'required' => 0,
-            'weight' => 6,
+            'weight' => 8,
+        ],
+        [
+            'cid' => 18,
+            'pid' => 1,
+            'form_key' => 'citations',
+            'name' => 'citations',
+            'type' => 'tool_citations',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'citations',
+                'private' => 0,
+                'attributes' => ''
+            ]),
+            'required' => 0,
+            'weight' => 9,
+        ],
+        [
+            'cid' => 19,
+            'pid' => 18,
+            'form_key' => 'citation_1',
+            'name' => 'citation_1',
+            'type' => 'tool_citations_citation',
+            'value' => '',
+            'extra' => serialize([
+                'galaxy_tool_xml_tag' => 'command',
+                'attributes' => [
+                    //  keep the space at the first line.
+                    'XML_VALUE' => '
+                    @article{allaire2016rmarkdown,
+                        title={rmarkdown: Dynamic Documents for R, 2016},
+                        author={Allaire, J and Cheng, Joe and Xie, Yihui and McPherson, Jonathan and Chang, Winston and Allen, Jeff
+                        and Wickham, Hadley and Atkins, Aron and Hyndman, Rob},
+                        journal={R package version 0.9},
+                        volume={6},
+                        year={2016}
+                    ',
+                ],
+                'private' => 0,
+            ]),
+            'required' => 0,
+            'weight' => 9,
         ],
 
     ];
