@@ -160,13 +160,15 @@ function publish_to_test_tool_shed_form_submit($form, &$form_state)
         } else {
             drupal_set_message($create_repo_output);
         }
+    } else {
+        drupal_set_message('Repository creating failed.', 'warning');
     }
 
     // update repo
     $message = $form_state['values']['message'];
     $command_update_repo = 'sudo -u root planemo shed_update --check_diff --shed_key ' . $shed_key .
-        ' --message' . $message .
-        ' --owner ' . $shed_owner .
+        ' --message \'' . $message . '\'' .
+        ' --owner \'' . $shed_owner . '\'' .
         ' --shed_target testtoolshed ' . $tool_directory;
     exec($command_update_repo, $update_repo_output, $return_var_update);
     if (!empty($update_repo_output)) {
@@ -176,6 +178,8 @@ function publish_to_test_tool_shed_form_submit($form, &$form_state)
         } else {
             drupal_set_message($update_repo_output);
         }
+    } else {
+        drupal_set_message('Repository updating failed.', 'warning');
     }
 
     $form_state['rebuild'] = TRUE;
