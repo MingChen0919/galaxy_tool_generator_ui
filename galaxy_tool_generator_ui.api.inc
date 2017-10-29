@@ -232,7 +232,7 @@ function get_tool_template_components()
         ],
         [
             'cid' => 11,
-            'pid' => 1,
+            'pid' => 10,
             'form_key' => 'input_boolean',
             'name' => 'input_boolean',
             'type' => 'tool_inputs_param_type_boolean',
@@ -243,6 +243,7 @@ function get_tool_template_components()
                     [
                         'type' => 'integer',
                         'name' => 'echo',
+                        'label' => 'Display analysis code in report?',
                         'optional' => 'False',
                         'refresh_on_change' => NULL,
                         'checked' => 'False',
