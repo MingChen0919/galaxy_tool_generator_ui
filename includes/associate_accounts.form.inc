@@ -100,7 +100,7 @@ function associate_accounts_form_submit($form, &$form_state)
     $platform = $form_state['values']['platform'];
     switch ($platform) {
         case 'Test Tool Shed':
-            variable_set('testtoolshed_username', $form_state['values']['test_tool_shed_api_key']);
+            variable_set('testtoolshed_username', $form_state['values']['test_tool_shed_username']);
             variable_set('testtoolshed_api', $form_state['values']['test_tool_shed_api_key']);
             drupal_set_message('Test Tool Shed credentials has been updated.');
             break;

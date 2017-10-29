@@ -53,20 +53,18 @@ function publish_to_test_tool_shed_form($form, &$form_state)
         '#description' => t('Tool repository name.'),
     ];
     $form['prepare_repository']['owner'] = [
-        '#type' => 'textfield',
-        '#title' => 'Owner',
-        '#required' => TRUE,
-        '#description' => t('Public username of your ' . l('test tool shed', 'https://testtoolshed.g2.bx.psu.edu/') . ' account.'),
+        '#type' => 'value',
+        '#value' => variable_get('testtoolshed_username'),
     ];
     $form['prepare_repository']['description'] = [
         '#type' => 'textfield',
-        '#title' => t('Description'),
+        '#title' => t('Synopsis'),
         '#description' => t('A short description for the tool.'),
         '#required' => TRUE,
     ];
     $form['prepare_repository']['long_description'] = [
         '#type' => 'textarea',
-        '#title' => t('Long description'),
+        '#title' => t('Detailed description'),
         '#description' => t('A longer README type description of the package, as tool 
       dependencies do no currently support README files.'),
     ];
@@ -93,6 +91,12 @@ function publish_to_test_tool_shed_form($form, &$form_state)
         '#description' => t('The category that this tool should belong to. Multiple
       categories can be separated by comma, space or newline.'),
     ];
+    $form['prepare_repository']['message'] = [
+        '#type' => 'textfield',
+        '#title' => t('Message'),
+        '#description' => t('Commit message for tool shed upload.'),
+        '#required' => TRUE,
+    ];
 
     $form['submit'] = [
         '#type' => 'submit',
@@ -111,8 +115,7 @@ function publish_to_test_tool_shed_form_submit($form, &$form_state)
     $shed_yml_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/.shed.yml';
     $shed_yml = [];
     $shed_yml['name'] = $form_state['values']['name'];
-//    $shed_yml['owner'] = $form_state['values']['owner'];
-    $shed_yml['owner'] = variable_get('testtoolshed_username', '');
+    $shed_yml['owner'] = $form_state['values']['owner'];
     $shed_yml['description'] = $form_state['values']['description'];
     $shed_yml['long_description'] = $form_state['values']['long_description'];
     $shed_yml['remote_repository_url'] = $form_state['values']['remote_repository_url'];
@@ -145,22 +148,33 @@ function publish_to_test_tool_shed_form_submit($form, &$form_state)
 
     // publish to untested tools only to test tool shed.
     $shed_key = variable_get('testtoolshed_api', '');
-    $command_create_repo = 'sudo -u root planemo shed_create --shed_key ' . $shed_key . '--shed_target testtoolshed ' . $tool_directory;
+    $shed_owner = variable_get('testtoolshed_username', '');
+    $command_create_repo = 'sudo -u root planemo shed_create --shed_key ' . $shed_key .
+        ' --owner ' . $shed_owner .
+        ' --shed_target testtoolshed ' . $tool_directory;
     exec($command_create_repo, $create_repo_output, $return_var_create);
     if (!empty($create_repo_output)) {
         $create_repo_output = implode('<br/>', $create_repo_output);
         if (preg_match('/successfully/', $create_repo_output)) {
             drupal_set_message('Repository has been successfully created!');
+        } else {
+            drupal_set_message($create_repo_output);
         }
     }
 
     // update repo
-    $command_update_repo = 'sudo -u root planemo shed_create --shed_key ' . $shed_key . '--shed_target testtoolshed ' . $tool_directory;
+    $message = $form_state['values']['message'];
+    $command_update_repo = 'sudo -u root planemo shed_update --check_diff --shed_key ' . $shed_key .
+        ' --message' . $message .
+        ' --owner ' . $shed_owner .
+        ' --shed_target testtoolshed ' . $tool_directory;
     exec($command_update_repo, $update_repo_output, $return_var_update);
     if (!empty($update_repo_output)) {
         $update_repo_output = implode('<br/>', $update_repo_output);
         if (preg_match('/successfully/', $update_repo_output)) {
             drupal_set_message('Repository has been successfully updated!');
+        } else {
+            drupal_set_message($update_repo_output);
         }
     }
 
