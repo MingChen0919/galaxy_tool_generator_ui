@@ -11,7 +11,7 @@ function associate_accounts_form($form, &$form_state)
         '#options' => drupal_map_assoc([
             'Test Tool Shed',
             'Tool Shed',
-            'Galaxy Instance with Admin API',
+//            'Galaxy Instance with Admin API',
         ]),
         '#default_value' => 'Test Tool Shed',
     ];
@@ -57,36 +57,36 @@ function associate_accounts_form($form, &$form_state)
         '#description' => t('The associated API key of your Test Tool Shed account'),
     ];
 
-    $form['galaxy_admin'] = [
-        '#type' => 'fieldset',
-        '#title' => t('Galaxy Admin Account Info'),
-        '#collapsible' => TRUE,
-        '#states' => [
-            'visible' => [
-                ':input[name="platform"]' => ['value' => 'Galaxy Instance with Admin API']
-            ]
-        ]
-    ];
-    $form['galaxy_admin']['galaxy_server_url'] = [
-        '#type' => 'textfield',
-        '#title' => t('Galaxy Server URL'),
-        '#description' => t('The URL of a Galaxy server that you have admin permission.'),
-    ];
-    $form['galaxy_admin']['galaxy_admin_username'] = [
-        '#type' => 'textfield',
-        '#title' => t('Username'),
-        '#description' => t('The username of a Galaxy server that you have admin permission.'),
-    ];
-    $form['galaxy_admin']['galaxy_admin_api_key'] = [
-        '#type' => 'password',
-        '#title' => t('API key'),
-        '#description' => t('The associated API key of a Galaxy server that you have admin permission.'),
-    ];
-
-    $form['submit'] = [
-        '#type' => 'submit',
-        '#value' => 'Submit',
-    ];
+//    $form['galaxy_admin'] = [
+//        '#type' => 'fieldset',
+//        '#title' => t('Galaxy Admin Account Info'),
+//        '#collapsible' => TRUE,
+//        '#states' => [
+//            'visible' => [
+//                ':input[name="platform"]' => ['value' => 'Galaxy Instance with Admin API']
+//            ]
+//        ]
+//    ];
+//    $form['galaxy_admin']['galaxy_server_url'] = [
+//        '#type' => 'textfield',
+//        '#title' => t('Galaxy Server URL'),
+//        '#description' => t('The URL of a Galaxy server that you have admin permission.'),
+//    ];
+//    $form['galaxy_admin']['galaxy_admin_username'] = [
+//        '#type' => 'textfield',
+//        '#title' => t('Username'),
+//        '#description' => t('The username of a Galaxy server that you have admin permission.'),
+//    ];
+//    $form['galaxy_admin']['galaxy_admin_api_key'] = [
+//        '#type' => 'password',
+//        '#title' => t('API key'),
+//        '#description' => t('The associated API key of a Galaxy server that you have admin permission.'),
+//    ];
+//
+//    $form['submit'] = [
+//        '#type' => 'submit',
+//        '#value' => 'Submit',
+//    ];
 
     return $form;
 }
