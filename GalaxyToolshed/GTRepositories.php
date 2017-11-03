@@ -37,6 +37,7 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return array An array of installable revisions of the repository.
    */
+  // TODO: not working
   public function get_ordered_installable_revisions($name) {
     $endpoint = '/api/repositories/get_ordered_installable_revisions';
     $data = [
@@ -110,7 +111,7 @@ class GTRepositories extends GalaxyToolshed {
    *
    * @return mixed
    */
-  public function index($q = '', $page = 10, $page_size = 10, $jsonp = TRUE, $callback = '', $deleted = FALSE, $owner = '', $name = '') {
+  public function index($owner = '', $name = '', $q = '', $page = 10, $page_size = 10, $jsonp = TRUE, $callback = '', $deleted = FALSE) {
     $endpoint = '/api/repositories';
     $data = array_filter([
       'q' => $q,
