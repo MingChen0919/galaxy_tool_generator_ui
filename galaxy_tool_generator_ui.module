@@ -179,7 +179,7 @@ function publish_to_test_tool_shed_page()
 
 function publish_to_tool_shed_page()
 {
-    return 'publish to tool shed page';
+    return drupal_get_form('publish_to_tool_shed_form');
 }
 
 

@@ -9,7 +9,7 @@ function test_tool_on_galaxy_server_form($form, &$form_state)
     $testtoolshed_api = variable_get('testtoolshed_api', '');
     if ($testtoolshed_username == '' or $testtoolshed_api == '') {
         $form['return_to_account_form'] = [
-            '#markup' => t('Username or API key from a Test Tool Shed account is required. ' . l('Please provide this information first.', 'associate_accounts'))
+            '#markup' => t('Username or API key from a Test Tool Shed account is required. ' . l('Please provide this information first.', 'api_keys'))
         ];
         return $form;
     }
