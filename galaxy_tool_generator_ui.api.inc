@@ -392,7 +392,7 @@ function get_tool_template_components()
             'type' => 'tool_citations_citation',
             'value' => '',
             'extra' => serialize([
-                'galaxy_tool_xml_tag' => 'command',
+                'galaxy_tool_xml_tag' => 'citation',
                 'attributes' => [
                     //  keep the space at the first line.
                     'XML_VALUE' => '
