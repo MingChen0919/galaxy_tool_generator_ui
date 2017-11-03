@@ -125,15 +125,15 @@ function all_tool_repositories_page()
     // delete: node/$nid/delete
     $header = [
         [
-            'data' => 'XML File',
+            'data' => 'Tool XML File',
             'field' => 'title',
         ],
         [
-            'data' => 'Galaxy Tool',
+            'data' => 'Tool Repository',
             'field' => 'galaxy_tool_name',
         ],
         [
-            'data' => 'Manage XML file',
+            'data' => 'Manage Tool XML File',
         ],
     ];
     $rows = [];
