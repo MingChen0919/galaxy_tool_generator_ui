@@ -6,8 +6,8 @@
 function galaxy_tool_generator_ui_install() {
   $menu_link = [
     'menu_name' => 'main-menu',
-    'link_title' => 'Associate accounts',
-    'link_path' => 'associate_accounts',
+    'link_title' => 'API Keys',
+    'link_path' => 'api_keys',
     'weight' => 1,
   ];
   menu_link_save($menu_link);
