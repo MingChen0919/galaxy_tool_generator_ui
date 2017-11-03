@@ -53,14 +53,14 @@ function galaxy_tool_generator_ui_libraries_info()
  */
 function galaxy_tool_generator_ui_menu()
 {
-    $items['associate_accounts'] = [
-        'title' => 'Associate accounts',
+    $items['api_keys'] = [
+        'title' => 'API Keys',
         'description' => t('A page to collect API keys for tool development and testing'),
-        'page callback' => 'associate_accounts_page',
+        'page callback' => 'api_keys_page',
         'access arguments' => ['access content'],
         'menu_name' => 'main-menu',
         'type' => MENU_NORMAL_ITEM,
-        'file' => 'associate_accounts.form.inc',
+        'file' => 'api_keys.form.inc',
         'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
         'weight' => 0,
     ];
@@ -154,9 +154,9 @@ function all_tool_repositories_page()
 /**
  * page callback for associate accounts.
  */
-function associate_accounts_page()
+function api_keys_page()
 {
-    return drupal_get_form('associate_accounts_form');
+    return drupal_get_form('api_keys_form');
 }
 
 /**

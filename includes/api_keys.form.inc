@@ -2,7 +2,7 @@
 /**
  * Form handler for associate accounts page.
  */
-function associate_accounts_form($form, &$form_state)
+function api_keys_form($form, &$form_state)
 {
     $form['platform'] = [
         '#type' => 'radios',
@@ -94,7 +94,7 @@ function associate_accounts_form($form, &$form_state)
 /**
  * Form submission handler.
  */
-function associate_accounts_form_submit($form, &$form_state)
+function api_keys_form_submit($form, &$form_state)
 {
     $form_state['rebuild'] = TRUE;
     $platform = $form_state['values']['platform'];
