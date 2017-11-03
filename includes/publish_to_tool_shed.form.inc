@@ -16,7 +16,7 @@ function publish_to_tool_shed_form($form, &$form_state)
     }
 
     // select a galaxy tool to publish.
-    $all_galaxy_tools = get_galaxy_tools();
+    $all_galaxy_tools = get_tool_repositories();
     if (empty($all_galaxy_tools)) {
         $form['no_galaxy_tools'] = [
             '#markup' => 'No Galaxy tools available. Please ' . l('create a Galaxy tool', 'node/add/webform') . ' first.',

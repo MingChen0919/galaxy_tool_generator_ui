@@ -82,11 +82,11 @@ function api_keys_form($form, &$form_state)
 //        '#title' => t('API key'),
 //        '#description' => t('The associated API key of a Galaxy server that you have admin permission.'),
 //    ];
-//
-//    $form['submit'] = [
-//        '#type' => 'submit',
-//        '#value' => 'Submit',
-//    ];
+
+    $form['submit'] = [
+        '#type' => 'submit',
+        '#value' => 'Submit',
+    ];
 
     return $form;
 }
@@ -102,18 +102,18 @@ function api_keys_form_submit($form, &$form_state)
         case 'Test Tool Shed':
             variable_set('testtoolshed_username', $form_state['values']['test_tool_shed_username']);
             variable_set('testtoolshed_api', $form_state['values']['test_tool_shed_api_key']);
-            drupal_set_message('Test Tool Shed credentials has been updated.');
+            drupal_set_message('Test Tool Shed API has been updated.');
             break;
         case 'Tool Shed':
             variable_set('toolshed_api', $form_state['values']['tool_shed_username']);
             variable_set('toolshed_api', $form_state['values']['tool_shed_api_key']);
-            drupal_set_message('Tool Shed credentials has been updated.');
+            drupal_set_message('Tool Shed API has been updated.');
             break;
-        case 'Galaxy Instance with Admin API':
-            variable_set('galaxy_admin_api', $form_state['values']['galaxy_admin_username']);
-            variable_set('galaxy_admin_api', $form_state['values']['galaxy_admin_api_key']);
-            drupal_set_message('Galaxy instance credentials has been updated.');
-            break;
+//        case 'Galaxy Instance with Admin API':
+//            variable_set('galaxy_admin_api', $form_state['values']['galaxy_admin_username']);
+//            variable_set('galaxy_admin_api', $form_state['values']['galaxy_admin_api_key']);
+//            drupal_set_message('Galaxy instance credentials has been updated.');
+//            break;
     }
 
 }
