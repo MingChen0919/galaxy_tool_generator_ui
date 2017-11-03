@@ -70,9 +70,10 @@ function test_tool_on_galaxy_server_form($form, &$form_state)
         '#suffix' => '</div>',
     ];
     $form['install_tool_on_galaxy'] = [
-        '#type' => 'fieldset',
-        '#title' => t('Install Tool on Galaxy')
+        '#type' => 'submit',
+        '#value' => t('Install tool on Galaxy'),
     ];
+
     return $form;
 }
 

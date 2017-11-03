@@ -3,7 +3,7 @@
 /**
  *
  */
-function get_galaxy_tools()
+function get_tool_repositories()
 {
     // create galaxy_tools directory if it doesn't exist.
     $galaxy_tools_directory = 'public://galaxy_tools/';
