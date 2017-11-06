@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb8552d7-37da-4d41-95d1-7ef1d8d9de53" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/R_User_Library.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GTRepositories.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GTRepositories.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GTRepositoryRevisions.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GTRepositoryRevisions.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshed.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshed.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedRequest.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedResponse.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedResponse.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rmarkdown_tool_templates/tool_template_render.R" afterPath="$PROJECT_DIR$/rmarkdown_tool_templates/tool_template_render.R" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/galaxy_tool_generator_ui.api.inc" afterPath="$PROJECT_DIR$/galaxy_tool_generator_ui.api.inc" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,26 +17,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="galaxy_tool_generator_ui.module" pinned="false" current-in-tab="true">
+      <file leaf-file-name="galaxy_tool_generator_ui.module" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="111" lean-forward="false" selection-start-line="18" selection-start-column="111" selection-end-line="18" selection-end-column="111" />
+            <state relative-caret-position="375">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding>
-                <marker date="1509976768000" expanded="false" signature="690:704" ph="..." />
-                <marker date="1509976768000" expanded="true" signature="8755:8769" ph="..." />
-                <marker date="1509976768000" expanded="true" signature="8770:8851" ph="..." />
-                <marker date="1509976768000" expanded="true" signature="9339:9353" ph="..." />
-                <marker date="1509976768000" expanded="true" signature="10384:10425" ph="SELECT title... node" />
-                <marker date="1509976768000" expanded="true" signature="10504:10556" ph="SELECT galax... node" />
-                <marker date="1509976768000" expanded="true" signature="14234:14248" ph="..." />
-                <marker date="1509976768000" expanded="false" signature="14286:14300" ph="..." />
-                <marker date="1509976768000" expanded="false" signature="14332:14346" ph="..." />
-                <marker date="1509976768000" expanded="true" signature="14849:14863" ph="..." />
-                <marker date="1509976768000" expanded="false" signature="14901:14915" ph="..." />
-                <marker date="1509976768000" expanded="false" signature="14947:14961" ph="..." />
-                <marker date="1509976768000" expanded="false" signature="15042:15056" ph="..." />
+                <marker date="1509978702000" expanded="true" signature="676:690" ph="..." />
+                <marker date="1509978702000" expanded="true" signature="8139:8153" ph="..." />
+                <marker date="1509978702000" expanded="true" signature="8154:8235" ph="..." />
+                <marker date="1509978702000" expanded="true" signature="8657:8671" ph="..." />
+                <marker date="1509978702000" expanded="true" signature="9654:9695" ph="SELECT title... node" />
+                <marker date="1509978702000" expanded="true" signature="9765:9817" ph="SELECT galax... node" />
+                <marker date="1509978702000" expanded="true" signature="13266:13280" ph="..." />
+                <marker date="1509978702000" expanded="false" signature="13318:13332" ph="..." />
+                <marker date="1509978702000" expanded="false" signature="13364:13378" ph="..." />
+                <marker date="1509978702000" expanded="true" signature="13855:13869" ph="..." />
+                <marker date="1509978702000" expanded="false" signature="13907:13921" ph="..." />
+                <marker date="1509978702000" expanded="false" signature="13953:13967" ph="..." />
+                <marker date="1509978702000" expanded="false" signature="14048:14062" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="galaxy_tool_generator_ui.api.inc" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.api.inc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="30" column="9" lean-forward="true" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -56,6 +60,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/rmarkdown_tool_templates/tool_template_render.R" />
+        <option value="$PROJECT_DIR$/galaxy_tool_generator_ui.module" />
+        <option value="$PROJECT_DIR$/galaxy_tool_generator_ui.api.inc" />
       </list>
     </option>
   </component>
@@ -67,8 +73,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="67" />
-    <option name="y" value="104" />
+    <option name="x" value="127" />
+    <option name="y" value="214" />
     <option name="width" value="1288" />
     <option name="height" value="848" />
   </component>
@@ -87,6 +93,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -103,8 +111,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -134,27 +140,31 @@
       <updated>1509977804122</updated>
       <workItem from="1509977806648" duration="388000" />
       <workItem from="1509978198580" duration="106000" />
+      <workItem from="1509979705390" duration="278000" />
+      <workItem from="1509979997877" duration="52000" />
+      <workItem from="1509980064424" duration="393000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="494000" />
+    <option name="totallyTimeSpent" value="1217000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="104" width="1288" height="848" extended-state="0" />
+    <frame x="127" y="214" width="1288" height="848" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28250402" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2520064" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20185924" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -177,22 +187,104 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <marker date="1509978702000" expanded="true" signature="676:690" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8139:8153" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8154:8235" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8657:8671" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="9654:9695" ph="SELECT title... node" />
+            <marker date="1509978702000" expanded="true" signature="9765:9817" ph="SELECT galax... node" />
+            <marker date="1509978702000" expanded="true" signature="13266:13280" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13318:13332" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13364:13378" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="13855:13869" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13907:13921" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13953:13967" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="14048:14062" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.api.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5895">
+          <caret line="393" column="31" lean-forward="true" selection-start-line="393" selection-start-column="31" selection-end-line="393" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <marker date="1509978702000" expanded="true" signature="676:690" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8139:8153" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8154:8235" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8657:8671" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="9654:9695" ph="SELECT title... node" />
+            <marker date="1509978702000" expanded="true" signature="9765:9817" ph="SELECT galax... node" />
+            <marker date="1509978702000" expanded="true" signature="13266:13280" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13318:13332" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13364:13378" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="13855:13869" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13907:13921" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13953:13967" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="14048:14062" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.api.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2745">
+          <caret line="183" column="0" lean-forward="true" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1509976768000" expanded="false" signature="690:704" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="8755:8769" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="8770:8851" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="9339:9353" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="10384:10425" ph="SELECT title... node" />
-            <marker date="1509976768000" expanded="true" signature="10504:10556" ph="SELECT galax... node" />
-            <marker date="1509976768000" expanded="true" signature="14234:14248" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14286:14300" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14332:14346" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="14849:14863" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14901:14915" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14947:14961" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="15042:15056" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="676:690" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8139:8153" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8154:8235" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8657:8671" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="9654:9695" ph="SELECT title... node" />
+            <marker date="1509978702000" expanded="true" signature="9765:9817" ph="SELECT galax... node" />
+            <marker date="1509978702000" expanded="true" signature="13266:13280" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13318:13332" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13364:13378" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="13855:13869" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13907:13921" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13953:13967" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="14048:14062" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1509978702000" expanded="true" signature="676:690" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8139:8153" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8154:8235" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8657:8671" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="9654:9695" ph="SELECT title... node" />
+            <marker date="1509978702000" expanded="true" signature="9765:9817" ph="SELECT galax... node" />
+            <marker date="1509978702000" expanded="true" signature="13266:13280" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13318:13332" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13364:13378" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="13855:13869" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13907:13921" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13953:13967" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="14048:14062" ph="..." />
           </folding>
         </state>
       </provider>
@@ -201,7 +293,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -209,29 +300,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-435">
           <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="111" lean-forward="false" selection-start-line="18" selection-start-column="111" selection-end-line="18" selection-end-column="111" />
+        <state relative-caret-position="375">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
-            <marker date="1509976768000" expanded="false" signature="690:704" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="8755:8769" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="8770:8851" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="9339:9353" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="10384:10425" ph="SELECT title... node" />
-            <marker date="1509976768000" expanded="true" signature="10504:10556" ph="SELECT galax... node" />
-            <marker date="1509976768000" expanded="true" signature="14234:14248" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14286:14300" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14332:14346" ph="..." />
-            <marker date="1509976768000" expanded="true" signature="14849:14863" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14901:14915" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="14947:14961" ph="..." />
-            <marker date="1509976768000" expanded="false" signature="15042:15056" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="676:690" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8139:8153" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8154:8235" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="8657:8671" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="9654:9695" ph="SELECT title... node" />
+            <marker date="1509978702000" expanded="true" signature="9765:9817" ph="SELECT galax... node" />
+            <marker date="1509978702000" expanded="true" signature="13266:13280" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13318:13332" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13364:13378" ph="..." />
+            <marker date="1509978702000" expanded="true" signature="13855:13869" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13907:13921" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="13953:13967" ph="..." />
+            <marker date="1509978702000" expanded="false" signature="14048:14062" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.api.inc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="30" column="9" lean-forward="true" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
