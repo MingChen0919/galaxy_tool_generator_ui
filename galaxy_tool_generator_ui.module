@@ -318,6 +318,11 @@ function node_delete_confirm_delete_xml(&$form, &$form_state)
         $xml_file_path = $directory . '/' . $xml_file;
         unlink($xml_file_path);
 
+        // remove corresponding template files
+        $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
+        unlink($directory . '/' . $xml_file_base . '_render.R');
+        unlink($directory . '/' . $xml_file_base . '.Rmd');
+
         drupal_set_message($xml_file . ' has been successfully deleted.');
     } catch (Exception $exception) {
         drupal_set_message($exception->getMessage(), 'warning');
