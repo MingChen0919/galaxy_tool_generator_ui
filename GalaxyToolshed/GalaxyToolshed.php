@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class GalaxyToolshed
  * ================================
@@ -7,8 +8,11 @@
  * @file GalaxyToolshed/GalaxyToolshed.php
  */
 class GalaxyToolshed {
+
   protected $owner;
+
   protected $key;
+
   protected $tool_shed_url;
 
   public function __construct($toolshed_url, $owner, $key) {

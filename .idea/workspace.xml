@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fb8552d7-37da-4d41-95d1-7ef1d8d9de53" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/R_User_Library.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GTRepositories.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GTRepositories.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GTRepositoryRevisions.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GTRepositoryRevisions.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshed.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshed.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedRequest.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedRequest.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedResponse.php" afterPath="$PROJECT_DIR$/GalaxyToolshed/GalaxyToolshedResponse.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rmarkdown_tool_templates/tool_template_render.R" afterPath="$PROJECT_DIR$/rmarkdown_tool_templates/tool_template_render.R" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DrupalConfiguration" enabled="true" updateIncludePath="false" version="7">
+    <drupalPath>$USER_HOME$/Sites/devdesktop/drupal-7.56</drupalPath>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="galaxy_tool_generator_ui.module" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="111" lean-forward="false" selection-start-line="18" selection-start-column="111" selection-end-line="18" selection-end-column="111" />
+              <folding>
+                <marker date="1509976768000" expanded="false" signature="690:704" ph="..." />
+                <marker date="1509976768000" expanded="true" signature="8755:8769" ph="..." />
+                <marker date="1509976768000" expanded="true" signature="8770:8851" ph="..." />
+                <marker date="1509976768000" expanded="true" signature="9339:9353" ph="..." />
+                <marker date="1509976768000" expanded="true" signature="10384:10425" ph="SELECT title... node" />
+                <marker date="1509976768000" expanded="true" signature="10504:10556" ph="SELECT galax... node" />
+                <marker date="1509976768000" expanded="true" signature="14234:14248" ph="..." />
+                <marker date="1509976768000" expanded="false" signature="14286:14300" ph="..." />
+                <marker date="1509976768000" expanded="false" signature="14332:14346" ph="..." />
+                <marker date="1509976768000" expanded="true" signature="14849:14863" ph="..." />
+                <marker date="1509976768000" expanded="false" signature="14901:14915" ph="..." />
+                <marker date="1509976768000" expanded="false" signature="14947:14961" ph="..." />
+                <marker date="1509976768000" expanded="false" signature="15042:15056" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/rmarkdown_tool_templates/tool_template_render.R" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="67" />
+    <option name="y" value="104" />
+    <option name="width" value="1288" />
+    <option name="height" value="848" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="galaxy_tool_generator_ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="galaxy_tool_generator_ui" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="galaxy_tool_generator_ui" type="b2602c69:ProjectViewProjectNode" />
+              <item name="galaxy_tool_generator_ui" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rmarkdown_tool_templates" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fb8552d7-37da-4d41-95d1-7ef1d8d9de53" name="Default" comment="" />
+      <created>1509977804122</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1509977804122</updated>
+      <workItem from="1509977806648" duration="388000" />
+      <workItem from="1509978198580" duration="106000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="494000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="67" y="104" width="1288" height="848" extended-state="0" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28250402" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="R Packages" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="R Graphics" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934928" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1509976768000" expanded="false" signature="690:704" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="8755:8769" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="8770:8851" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="9339:9353" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="10384:10425" ph="SELECT title... node" />
+            <marker date="1509976768000" expanded="true" signature="10504:10556" ph="SELECT galax... node" />
+            <marker date="1509976768000" expanded="true" signature="14234:14248" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14286:14300" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14332:14346" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="14849:14863" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14901:14915" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14947:14961" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="15042:15056" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rmarkdown_tool_templates/tool_template.Rmd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rmarkdown_tool_templates/tool_template_render.R">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-435">
+          <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/galaxy_tool_generator_ui.module">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="111" lean-forward="false" selection-start-line="18" selection-start-column="111" selection-end-line="18" selection-end-column="111" />
+          <folding>
+            <marker date="1509976768000" expanded="false" signature="690:704" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="8755:8769" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="8770:8851" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="9339:9353" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="10384:10425" ph="SELECT title... node" />
+            <marker date="1509976768000" expanded="true" signature="10504:10556" ph="SELECT galax... node" />
+            <marker date="1509976768000" expanded="true" signature="14234:14248" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14286:14300" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14332:14346" ph="..." />
+            <marker date="1509976768000" expanded="true" signature="14849:14863" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14901:14915" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="14947:14961" ph="..." />
+            <marker date="1509976768000" expanded="false" signature="15042:15056" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

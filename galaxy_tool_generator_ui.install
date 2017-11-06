@@ -61,7 +61,7 @@ function galaxy_tool_generator_ui_install() {
   foreach ($blocks as $block) {
     db_update('block')
       ->fields([
-        'status' => 0
+        'status' => 0,
       ])
       ->condition('delta', $block)
       ->execute();

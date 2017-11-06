@@ -10,7 +10,7 @@ zz = file('warnings_and_errors.txt')
 sink(zz)
 sink(zz, type = 'message')
   ##---------below is the code for rendering .Rmd templates-----
-  
+
   ##=============STEP 1: handle command line arguments==========
   ##
   ##============================================================
@@ -42,12 +42,12 @@ sink(zz, type = 'message')
   opt = getopt(t(as.data.frame(args_list)))
 
 
-  
+
   ##=======STEP 2: create report directory (optional)==========
   ##
   ##===========================================================
   dir.create(opt$report_dir)
-  
+
   ##=STEP 3: replace placeholders in .Rmd with argument values=
   ##
   ##===========================================================
@@ -64,7 +64,7 @@ sink(zz, type = 'message')
       writeLines(x, con=fileConn)
       close(fileConn)
     })
-  
+
 
   ##=============STEP 4: render .Rmd templates=================
   ##

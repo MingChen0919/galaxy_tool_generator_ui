@@ -90,7 +90,7 @@ class GTRepositories extends GalaxyToolshed {
       'payload' => [
         'tool_shed_url' => urlencode($this->tool_shed_url),
         'capsule_file_name' => urlencode($capsule_file_name),
-      ]
+      ],
     ];
     return GalaxyToolshedRequest::post($endpoint, $data);
   }
@@ -347,7 +347,7 @@ class GTRepositories extends GalaxyToolshed {
       'key' => $this->key,
       'id' => $encoded_repository_id,
       'payload' => [
-//        'file' => $tar_ball_path,
+        //        'file' => $tar_ball_path,
         'commit_message' => urlencode($commit_message),
       ],
     ]);

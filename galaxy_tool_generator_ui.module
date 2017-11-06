@@ -10,167 +10,162 @@ require 'GalaxyToolshed/GTRepositories.php';
 /**
  * Implements hook_init().
  */
-function galaxy_tool_generator_ui_init()
-{
-    $library = libraries_detect('blend4php');
-    if (!$library) {
-        drupal_set_message(t('The blend4php library is not installed. Please <code>git clone</code> 
+function galaxy_tool_generator_ui_init() {
+  $library = libraries_detect('blend4php');
+  if (!$library) {
+    drupal_set_message(t('The blend4php library is not installed. Please <code>git clone</code> 
         the module from ' . l('here', 'https://github.com/galaxyproject/blend4php.git') .
-            ' and place it into the <span style="color: #FF5666">sites/all/libraries/</span> directory.'), 'warning');
-    }
+      ' and place it into the <span style="color: #FF5666">sites/all/libraries/</span> directory.'), 'warning');
+  }
 
-    // Try to load the blend4php library.
-    $library = libraries_load('blend4php');
-    if (empty($library['loaded'])) {
-        drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
-    }
+  // Try to load the blend4php library.
+  $library = libraries_load('blend4php');
+  if (empty($library['loaded'])) {
+    drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
+  }
 
 }
 
 /**
  * Implements hook_libraries_info().
  */
-function galaxy_tool_generator_ui_libraries_info()
-{
-    $libraries['blend4php'] = [
-        'name' => 'blend4php',
-        'vendor url' => 'https://github.com/galaxyproject/blend4php',
-        'download url' => 'https://github.com/galaxyproject/blend4php',
-        'version arguments' => [
-            'file' => 'version.txt',
-            'pattern' => '/^(.*)$/',
-            'lines' => 1,
-        ],
-        'files' => [
-            'php' => ['galaxy.inc'],
-        ],
-    ];
+function galaxy_tool_generator_ui_libraries_info() {
+  $libraries['blend4php'] = [
+    'name' => 'blend4php',
+    'vendor url' => 'https://github.com/galaxyproject/blend4php',
+    'download url' => 'https://github.com/galaxyproject/blend4php',
+    'version arguments' => [
+      'file' => 'version.txt',
+      'pattern' => '/^(.*)$/',
+      'lines' => 1,
+    ],
+    'files' => [
+      'php' => ['galaxy.inc'],
+    ],
+  ];
 
-    return $libraries;
+  return $libraries;
 }
 
 /**
  * Implements hook_menu().
  */
-function galaxy_tool_generator_ui_menu()
-{
-    $items['api_keys'] = [
-        'title' => 'API Keys',
-        'description' => t('A page to collect API keys for tool development and testing'),
-        'page callback' => 'api_keys_page',
-        'access arguments' => ['access content'],
-        'menu_name' => 'main-menu',
-        'type' => MENU_NORMAL_ITEM,
-        'file' => 'api_keys.form.inc',
-        'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-        'weight' => 0,
-    ];
-    $items['all_tool_repositories'] = [
-        'title' => 'All tool repositories',
-        'description' => t('A page to view all Galaxy tools'),
-        'page callback' => 'all_tool_repositories_page',
-        'access arguments' => ['access content'],
-        'menu_name' => 'main-menu',
-        'type' => MENU_NORMAL_ITEM,
-        'weight' => 2,
-    ];
-    $items['publish_to_test_tool_shed'] = [
-        'title' => 'Publish to Test Tool Shed',
-        'description' => t('A page for publishing tools to testtoolshed.'),
-        'page callback' => 'publish_to_test_tool_shed_page',
-        'access arguments' => ['access content'],
-        'menu_name' => 'main-menu',
-        'type' => MENU_NORMAL_ITEM,
-        'file' => 'publish_to_test_tool_shed.form.inc',
-        'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-        'weight' => 3,
-    ];
-//    $items['test_tool_on_galaxy_server'] = [
-//        'title' => 'Test Tool on Galaxy Server',
-//        'description' => t('A page for testing tool on Galaxy server.'),
-//        'page callback' => 'test_tool_on_galaxy_server_page',
-//        'access arguments' => ['access content'],
-//        'menu_name' => 'main-menu',
-//        'type' => MENU_NORMAL_ITEM,
-//        'file' => 'test_tool_on_galaxy_server.form.inc',
-//        'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-//        'weight' => 4,
-//    ];
-    $items['publish_to_tool_shed'] = [
-        'title' => 'Publish to Tool Shed',
-        'description' => t('A page for publishing tools to toolshed.'),
-        'page callback' => 'publish_to_tool_shed_page',
-        'access arguments' => ['access content'],
-        'menu_name' => 'main-menu',
-        'type' => MENU_NORMAL_ITEM,
-        'file' => 'publish_to_tool_shed.form.inc',
-        'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-        'weight' => 5,
-    ];
+function galaxy_tool_generator_ui_menu() {
+  $items['api_keys'] = [
+    'title' => 'API Keys',
+    'description' => t('A page to collect API keys for tool development and testing'),
+    'page callback' => 'api_keys_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'api_keys.form.inc',
+    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
+    'weight' => 0,
+  ];
+  $items['all_tool_repositories'] = [
+    'title' => 'All tool repositories',
+    'description' => t('A page to view all Galaxy tools'),
+    'page callback' => 'all_tool_repositories_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 2,
+  ];
+  $items['publish_to_test_tool_shed'] = [
+    'title' => 'Publish to Test Tool Shed',
+    'description' => t('A page for publishing tools to testtoolshed.'),
+    'page callback' => 'publish_to_test_tool_shed_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'publish_to_test_tool_shed.form.inc',
+    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
+    'weight' => 3,
+  ];
+  //    $items['test_tool_on_galaxy_server'] = [
+  //        'title' => 'Test Tool on Galaxy Server',
+  //        'description' => t('A page for testing tool on Galaxy server.'),
+  //        'page callback' => 'test_tool_on_galaxy_server_page',
+  //        'access arguments' => ['access content'],
+  //        'menu_name' => 'main-menu',
+  //        'type' => MENU_NORMAL_ITEM,
+  //        'file' => 'test_tool_on_galaxy_server.form.inc',
+  //        'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
+  //        'weight' => 4,
+  //    ];
+  $items['publish_to_tool_shed'] = [
+    'title' => 'Publish to Tool Shed',
+    'description' => t('A page for publishing tools to toolshed.'),
+    'page callback' => 'publish_to_tool_shed_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'publish_to_tool_shed.form.inc',
+    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
+    'weight' => 5,
+  ];
 
-    return $items;
+  return $items;
 }
 
 /**
  * Page callback for all_tool_repositories page.
  */
-function all_tool_repositories_page()
-{
-    //===== build a table to display and manage all tool xml files ======
-    $records = db_select('node', 'n')
-        ->fields('n')
-        ->condition('type', 'webform', '=')
-        ->execute();
-    // view: node/$nid
-    // edit: node/$nid/webform
-    // delete: node/$nid/delete
-    $header = [
-        [
-            'data' => 'Tool XML File',
-            'field' => 'title',
-        ],
-        [
-            'data' => 'Tool Repository',
-            'field' => 'galaxy_tool_name',
-        ],
-        [
-            'data' => 'Manage Tool XML File',
-        ],
+function all_tool_repositories_page() {
+  //===== build a table to display and manage all tool xml files ======
+  $records = db_select('node', 'n')
+    ->fields('n')
+    ->condition('type', 'webform', '=')
+    ->execute();
+  // view: node/$nid
+  // edit: node/$nid/webform
+  // delete: node/$nid/delete
+  $header = [
+    [
+      'data' => 'Tool XML File',
+      'field' => 'title',
+    ],
+    [
+      'data' => 'Tool Repository',
+      'field' => 'galaxy_tool_name',
+    ],
+    [
+      'data' => 'Manage Tool XML File',
+    ],
+  ];
+  $rows = [];
+  foreach ($records as $record) {
+    $nid = $record->nid;
+    $edit_link = 'node/' . $nid . '/webform';
+    $delete_link = 'node/' . $nid . '/delete';
+    $manage_xml = l('edit', $edit_link) . '<br/>' . l('delete', $delete_link);
+    $rows[] = [
+      l($record->title, 'node/' . $nid),
+      $record->galaxy_tool_name,
+      $manage_xml,
     ];
-    $rows = [];
-    foreach ($records as $record) {
-        $nid = $record->nid;
-        $edit_link = 'node/' . $nid . '/webform';
-        $delete_link = 'node/' . $nid . '/delete';
-        $manage_xml = l('edit', $edit_link) . '<br/>' . l('delete', $delete_link);
-        $rows[] = [
-            l($record->title, 'node/' . $nid),
-            $record->galaxy_tool_name,
-            $manage_xml,
-        ];
-    }
-    return theme('table', ['header' => $header, 'rows' => $rows]);
+  }
+  return theme('table', ['header' => $header, 'rows' => $rows]);
 }
 
 /**
  * page callback for associate accounts.
  */
-function api_keys_page()
-{
-    return drupal_get_form('api_keys_form');
+function api_keys_page() {
+  return drupal_get_form('api_keys_form');
 }
 
 /**
  * Page callback for publish_tool page.
  */
-function publish_to_test_tool_shed_page()
-{
-    // TODO: build a form to list all xml files and the galaxy tool directory it comes from
-    return drupal_get_form('publish_to_test_tool_shed_form');
+function publish_to_test_tool_shed_page() {
+  // TODO: build a form to list all xml files and the galaxy tool directory it comes from
+  return drupal_get_form('publish_to_test_tool_shed_form');
 }
 
 /**
  * page callback for testing tool on galaxy server.
+ *
  * @return mixed
  */
 //function test_tool_on_galaxy_server_page()
@@ -178,116 +173,114 @@ function publish_to_test_tool_shed_page()
 //    return drupal_get_form('test_tool_on_galaxy_server_form');
 //}
 
-function publish_to_tool_shed_page()
-{
-    return drupal_get_form('publish_to_tool_shed_form');
+function publish_to_tool_shed_page() {
+  return drupal_get_form('publish_to_tool_shed_form');
 }
 
 
 /**
  * Implements hook_menu_alter().
  */
-function galaxy_tool_generator_ui_menu_alter(&$items)
-{
-    unset($items['node/%webform_menu/webform/components']);
-    unset($items['node/%webform_menu/webform/conditionals']);
-    unset($items['node/%webform_menu/webform/emails']);
-    unset($items['node/%webform_menu/webform/configure']);
-    $items['node/%webform_menu/webform']['title'] = 'XML components';
+function galaxy_tool_generator_ui_menu_alter(&$items) {
+  unset($items['node/%webform_menu/webform/components']);
+  unset($items['node/%webform_menu/webform/conditionals']);
+  unset($items['node/%webform_menu/webform/emails']);
+  unset($items['node/%webform_menu/webform/configure']);
+  $items['node/%webform_menu/webform']['title'] = 'XML components';
 
 
-    foreach (array_keys($items) as $menu_link) {
-        // remove unneeded menu items for webform.
-        if (preg_match('/webform-results/', $menu_link)) {
-            unset($items[$menu_link]);
-        }
+  foreach (array_keys($items) as $menu_link) {
+    // remove unneeded menu items for webform.
+    if (preg_match('/webform-results/', $menu_link)) {
+      unset($items[$menu_link]);
     }
+  }
 
-    // hide webform node edit page
-    $items['node/%node/edit']['access callback'] = FALSE;
+  // hide webform node edit page
+  $items['node/%node/edit']['access callback'] = FALSE;
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_state, $form_id)
-{
-    $form['existing_or_new_tool_repository'] = [
-        '#type' => 'radios',
-        '#title' => t('Existing or new galaxy tool repository?'),
-        '#description' => t('New tool XML file can be added to an existing or a new Galaxy tool repository.'),
-        '#options' => drupal_map_assoc([
-            'New',
-            'Existing',
-        ]),
-        '#default_value' => 'New',
-        '#weight' => -10,
-    ];
-    $form['new_galaxy_tool_repository'] = [
-        '#type' => 'textfield',
-        '#title' => t('New Galaxy tool repository'),
-        '#description' => t('Enter a name for your new galaxy tool repository. This will be the name for 
+function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['existing_or_new_tool_repository'] = [
+    '#type' => 'radios',
+    '#title' => t('Existing or new galaxy tool repository?'),
+    '#description' => t('New tool XML file can be added to an existing or a new Galaxy tool repository.'),
+    '#options' => drupal_map_assoc([
+      'New',
+      'Existing',
+    ]),
+    '#default_value' => 'New',
+    '#weight' => -10,
+  ];
+  $form['new_galaxy_tool_repository'] = [
+    '#type' => 'textfield',
+    '#title' => t('New Galaxy tool repository'),
+    '#description' => t('Enter a name for your new galaxy tool repository. This will be the name for 
       the tool repository in Galaxy toolshed or testtoolshed'),
-        '#weight' => -9,
-        '#states' => [
-            'visible' => [
-                ':input[name="existing_or_new_tool_repository"]' => ['value' => 'New'],
-            ],
+    '#weight' => -9,
+    '#states' => [
+      'visible' => [
+        ':input[name="existing_or_new_tool_repository"]' => ['value' => 'New'],
+      ],
+    ],
+  ];
+
+  $form['start_with_tool_template'] = [
+    '#type' => 'radios',
+    '#title' => t('Start with an R Markdown tool template'),
+    '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
+    '#options' => drupal_map_assoc([
+      'Yes',
+      'No',
+    ]),
+    '#default_value' => 'Yes',
+  ];
+
+  $all_tool_repositories = get_tool_repositories();
+  if (count($all_tool_repositories) > 0) {
+    $form['existing_galaxy_tool'] = [
+      '#type' => 'select',
+      '#title' => t('Existing tool repository'),
+      '#description' => t('Select an existing Galaxy tool'),
+      '#weight' => -9,
+      '#options' => drupal_map_assoc($all_tool_repositories),
+      '#states' => [
+        'visible' => [
+          ':input[name="existing_or_new_tool_repository"]' => ['value' => 'Existing'],
         ],
+      ],
     ];
-
-    $form['start_with_tool_template'] = [
-        '#type' => 'radios',
-        '#title' => t('Start with an R Markdown tool template'),
-        '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
-        '#options' => drupal_map_assoc([
-            'Yes',
-            'No'
-        ]),
-        '#default_value' => 'Yes',
-    ];
-
-    $all_tool_repositories = get_tool_repositories();
-    if (count($all_tool_repositories) > 0) {
-        $form['existing_galaxy_tool'] = [
-            '#type' => 'select',
-            '#title' => t('Existing tool repository'),
-            '#description' => t('Select an existing Galaxy tool'),
-            '#weight' => -9,
-            '#options' => drupal_map_assoc($all_tool_repositories),
-            '#states' => [
-                'visible' => [
-                    ':input[name="existing_or_new_tool_repository"]' => ['value' => 'Existing'],
-                ],
-            ],
-        ];
-    } else {
-        $form['existing_galaxy_tool'] = [
-            '#type' => 'item',
-            '#markup' => '<span style="color: #FF5666">No existing galaxy tools are available. 
+  }
+  else {
+    $form['existing_galaxy_tool'] = [
+      '#type' => 'item',
+      '#markup' => '<span style="color: #FF5666">No existing galaxy tools are available. 
         Please create a new galaxy tools',
-            '#weight' => -9,
-            '#states' => [
-                'visible' => [
-                    ':input[name="existing_or_new_tool_repository"]' => ['value' => 'Existing'],
-                ],
-            ],
-        ];
-    }
-
-    // change field title from the form on the add-webform page
-    $form['title'] = [
-        '#type' => 'textfield',
-        '#title' => t('XML file name'),
-        '#description' => t('Galaxy tool XML file name with extension, e.g. <span style="color: #FF5666">hisat2.xml, bowtie2.xml</span>.'),
-        '#required' => TRUE,
-        '#maxlength' => 255,
-        '#weight' => -5,
+      '#weight' => -9,
+      '#states' => [
+        'visible' => [
+          ':input[name="existing_or_new_tool_repository"]' => ['value' => 'Existing'],
+        ],
+      ],
     ];
-    // add submit handler
-    $form['actions']['submit']['#submit'][] = 'create_galaxy_tool';
-    // add form validator
-    $form['#validate'][] = 'create_galaxy_tool_form_validate';
+  }
+
+  // change field title from the form on the add-webform page
+  $form['title'] = [
+    '#type' => 'textfield',
+    '#title' => t('XML file name'),
+    '#description' => t('Galaxy tool XML file name with extension, e.g. <span style="color: #FF5666">hisat2.xml, bowtie2.xml</span>.'),
+    '#required' => TRUE,
+    '#maxlength' => 255,
+    '#weight' => -5,
+  ];
+  // add submit handler
+  $form['actions']['submit']['#submit'][] = 'create_galaxy_tool';
+  // add form validator
+  $form['#validate'][] = 'create_galaxy_tool_form_validate';
 
 }
 
@@ -295,138 +288,135 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_state, $form_id)
-{
-    // add a new submission function 'node_delete_confirm_delete_xml' to delete corresponding xml file.
-    // this function has to be run after the original submit function 'node_delete_confirm_submit', which delete the webform node.
-    $form['#submit'] = [
-        'node_delete_confirm_delete_xml',
-        'node_delete_confirm_submit',
-    ];
+function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_state, $form_id) {
+  // add a new submission function 'node_delete_confirm_delete_xml' to delete corresponding xml file.
+  // this function has to be run after the original submit function 'node_delete_confirm_submit', which delete the webform node.
+  $form['#submit'] = [
+    'node_delete_confirm_delete_xml',
+    'node_delete_confirm_submit',
+  ];
 }
 
 /**
  * submit function to delete xml file when a webform node is deleted.
  */
-function node_delete_confirm_delete_xml(&$form, &$form_state)
-{
-    try {
-        $nid = $form['#node']->nid;
-        $xml_file = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
-        $galaxy_tool_name = db_query('SELECT galaxy_tool_name FROM {node} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
-        $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-        $xml_file_path = $directory . '/' . $xml_file;
-        unlink($xml_file_path);
+function node_delete_confirm_delete_xml(&$form, &$form_state) {
+  try {
+    $nid = $form['#node']->nid;
+    $xml_file = db_query('SELECT title FROM {node} WHERE nid = :nid', [':nid' => $nid])->fetchField();
+    $galaxy_tool_name = db_query('SELECT galaxy_tool_name FROM {node} WHERE nid = :nid', [':nid' => $nid])->fetchField();
+    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+    $xml_file_path = $directory . '/' . $xml_file;
+    unlink($xml_file_path);
 
-        // remove corresponding template files
-        $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
-        unlink($directory . '/' . $xml_file_base . '_render.R');
-        unlink($directory . '/' . $xml_file_base . '.Rmd');
+    // remove corresponding template files
+    $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
+    unlink($directory . '/' . $xml_file_base . '_render.R');
+    unlink($directory . '/' . $xml_file_base . '.Rmd');
 
-        drupal_set_message($xml_file . ' has been successfully deleted.');
-    } catch (Exception $exception) {
-        drupal_set_message($exception->getMessage(), 'warning');
-    }
+    drupal_set_message($xml_file . ' has been successfully deleted.');
+  } catch (Exception $exception) {
+    drupal_set_message($exception->getMessage(), 'warning');
+  }
 }
 
 
 /**
  * webform_node_form form submitter.
  */
-function create_galaxy_tool($form, &$form_state)
-{
+function create_galaxy_tool($form, &$form_state) {
 
-    // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
-    if ($form_state['values']['existing_or_new_tool_repository'] == 'Existing') {
-        $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
-    } else {
-        $galaxy_tool_name = $form_state['values']['new_galaxy_tool_repository'];
-    }
-    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-    file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
-    // create an empty tool xml file
-    $xml_file = $form_state['values']['title'];
-    //  $xml_file_path = file_create_filename($xml_file, $directory);
-    $xml_file_path = $directory . '/' . $xml_file;
-    try {
-        file_put_contents($xml_file_path, '');
-        drupal_set_message('The XML file ' . $xml_file . ' has been successfully created.');
-    } catch (Exception $e) {
-        drupal_set_message(t($e->getMessage()), 'error');
-    }
+  // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
+  if ($form_state['values']['existing_or_new_tool_repository'] == 'Existing') {
+    $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
+  }
+  else {
+    $galaxy_tool_name = $form_state['values']['new_galaxy_tool_repository'];
+  }
+  $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+  file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
+  // create an empty tool xml file
+  $xml_file = $form_state['values']['title'];
+  //  $xml_file_path = file_create_filename($xml_file, $directory);
+  $xml_file_path = $directory . '/' . $xml_file;
+  try {
+    file_put_contents($xml_file_path, '');
+    drupal_set_message('The XML file ' . $xml_file . ' has been successfully created.');
+  } catch (Exception $e) {
+    drupal_set_message(t($e->getMessage()), 'error');
+  }
 
-    // add galaxy_tool_name to node table for later use.
-    db_update('node')
-        ->fields([
-            'galaxy_tool_name' => $galaxy_tool_name,
-        ])
-        ->condition('nid', $form_state['values']['nid'])
+  // add galaxy_tool_name to node table for later use.
+  db_update('node')
+    ->fields([
+      'galaxy_tool_name' => $galaxy_tool_name,
+    ])
+    ->condition('nid', $form_state['values']['nid'])
+    ->execute();
+
+
+  if ($form_state['values']['start_with_tool_template'] == 'Yes') {
+    // add default components to webform_component table if choose to start with tool template
+    foreach (get_tool_template_components() as $component) {
+      $component['nid'] = $form_state['values']['nid'];
+      $res = db_insert('webform_component')
+        ->fields($component)
         ->execute();
-
-
-    if ($form_state['values']['start_with_tool_template'] == 'Yes') {
-        // add default components to webform_component table if choose to start with tool template
-        foreach (get_tool_template_components() as $component) {
-            $component['nid'] = $form_state['values']['nid'];
-            $res = db_insert('webform_component')
-                ->fields($component)
-                ->execute();
-        }
-
-        // TODO: add render R script template and .Rmd template
-        $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
-        $render_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template_render.R';
-        copy($render_template, $directory . '/' . $xml_file_base . '_render.R');
-        $rmd_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.Rmd';
-        copy($rmd_template, $directory . '/' . $xml_file_base . '.Rmd');
     }
+
+    // TODO: add render R script template and .Rmd template
+    $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
+    $render_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template_render.R';
+    copy($render_template, $directory . '/' . $xml_file_base . '_render.R');
+    $rmd_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.Rmd';
+    copy($rmd_template, $directory . '/' . $xml_file_base . '.Rmd');
+  }
 }
 
 /**
  * Create galaxy tool form validator
  */
-function create_galaxy_tool_form_validate($form, &$form_state)
-{
-    if ($form_state['values']['existing_or_new_tool_repository'] == 'New') {
-        //==========validate galaxy tool name=====
-        $galaxy_tool_name = $form_state['values']['new_galaxy_tool_repository'];
-        $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-        // check if directory already exists.
-        if (is_dir($directory)) {
-            form_set_error('new_galaxy_tool_repository', t('This Galaxy tool name already exists. Please use a different name.'));
-        }
-        // check if galaxy tool name is legal.
-        if (!preg_match('/^[a-z]+[a-z0-9_]*/', $galaxy_tool_name)) {
-            form_set_error('new_galaxy_tool_repository', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
+function create_galaxy_tool_form_validate($form, &$form_state) {
+  if ($form_state['values']['existing_or_new_tool_repository'] == 'New') {
+    //==========validate galaxy tool name=====
+    $galaxy_tool_name = $form_state['values']['new_galaxy_tool_repository'];
+    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+    // check if directory already exists.
+    if (is_dir($directory)) {
+      form_set_error('new_galaxy_tool_repository', t('This Galaxy tool name already exists. Please use a different name.'));
+    }
+    // check if galaxy tool name is legal.
+    if (!preg_match('/^[a-z]+[a-z0-9_]*/', $galaxy_tool_name)) {
+      form_set_error('new_galaxy_tool_repository', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters.'));
-        }
-    } else {
-        // no need to check galaxy tool name from existing galaxy tools list.
-        $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
-        $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
     }
+  }
+  else {
+    // no need to check galaxy tool name from existing galaxy tools list.
+    $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
+    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+  }
 
-    //==========validate xml file name========
-    if (!preg_match('/^[a-z]+[a-z0-9_]*\.xml/', $form_state['values']['title'])) {
-        form_set_error('', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
+  //==========validate xml file name========
+  if (!preg_match('/^[a-z]+[a-z0-9_]*\.xml/', $form_state['values']['title'])) {
+    form_set_error('', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters and ends with exsion <span style="color: #FF5666">.xml</span>'));
-    }
-    $xml_file = $form_state['values']['title'] . '.xml';
-    $xml_file_path = $directory . '/' . $xml_file;
-    if (file_exists($xml_file_path)) {
-        form_set_error('title', t('The file ' . $xml_file . ' already exists. Please use a different name.'));
-    }
+  }
+  $xml_file = $form_state['values']['title'] . '.xml';
+  $xml_file_path = $directory . '/' . $xml_file;
+  if (file_exists($xml_file_path)) {
+    form_set_error('title', t('The file ' . $xml_file . ' already exists. Please use a different name.'));
+  }
 }
 
 /**
  * implement hook_node_view().
  */
-function galaxy_tool_generator_ui_node_view_alter(&$build)
-{
-    // TODO: display xml file name and galaxy tool name (which directory the xml file comes from)
-    // TODO: write XML components into XML file
+function galaxy_tool_generator_ui_node_view_alter(&$build) {
+  // TODO: display xml file name and galaxy tool name (which directory the xml file comes from)
+  // TODO: write XML components into XML file
 }
 
 /**
@@ -437,23 +427,22 @@ function galaxy_tool_generator_ui_node_view_alter(&$build)
  * implement hook_node_view
  *
  */
-function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode)
-{
-    if (!isset($node->webform)) {
-        return;
-    }
-    // get galaxy tool name and xml file name;
-    $query = db_select('node', 'n')
-        ->fields('n')
-        ->condition('nid', $node->nid, '=')
-        ->execute()
-        ->fetchAssoc();
-    $galaxy_tool_name = $query['galaxy_tool_name'];
-    $xml_file = $query['title'];
-    // write xml components into xml file.
-    $xml_file_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/' . $xml_file;
-    $xml = build_galaxy_tool_xml($node->webform['components']);
-    // remove version tag from xml string
-    $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
-    file_put_contents($xml_file_path, $xml_no_version_tag);
+function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
+  if (!isset($node->webform)) {
+    return;
+  }
+  // get galaxy tool name and xml file name;
+  $query = db_select('node', 'n')
+    ->fields('n')
+    ->condition('nid', $node->nid, '=')
+    ->execute()
+    ->fetchAssoc();
+  $galaxy_tool_name = $query['galaxy_tool_name'];
+  $xml_file = $query['title'];
+  // write xml components into xml file.
+  $xml_file_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/' . $xml_file;
+  $xml = build_galaxy_tool_xml($node->webform['components']);
+  // remove version tag from xml string
+  $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
+  file_put_contents($xml_file_path, $xml_no_version_tag);
 }
