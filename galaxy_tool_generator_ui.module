@@ -24,6 +24,7 @@ function galaxy_tool_generator_ui_init()
     if (empty($library['loaded'])) {
         drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
     }
+
 }
 
 /**
@@ -288,8 +289,6 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     // add form validator
     $form['#validate'][] = 'create_galaxy_tool_form_validate';
 
-    // TODO: when a webform is created, the webform needs to be altered to contain
-    // several basic components.
 }
 
 
@@ -359,14 +358,22 @@ function create_galaxy_tool($form, &$form_state)
         ->condition('nid', $form_state['values']['nid'])
         ->execute();
 
-    // TODO: add default components to webform_component table
+
     if ($form_state['values']['start_with_tool_template'] == 'Yes') {
+        // add default components to webform_component table if choose to start with tool template
         foreach (get_tool_template_components() as $component) {
             $component['nid'] = $form_state['values']['nid'];
             $res = db_insert('webform_component')
                 ->fields($component)
                 ->execute();
         }
+
+        // TODO: add render R script template and .Rmd template
+        $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
+        $render_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template_render.R';
+        copy($render_template, $directory . '/' . $xml_file_base . '_render.R');
+        $rmd_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.Rmd';
+        copy($rmd_template, $directory . '/' . $xml_file_base . '.Rmd');
     }
 }
 
