@@ -421,8 +421,25 @@ function get_tool_template_components() {
  * This function converts a Galaxy tool XML file back to an array of webform components.
  */
 function convert_xml_to_webform_components($xml_file_path) {
-  // set tool as the root component.
   $cid = 1;
+
+
+  // add id attribute to node 'tool', the id is in the format of element tag + cid.
+  $xml_file = file_get_contents($xml_file_path);
+  $dom = new DOMDocument();
+  $dom->loadXML($xml_file);
+  $dom->getElementsByTagName('tool')->item(0)->setAttribute('id', 'tool_' . $cid);
+  // get all nodes.
+  $node_list = $dom->getElementsByTagName('*');
+
+  // set tool as the root component.
+  $tool_node = $dom->getElementsByTagName('tool')->item(0);
+  $attributes = [];
+  foreach ($tool_node->attributes as $attr) {
+    if ($attr->name != 'id') {
+      $attributes[$attr->name] = $attr->value;
+    }
+  };
   $webform_components[] = [
     'cid' => $cid,
     'pid' => 0,
@@ -432,29 +449,11 @@ function convert_xml_to_webform_components($xml_file_path) {
     'value' => '',
     'extra' => serialize([
       'galaxy_tool_xml_tag' => 'tool',
-      'attributes' =>
-        [
-          'id' => 'tool_template',
-          'name' => 'tool name',
-          'version' => '1.0.0',
-          'hidden' => NULL,
-          'display_interface' => NULL,
-          'tool_type' => NULL,
-          'workflow_compatible' => NULL,
-          'URL_method' => NULL,
-        ],
+      'attributes' => $attributes,
       'private' => 0,
     ]),
     'required' => 0,
   ];
-
-  // add id attribute to node 'tool', the id is in the format of element tag + cid.
-  $xml_file = file_get_contents($xml_file_path);
-  $dom = new DOMDocument();
-  $dom->loadXML($xml_file);
-  $dom->getElementsByTagName('tool')->item(0)->setAttribute('id', 'tool_' . $cid);
-  // get all nodes.
-  $node_list = $dom->getElementsByTagName('*');
 
   // loop through all nodes. If the node has parent node, use the parent cid as the pid of the current node.
   // also, add id attribute to the current node.
@@ -474,12 +473,24 @@ function convert_xml_to_webform_components($xml_file_path) {
         $node_path = preg_replace('/\//', '_', $node_path);
         $node_path = preg_replace('/^_/', '', $node_path);
         // build component.
+        $attributes = [];
+        foreach ($node->attributes as $attr) {
+          if ($attr->name != 'id') {
+            $attributes[$attr->name] = $attr->value;
+          }
+        };
         $webform_components[] = [
           'cid' => $cid,
           'pid' => $pcid,
           'form_key' => $node->nodeName,
           'name' => $node->nodeName,
           'type' => $node_path,
+          'extra' => serialize([
+            'galaxy_tool_xml_tag' => 'tool',
+            'attributes' => $attributes,
+            'private' => 0,
+          ]),
+          'required' => 0,
         ];
       }
     }
