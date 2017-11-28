@@ -415,3 +415,49 @@ function get_tool_template_components() {
 
   return $tool_template_components;
 }
+
+
+/*
+ * This function converts a Galaxy tool XML file back to an array of webform components.
+ */
+function convert_xml_to_webform_components($xml_file_path) {
+  // set tool as the root component.
+  $cid = 1;
+  $webform_components[] = [
+    'cid' => $cid,
+    'pid' => 0,
+    'type' => 'tool',
+  ];
+
+  // add id attribute to node 'tool', the id is in the format of element tag + cid.
+  $xml_file = file_get_contents($xml_file_path);
+  $dom = new DOMDocument();
+  $dom->loadXML($xml_file);
+  $dom->getElementsByTagName('tool')->item(0)->setAttribute('id', 'tool_' . $cid);
+  // get all nodes.
+  $node_list = $dom->getElementsByTagName('*');
+
+  // loop through all nodes. If the node has parent node, use the parent cid as the pid of the current node.
+  // also, add id attribute to the current node.
+  foreach ($node_list as $key=>$node) {
+    if (!in_array($node->nodeName, ['#text', '#comment', '#document', 'tool'])) {
+      ++$cid;
+      if ($node->parentNode) {
+        // get parent node cid and use it as the node pid.
+        $matches = [];
+        preg_match('/\d+$/', $node->parentNode->getAttribute('id'), $matches);
+        $pcid = $matches[0];
+        // set id attribute for the current node.
+        $dom->getElementsByTagName('*')->item($key)->setAttribute('id', $cid);
+        // build component.
+        $webform_components[] = [
+          'cid' => $cid,
+          'pid' => $pcid,
+          'type' => $node->nodeName,
+        ];
+      }
+    }
+  }
+
+  return $webform_components;
+}

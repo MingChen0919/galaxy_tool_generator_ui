@@ -24,7 +24,10 @@ function galaxy_tool_generator_ui_init() {
     drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
   }
 
+  $xml_file_path = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.xml';
+  dpm(convert_xml_to_webform_components($xml_file_path));
 }
+
 
 /**
  * Implements hook_libraries_info().
