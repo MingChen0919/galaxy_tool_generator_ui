@@ -479,14 +479,18 @@ function convert_xml_to_webform_components($xml_file_path) {
             $attributes[$attr->name] = $attr->value;
           }
         };
+        if ($node->nodeValue) {
+          $attributes['XML_VALUE'] = $node->nodeValue;
+        }
         $webform_components[] = [
           'cid' => $cid,
           'pid' => $pcid,
           'form_key' => $node->nodeName,
           'name' => $node->nodeName,
           'type' => $node_path,
+          'value' => '',
           'extra' => serialize([
-            'galaxy_tool_xml_tag' => 'tool',
+            'galaxy_tool_xml_tag' => $node->nodeName,
             'attributes' => $attributes,
             'private' => 0,
           ]),

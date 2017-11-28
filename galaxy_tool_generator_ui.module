@@ -24,8 +24,8 @@ function galaxy_tool_generator_ui_init() {
     drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
   }
 
-  $xml_file_path = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.xml';
-  dpm(convert_xml_to_webform_components($xml_file_path));
+  //  $xml_file_path = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.xml';
+  //  dpm(convert_xml_to_webform_components($xml_file_path));
 }
 
 
@@ -233,13 +233,27 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
 
   $form['start_with_tool_template'] = [
     '#type' => 'radios',
-    '#title' => t('Start with an R Markdown tool template'),
+    '#title' => t('Start with a template XML'),
     '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
     '#options' => drupal_map_assoc([
-      'Yes',
-      'No',
+      'Default R Markdown XML template',
+      'Custom XML',
+      'From scratch',
     ]),
-    '#default_value' => 'Yes',
+    '#default_value' => 'Default R Markdown XML template',
+  ];
+
+  $form['start_with_custom_xml'] = [
+    '#type' => 'managed_file',
+    '#title' => t('Choose a Galaxy XML file'),
+    '#states' => [
+      'visible' => [
+        ':input[name="start_with_tool_template"]' => ['value' => 'Custom XML'],
+      ],
+    ],
+    '#upload_validators' => [
+      'file_validate_extensions' => ['xml'],
+    ],
   ];
 
   $all_tool_repositories = get_tool_repositories();
@@ -314,8 +328,13 @@ function node_delete_confirm_delete_xml(&$form, &$form_state) {
 
     // remove corresponding template files
     $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
-    unlink($directory . '/' . $xml_file_base . '_render.R');
-    unlink($directory . '/' . $xml_file_base . '.Rmd');
+    if (file_exists($directory . '/' . $xml_file_base . '_render.R')) {
+      unlink($directory . '/' . $xml_file_base . '_render.R');
+    }
+    if (file_exists($directory . '/' . $xml_file_base . '.Rmd')) {
+      unlink($directory . '/' . $xml_file_base . '.Rmd');
+    }
+
 
     drupal_set_message($xml_file . ' has been successfully deleted.');
   } catch (Exception $exception) {
@@ -358,7 +377,8 @@ function create_galaxy_tool($form, &$form_state) {
     ->execute();
 
 
-  if ($form_state['values']['start_with_tool_template'] == 'Yes') {
+  // use default R Markdown XML file
+  if ($form_state['values']['start_with_tool_template'] == 'Default R Markdown XML template') {
     // add default components to webform_component table if choose to start with tool template
     foreach (get_tool_template_components() as $component) {
       $component['nid'] = $form_state['values']['nid'];
@@ -374,6 +394,21 @@ function create_galaxy_tool($form, &$form_state) {
     $rmd_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.Rmd';
     copy($rmd_template, $directory . '/' . $xml_file_base . '.Rmd');
   }
+
+  // use custom XML file
+  if ($form_state['values']['start_with_tool_template'] == 'Custom XML') {
+    $fid = $form_state['values']['start_with_custom_xml'];
+    $uri = file_load($fid)->uri;
+    $webform_components = convert_xml_to_webform_components($uri);
+
+    foreach ($webform_components as $component) {
+      $component['nid'] = $form_state['values']['nid'];
+      $res = db_insert('webform_component')
+        ->fields($component)
+        ->execute();
+    }
+  }
+
 }
 
 /**
@@ -411,6 +446,18 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
   $xml_file_path = $directory . '/' . $xml_file;
   if (file_exists($xml_file_path)) {
     form_set_error('title', t('The file ' . $xml_file . ' already exists. Please use a different name.'));
+  }
+
+  //==========handle uploaded xml file======
+  $file = file_save_upload('start_with_custom_xml');
+
+  if (isset($file)) {
+    if ($file) {
+      $form_state['values']['start_with_custom_xml'] = $file;
+    }
+    else {
+      form_set_error('start_with_custom_xml', t('The file could not be uploaded'));
+    }
   }
 }
 
