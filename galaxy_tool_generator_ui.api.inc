@@ -426,7 +426,26 @@ function convert_xml_to_webform_components($xml_file_path) {
   $webform_components[] = [
     'cid' => $cid,
     'pid' => 0,
+    'form_key' => 'tool_template',
+    'name' => 'tool_template',
     'type' => 'tool',
+    'value' => '',
+    'extra' => serialize([
+      'galaxy_tool_xml_tag' => 'tool',
+      'attributes' =>
+        [
+          'id' => 'tool_template',
+          'name' => 'tool name',
+          'version' => '1.0.0',
+          'hidden' => NULL,
+          'display_interface' => NULL,
+          'tool_type' => NULL,
+          'workflow_compatible' => NULL,
+          'URL_method' => NULL,
+        ],
+      'private' => 0,
+    ]),
+    'required' => 0,
   ];
 
   // add id attribute to node 'tool', the id is in the format of element tag + cid.
@@ -449,11 +468,18 @@ function convert_xml_to_webform_components($xml_file_path) {
         $pcid = $matches[0];
         // set id attribute for the current node.
         $dom->getElementsByTagName('*')->item($key)->setAttribute('id', $cid);
+        // get node path.
+        $node_path = $node->getNodePath();
+        $node_path = preg_replace('/\[\d+\]/','', $node_path);
+        $node_path = preg_replace('/\//', '_', $node_path);
+        $node_path = preg_replace('/^_/', '', $node_path);
         // build component.
         $webform_components[] = [
           'cid' => $cid,
           'pid' => $pcid,
-          'type' => $node->nodeName,
+          'form_key' => $node->nodeName,
+          'name' => $node->nodeName,
+          'type' => $node_path,
         ];
       }
     }
@@ -461,3 +487,4 @@ function convert_xml_to_webform_components($xml_file_path) {
 
   return $webform_components;
 }
+
