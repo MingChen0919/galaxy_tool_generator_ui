@@ -234,13 +234,13 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   $form['start_with_tool_template'] = [
     '#type' => 'radios',
     '#title' => t('Start with a template XML'),
-    '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
+//    '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
     '#options' => drupal_map_assoc([
-      'Default R Markdown XML template',
+      'R Markdown XML template',
       'Custom XML',
       'From scratch',
     ]),
-    '#default_value' => 'Default R Markdown XML template',
+    '#default_value' => 'R Markdown XML template',
   ];
 
   $form['start_with_custom_xml'] = [
@@ -378,7 +378,7 @@ function create_galaxy_tool($form, &$form_state) {
 
 
   // use default R Markdown XML file
-  if ($form_state['values']['start_with_tool_template'] == 'Default R Markdown XML template') {
+  if ($form_state['values']['start_with_tool_template'] == 'R Markdown XML template') {
     // add default components to webform_component table if choose to start with tool template
     foreach (get_tool_template_components() as $component) {
       $component['nid'] = $form_state['values']['nid'];
