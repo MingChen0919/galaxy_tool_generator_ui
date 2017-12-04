@@ -234,7 +234,7 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   $form['start_with_tool_template'] = [
     '#type' => 'radios',
     '#title' => t('Start with a template XML'),
-//    '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
+    //    '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
     '#options' => drupal_map_assoc([
       'R Markdown XML template',
       'Custom XML',
@@ -312,6 +312,20 @@ function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_
     'node_delete_confirm_delete_xml',
     'node_delete_confirm_submit',
   ];
+
+  $form['actions']['delete_xml'] = [
+    '#type' => 'submit',
+    '#value' => t('Delete XML'),
+  ];
+  unset($form['actions']['submit']);
+  $form['actions']['delete_tool_repository'] = [
+    '#type' => 'submit',
+    '#value' => t('Delete tool repository'),
+  ];
+  // unset and reset the 'cancel' action to rearrange action buttions.
+  $actions_cancel = $form['actions']['cancel'];
+  unset($form['actions']['cancel']);
+  $form['actions']['cancel'] = $actions_cancel;
 }
 
 /**
@@ -323,20 +337,30 @@ function node_delete_confirm_delete_xml(&$form, &$form_state) {
     $xml_file = db_query('SELECT title FROM {node} WHERE nid = :nid', [':nid' => $nid])->fetchField();
     $galaxy_tool_name = db_query('SELECT galaxy_tool_name FROM {node} WHERE nid = :nid', [':nid' => $nid])->fetchField();
     $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-    $xml_file_path = $directory . '/' . $xml_file;
-    unlink($xml_file_path);
 
-    // remove corresponding template files
-    $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
-    if (file_exists($directory . '/' . $xml_file_base . '_render.R')) {
-      unlink($directory . '/' . $xml_file_base . '_render.R');
-    }
-    if (file_exists($directory . '/' . $xml_file_base . '.Rmd')) {
-      unlink($directory . '/' . $xml_file_base . '.Rmd');
+    // delete the entire tool repository directory
+    if ($form_state['values']['op'] == 'Delete tool repository') {
+      file_unmanaged_delete_recursive($directory);
+      drupal_set_message('Tool repository ' . $galaxy_tool_name . ' has been successfully removed.');
     }
 
+    // only delete XML file
+    if ($form_state['values']['op'] == 'Delete XML') {
+      $xml_file_path = $directory . '/' . $xml_file;
+      unlink($xml_file_path);
 
-    drupal_set_message($xml_file . ' has been successfully deleted.');
+      // remove corresponding template files
+      $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
+      if (file_exists($directory . '/' . $xml_file_base . '_render.R')) {
+        unlink($directory . '/' . $xml_file_base . '_render.R');
+      }
+      if (file_exists($directory . '/' . $xml_file_base . '.Rmd')) {
+        unlink($directory . '/' . $xml_file_base . '.Rmd');
+      }
+
+      drupal_set_message($xml_file . ' has been successfully deleted.');
+    }
+
   } catch (Exception $exception) {
     drupal_set_message($exception->getMessage(), 'warning');
   }
@@ -347,6 +371,7 @@ function node_delete_confirm_delete_xml(&$form, &$form_state) {
  * webform_node_form form submitter.
  */
 function create_galaxy_tool($form, &$form_state) {
+
 
   // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
   if ($form_state['values']['existing_or_new_tool_repository'] == 'Existing') {
@@ -363,7 +388,6 @@ function create_galaxy_tool($form, &$form_state) {
   $xml_file_path = $directory . '/' . $xml_file;
   try {
     file_put_contents($xml_file_path, '');
-    drupal_set_message('The XML file ' . $xml_file . ' has been successfully created.');
   } catch (Exception $e) {
     drupal_set_message(t($e->getMessage()), 'error');
   }
