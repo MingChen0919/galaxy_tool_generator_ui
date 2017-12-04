@@ -455,9 +455,15 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
     }
   }
   else {
-    // no need to check galaxy tool name from existing galaxy tools list.
-    $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
-    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+    if (!isset($form_state['values']['existing_galaxy_tool'])) {
+      form_set_error('existing_galaxy_tool', t('No existing galaxy tools are available. Please create a new tool repository first.'));
+      return;
+    }
+    else {
+      // no need to check galaxy tool name from existing galaxy tools list.
+      $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
+      $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+    }
   }
 
   //==========validate xml file name========
