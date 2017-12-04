@@ -148,6 +148,10 @@ function all_tool_repositories_page() {
       $manage_xml,
     ];
   }
+
+  if (count($rows) == 0) {
+    return 'No tool repositories are available. You can click ' . l('here', 'node/add/webform') . ' to create one.';
+  }
   return theme('table', ['header' => $header, 'rows' => $rows]);
 }
 
