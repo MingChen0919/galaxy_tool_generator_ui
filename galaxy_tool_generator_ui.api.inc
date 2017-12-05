@@ -427,7 +427,8 @@ function convert_xml_to_webform_components($xml_file_path) {
   // add id attribute to node 'tool', the id is in the format of element tag + cid.
   $xml_file = file_get_contents($xml_file_path);
   $dom = new DOMDocument();
-  $dom->loadXML($xml_file);
+  //  $dom->preserveWhiteSpace = FALSE;
+  $dom->loadXML($xml_file, LIBXML_NOCDATA);
   $dom->getElementsByTagName('tool')
     ->item(0)
     ->setAttribute('id', 'tool_' . $cid);
