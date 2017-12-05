@@ -312,6 +312,7 @@ function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_
   $form['#submit'] = [
     'node_delete_confirm_delete_xml',
     'node_delete_confirm_submit',
+    'node_delete_confirm_redirect',
   ];
   $form['description']['#markup'] = '<span style="color: #FF5666">This action cannot be undone. If all XML 
     files from a tool repository are deleted, the tool repository will be removed.</span>';
@@ -319,6 +320,7 @@ function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_
     '#type' => 'submit',
     '#value' => t('Delete XML'),
   ];
+
   //  unset($form['actions']['submit']);
   //  $form['actions']['delete_tool_repository'] = [
   //    '#type' => 'submit',
@@ -363,8 +365,18 @@ function node_delete_confirm_delete_xml(&$form, &$form_state) {
   } catch (Exception $exception) {
     drupal_set_message($exception->getMessage(), 'warning');
   }
+
+
 }
 
+
+/**
+ * submit callback which runs after the original submit callback 'node_delete_confirm_submit'.
+ * The goal is to redirect page to the all tool repositories page, instead of the front page by default.
+ */
+function node_delete_confirm_redirect(&$form, &$form_state) {
+  $form_state['redirect'] = 'all_tool_repositories';
+}
 
 /**
  * webform_node_form form submitter.
