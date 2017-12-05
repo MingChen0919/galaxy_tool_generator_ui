@@ -509,6 +509,7 @@ function convert_xml_to_webform_components($xml_file_path) {
             'private' => 0,
           ]),
           'required' => 0,
+          'weight' => $cid,
         ];
       }
     }
