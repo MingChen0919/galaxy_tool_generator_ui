@@ -428,7 +428,9 @@ function convert_xml_to_webform_components($xml_file_path) {
   $xml_file = file_get_contents($xml_file_path);
   $dom = new DOMDocument();
   $dom->loadXML($xml_file);
-  $dom->getElementsByTagName('tool')->item(0)->setAttribute('id', 'tool_' . $cid);
+  $dom->getElementsByTagName('tool')
+    ->item(0)
+    ->setAttribute('id', 'tool_' . $cid);
   // get all nodes.
   $node_list = $dom->getElementsByTagName('*');
 
@@ -457,8 +459,13 @@ function convert_xml_to_webform_components($xml_file_path) {
 
   // loop through all nodes. If the node has parent node, use the parent cid as the pid of the current node.
   // also, add id attribute to the current node.
-  foreach ($node_list as $key=>$node) {
-    if (!in_array($node->nodeName, ['#text', '#comment', '#document', 'tool'])) {
+  foreach ($node_list as $key => $node) {
+    if (!in_array($node->nodeName, [
+      '#text',
+      '#comment',
+      '#document',
+      'tool',
+    ])) {
       ++$cid;
       if ($node->parentNode) {
         // get parent node cid and use it as the node pid.
@@ -469,7 +476,7 @@ function convert_xml_to_webform_components($xml_file_path) {
         $dom->getElementsByTagName('*')->item($key)->setAttribute('id', $cid);
         // get node path.
         $node_path = $node->getNodePath();
-        $node_path = preg_replace('/\[\d+\]/','', $node_path);
+        $node_path = preg_replace('/\[\d+\]/', '', $node_path);
         $node_path = preg_replace('/\//', '_', $node_path);
         $node_path = preg_replace('/^_/', '', $node_path);
         // build component.
@@ -479,13 +486,20 @@ function convert_xml_to_webform_components($xml_file_path) {
             $attributes[$attr->name] = $attr->value;
           }
         };
-        if ($node->nodeValue) {
-          $attributes['XML_VALUE'] = $node->nodeValue;
+
+        // check if the current node has value. We can't use DOMNode->nodeValue
+        // since it will return all values from its child nodes.
+        $child_nodes = $node->childNodes;
+        if (isset($child_nodes[0])) {
+          if (isset($child_nodes[0]->nodeValue)) {
+            $attributes['XML_VALUE'] = $child_nodes[0]->nodeValue;
+          }
+
         }
         $webform_components[] = [
           'cid' => $cid,
           'pid' => $pcid,
-          'form_key' => $node->nodeName,
+          'form_key' => $node->nodeName . '_' . $cid,
           'name' => $node->nodeName,
           'type' => $node_path,
           'value' => '',
