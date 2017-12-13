@@ -115,6 +115,49 @@ function galaxy_tool_generator_ui_schema() {
     ],
     'primary key' => ['gaid'],
   ];
+
+  $schema['galaxy_tool_xml'] = [
+    'description' => 'A table for galaxy tool xml files information',
+    'fields' => [
+      'tool_id' => [
+        'description' => 'the primary identifier for a tool xml',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'tool_name' => [
+        'description' => 'the name of the tool xml file',
+        'type' => 'varchar',
+        'default' => '',
+        'not null' => TRUE,
+      ],
+      'tool_owner' => [
+        'type' => 'varchar',
+        'default' => '',
+        'not null' => TRUE,
+      ],
+      'tool_xml_fid' => [
+        'type' => 'int',
+        'default' => '',
+        'not null' => TRUE,
+      ],
+      'synopsis' => [
+        'type' => 'varchar',
+        'default' => '',
+        'not null' => TRUE,
+      ],
+      'description' => [
+        'type' => 'varchar',
+        'default' => '',
+        'not null' => TRUE,
+      ],
+      'categories' => [
+        'type' => 'varchar',
+        'default' => '',
+        'not null' => TRUE,
+      ],
+    ],
+  ];
   return $schema;
 }
 
