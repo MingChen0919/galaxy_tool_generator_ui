@@ -109,10 +109,6 @@ function galaxy_tool_generator_ui_install() {
   db_add_field('node', 'tool_categories', $galaxy_tool_xml['tool_categories']);
   db_add_field('node', 'tool_output_directory_structure', $galaxy_tool_xml['tool_output_directory_structure']);
 
-
-  // create a directory to store all galaxy tool xml files
-  file_prepare_directory('public://galaxy_tool_xml', FILE_CREATE_DIRECTORY);
-
 }
 
 /**
