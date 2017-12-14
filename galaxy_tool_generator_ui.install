@@ -67,15 +67,48 @@ function galaxy_tool_generator_ui_install() {
       ->execute();
   }
 
-  // Add a column to table node for galaxy tool xml name.
-  $galaxy_tool_xml_name_spec = [
-    'description' => 'the galaxy tool xml file name',
-    'type' => 'varchar',
-    'length' => 255,
-    'not null' => TRUE,
-    'default' => '',
+  // Add columns to node table for galaxy tool xml info.
+  $galaxy_tool_xml = [
+    'galaxy_tool_xml_name' => [
+      'description' => 'the name of the tool xml file',
+      'type' => 'varchar',
+      'default' => '',
+      'not null' => TRUE,
+    ],
+    'tool_xml_fid' => [
+      'type' => 'int',
+      'default' => 0,
+      'not null' => TRUE,
+    ],
+    'tool_synopsis' => [
+      'type' => 'varchar',
+      'default' => '',
+      'not null' => TRUE,
+      'length' => 255,
+    ],
+    'tool_description' => [
+      'type' => 'text',
+      'default' => '',
+      'not null' => TRUE,
+    ],
+    'tool_categories' => [
+      'type' => 'varchar',
+      'default' => '',
+      'not null' => TRUE,
+    ],
+    'tool_output_directory_structure' => [
+      'type' => 'text',
+      'default' => '',
+      'not null' => TRUE,
+    ],
   ];
-  db_add_field('node', 'galaxy_tool_xml_name', $galaxy_tool_xml_name_spec);
+  db_add_field('node', 'galaxy_tool_xml_name', $galaxy_tool_xml['galaxy_tool_xml_name']);
+  db_add_field('node', 'tool_xml_fid', $galaxy_tool_xml['tool_xml_fid']);
+  db_add_field('node', 'tool_synopsis', $galaxy_tool_xml['tool_synopsis']);
+  db_add_field('node', 'tool_description', $galaxy_tool_xml['tool_description']);
+  db_add_field('node', 'tool_categories', $galaxy_tool_xml['tool_categories']);
+  db_add_field('node', 'tool_output_directory_structure', $galaxy_tool_xml['tool_output_directory_structure']);
+
 
   // create a directory to store all galaxy tool xml files
   file_prepare_directory('public://galaxy_tool_xml', FILE_CREATE_DIRECTORY);
