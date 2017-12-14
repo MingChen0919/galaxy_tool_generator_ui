@@ -157,6 +157,7 @@ function galaxy_tool_generator_ui_schema() {
         'not null' => TRUE,
       ],
     ],
+    'primary key' => ['tool_id', 'tool_xml_fid'],
   ];
   return $schema;
 }
