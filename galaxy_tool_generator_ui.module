@@ -218,11 +218,10 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     '#weight' => -5,
   ];
   $form['tool_synopsis'] = [
-    '#type' => 'textfield',
+    '#type' => 'textarea',
     '#title' => t('Tool synopsis'),
     '#description' => t('A short description about this tool'),
     '#required' => TRUE,
-    '#size' => 150,
   ];
   $form['tool_description'] = [
     '#type' => 'textarea',
@@ -234,7 +233,6 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     '#type' => 'textfield',
     '#title' => t('Tool categories'),
     '#description' => t('A list of general categories that this tool belongs to'),
-    '#size' => 150,
   ];
   // add submit handler
   $form['actions']['submit']['#submit'][] = 'create_galaxy_tool';
