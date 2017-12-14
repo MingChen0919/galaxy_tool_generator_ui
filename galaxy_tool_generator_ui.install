@@ -138,7 +138,7 @@ function galaxy_tool_generator_ui_schema() {
       ],
       'tool_xml_fid' => [
         'type' => 'int',
-        'default' => '',
+        'default' => 0,
         'not null' => TRUE,
       ],
       'synopsis' => [
