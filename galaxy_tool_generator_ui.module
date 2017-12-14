@@ -329,9 +329,9 @@ function create_galaxy_tool($form, &$form_state) {
   db_update('node')
     ->fields([
       'galaxy_tool_xml_name' => $form_state['values']['title'],
-      'galaxy_tool_synopsis' => $form_state['values']['tool_synopsis'],
-      'galaxy_tool_description' => $form_state['values']['tool_description'],
-      'galaxy_tool_categories' => $form_state['values']['tool_categories'],
+      'tool_synopsis' => $form_state['values']['tool_synopsis'],
+      'tool_description' => $form_state['values']['tool_description'],
+      'tool_categories' => $form_state['values']['tool_categories'],
     ])
     ->condition('nid', $form_state['values']['nid'])
     ->execute();

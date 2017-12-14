@@ -102,19 +102,13 @@ function galaxy_tool_generator_ui_install() {
       'default' => '',
       'not null' => TRUE,
     ],
-//    'tool_output_directory_structure' => [
-//      'type' => 'text',
-//      'default' => '',
-//      'not null' => TRUE,
-//    ],
   ];
   db_add_field('node', 'galaxy_tool_xml_name', $galaxy_tool_xml['galaxy_tool_xml_name']);
   db_add_field('node', 'tool_xml_fid', $galaxy_tool_xml['tool_xml_fid']);
+  db_add_field('node', 'tool_xml_uri', $galaxy_tool_xml['tool_xml_uri']);
   db_add_field('node', 'tool_synopsis', $galaxy_tool_xml['tool_synopsis']);
   db_add_field('node', 'tool_description', $galaxy_tool_xml['tool_description']);
   db_add_field('node', 'tool_categories', $galaxy_tool_xml['tool_categories']);
-//  db_add_field('node', 'tool_output_directory_structure', $galaxy_tool_xml['tool_output_directory_structure']);
-
 }
 
 /**
