@@ -208,30 +208,6 @@ function galaxy_tool_generator_ui_menu_alter(&$items) {
  * Implements hook_form_FORM_ID_alter().
  */
 function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_state, $form_id) {
-  $form['existing_or_new_tool_repository'] = [
-    '#type' => 'radios',
-    '#title' => t('Existing or new galaxy tool repository?'),
-    '#description' => t('New tool XML file can be added to an existing or a new Galaxy tool repository.'),
-    '#options' => drupal_map_assoc([
-      'New',
-      'Existing',
-    ]),
-    '#default_value' => 'New',
-    '#weight' => -10,
-  ];
-  $form['new_galaxy_tool_repository'] = [
-    '#type' => 'textfield',
-    '#title' => t('New Galaxy tool repository'),
-    '#description' => t('Enter a name for your new galaxy tool repository. This will be the name for 
-      the tool repository in Galaxy toolshed or testtoolshed'),
-    '#weight' => -9,
-    '#states' => [
-      'visible' => [
-        ':input[name="existing_or_new_tool_repository"]' => ['value' => 'New'],
-      ],
-    ],
-  ];
-
   $form['start_with_tool_template'] = [
     '#type' => 'radios',
     '#title' => t('Start with a template XML'),
@@ -257,35 +233,6 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     ],
   ];
 
-  $all_tool_repositories = get_tool_repositories();
-  if (count($all_tool_repositories) > 0) {
-    $form['existing_galaxy_tool'] = [
-      '#type' => 'select',
-      '#title' => t('Existing tool repository'),
-      '#description' => t('Select an existing Galaxy tool'),
-      '#weight' => -9,
-      '#options' => drupal_map_assoc($all_tool_repositories),
-      '#states' => [
-        'visible' => [
-          ':input[name="existing_or_new_tool_repository"]' => ['value' => 'Existing'],
-        ],
-      ],
-    ];
-  }
-  else {
-    $form['existing_galaxy_tool'] = [
-      '#type' => 'item',
-      '#markup' => '<span style="color: #FF5666">No existing galaxy tools are available. 
-        Please create a new galaxy tools',
-      '#weight' => -9,
-      '#states' => [
-        'visible' => [
-          ':input[name="existing_or_new_tool_repository"]' => ['value' => 'Existing'],
-        ],
-      ],
-    ];
-  }
-
   // change field title from the form on the add-webform page
   $form['title'] = [
     '#type' => 'textfield',
@@ -299,6 +246,8 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   $form['actions']['submit']['#submit'][] = 'create_galaxy_tool';
   // add form validator
   $form['#validate'][] = 'create_galaxy_tool_form_validate';
+  // unset preview button
+  unset($form['actions']['preview']);
 
 }
 

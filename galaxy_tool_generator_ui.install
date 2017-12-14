@@ -76,6 +76,10 @@ function galaxy_tool_generator_ui_install() {
     'default' => '',
   ];
   db_add_field('node', 'galaxy_tool_name', $galaxy_tool_name_spec);
+
+  // create a directory to store all galaxy tool xml files
+  file_prepare_directory('public://galaxy_tool_xml', FILE_CREATE_DIRECTORY);
+
 }
 
 /**
@@ -145,14 +149,20 @@ function galaxy_tool_generator_ui_schema() {
         'type' => 'varchar',
         'default' => '',
         'not null' => TRUE,
+        'length' => 255,
       ],
       'description' => [
-        'type' => 'varchar',
+        'type' => 'text',
         'default' => '',
         'not null' => TRUE,
       ],
       'categories' => [
         'type' => 'varchar',
+        'default' => '',
+        'not null' => TRUE,
+      ],
+      'output_directory_structure' => [
+        'type' => 'text',
         'default' => '',
         'not null' => TRUE,
       ],
