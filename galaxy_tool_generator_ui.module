@@ -315,38 +315,47 @@ function create_galaxy_tool($form, &$form_state) {
     ])
     ->condition('nid', $form_state['values']['nid'])
     ->execute();
+
+  // use default R Markdown XML file
+  // add default components to webform_component table if choose to start with tool template
+  foreach (get_tool_template_components() as $component) {
+    $component['nid'] = $form_state['values']['nid'];
+    db_insert('webform_component')
+      ->fields($component)
+      ->execute();
+  }
 }
 
 /**
  * Create galaxy tool form validator
  */
 function create_galaxy_tool_form_validate($form, &$form_state) {
-  if ($form_state['values']['existing_or_new_tool_repository'] == 'New') {
-    //==========validate galaxy tool name=====
-    $galaxy_tool_name = $form_state['values']['new_galaxy_tool_repository'];
-    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-    // check if directory already exists.
-    if (is_dir($directory)) {
-      form_set_error('new_galaxy_tool_repository', t('This Galaxy tool name already exists. Please use a different name.'));
-    }
-    // check if galaxy tool name is legal.
-    if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $galaxy_tool_name)) {
-      form_set_error('new_galaxy_tool_repository', t('Repository name can only contains <span style="color: #FF5666">"a-z"</span>, 
-        <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
-        and starts with letters.'));
-    }
-  }
-  else {
-    if (!isset($form_state['values']['existing_galaxy_tool'])) {
-      form_set_error('existing_galaxy_tool', t('No existing galaxy tools are available. Please create a new tool repository first.'));
-      return;
-    }
-    else {
-      // no need to check galaxy tool name from existing galaxy tools list.
-      $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
-      $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-    }
-  }
+//  if ($form_state['values']['existing_or_new_tool_repository'] == 'New') {
+//    //==========validate galaxy tool name=====
+//    $galaxy_tool_name = $form_state['values']['new_galaxy_tool_repository'];
+//    $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+//    // check if directory already exists.
+//    if (is_dir($directory)) {
+//      form_set_error('new_galaxy_tool_repository', t('This Galaxy tool name already exists. Please use a different name.'));
+//    }
+//    // check if galaxy tool name is legal.
+//    if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $galaxy_tool_name)) {
+//      form_set_error('new_galaxy_tool_repository', t('Repository name can only contains <span style="color: #FF5666">"a-z"</span>,
+//        <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>,
+//        and starts with letters.'));
+//    }
+//  }
+//  else {
+//    if (!isset($form_state['values']['existing_galaxy_tool'])) {
+//      form_set_error('existing_galaxy_tool', t('No existing galaxy tools are available. Please create a new tool repository first.'));
+//      return;
+//    }
+//    else {
+//      // no need to check galaxy tool name from existing galaxy tools list.
+//      $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
+//      $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
+//    }
+//  }
 
   //==========validate xml file name========
   if (!preg_match('/^[a-z]+[a-z0-9_]*\.xml/', $form_state['values']['title'])) {
@@ -354,23 +363,23 @@ function create_galaxy_tool_form_validate($form, &$form_state) {
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters and ends with exsion <span style="color: #FF5666">.xml</span>'));
   }
-  $xml_file = $form_state['values']['title'] . '.xml';
-  $xml_file_path = $directory . '/' . $xml_file;
-  if (file_exists($xml_file_path)) {
-    form_set_error('title', t('The file ' . $xml_file . ' already exists. Please use a different name.'));
-  }
+//  $xml_file = $form_state['values']['title'] . '.xml';
+//  $xml_file_path = $directory . '/' . $xml_file;
+//  if (file_exists($xml_file_path)) {
+//    form_set_error('title', t('The file ' . $xml_file . ' already exists. Please use a different name.'));
+//  }
 
-  //==========handle uploaded xml file======
-  $file = file_save_upload('start_with_custom_xml');
-
-  if (isset($file)) {
-    if ($file) {
-      $form_state['values']['start_with_custom_xml'] = $file;
-    }
-    else {
-      form_set_error('start_with_custom_xml', t('The file could not be uploaded'));
-    }
-  }
+//  //==========handle uploaded xml file======
+//  $file = file_save_upload('start_with_custom_xml');
+//
+//  if (isset($file)) {
+//    if ($file) {
+//      $form_state['values']['start_with_custom_xml'] = $file;
+//    }
+//    else {
+//      form_set_error('start_with_custom_xml', t('The file could not be uploaded'));
+//    }
+//  }
 }
 
 /**
@@ -410,39 +419,14 @@ function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
   $xml = build_galaxy_tool_xml($node->webform['components']);
   // remove version tag from xml string
   $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
-  $file = file_save_data($xml_file_path, $xml_no_version_tag);
-
-  dpm($file);
-
-
-  /*
-   // create the 'publick://galaxy_tool_xml' directory if it does not exist.
-  $directory = 'public://galaxy_tool_xml/';
-  file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
-  // create an empty tool xml file
-  $xml_file = $form_state['values']['title'];
-  $xml_file_path = $directory . '/' . $xml_file;
-  try {
-    file_put_contents($xml_file_path, '');
-  } catch (Exception $e) {
-    drupal_set_message(t($e->getMessage()), 'error');
-  }
-
-
-  // use default R Markdown XML file
-  // add default components to webform_component table if choose to start with tool template
-  foreach (get_tool_template_components() as $component) {
-    $component['nid'] = $form_state['values']['nid'];
-    $res = db_insert('webform_component')
-      ->fields($component)
-      ->execute();
-  }
-
-  // add render R script template and .Rmd template
-  $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
-  $render_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template_render.R';
-  copy($render_template, $directory . '/' . $xml_file_base . '_render.R');
-  $rmd_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.Rmd';
-  copy($rmd_template, $directory . '/' . $xml_file_base . '.Rmd');
-   */
+  // save xml string to a file
+  $file = file_save_data($xml_no_version_tag, $xml_file_path);
+  // insert xml file info into node table
+  db_update('node')
+    ->fields([
+      'tool_xml_fid' => $file->fid,
+      'tool_xml_url' => $file->url,
+    ])
+    ->condition('nid', $node->nid)
+    ->execute();
 }
