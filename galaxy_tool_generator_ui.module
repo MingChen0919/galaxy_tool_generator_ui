@@ -208,31 +208,6 @@ function galaxy_tool_generator_ui_menu_alter(&$items) {
  * Implements hook_form_FORM_ID_alter().
  */
 function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_state, $form_id) {
-  $form['start_with_tool_template'] = [
-    '#type' => 'radios',
-    '#title' => t('Start with a template XML'),
-    //    '#description' => t('If "Yes" is selected, template tool files will be created to start with.'),
-    '#options' => drupal_map_assoc([
-      'R Markdown XML template',
-      'Custom XML',
-      'From scratch',
-    ]),
-    '#default_value' => 'R Markdown XML template',
-  ];
-
-  $form['start_with_custom_xml'] = [
-    '#type' => 'managed_file',
-    '#title' => t('Choose a Galaxy XML file'),
-    '#states' => [
-      'visible' => [
-        ':input[name="start_with_tool_template"]' => ['value' => 'Custom XML'],
-      ],
-    ],
-    '#upload_validators' => [
-      'file_validate_extensions' => ['xml'],
-    ],
-  ];
-
   // change field title from the form on the add-webform page
   $form['title'] = [
     '#type' => 'textfield',
@@ -320,8 +295,9 @@ function node_delete_confirm_delete_xml(&$form, &$form_state) {
 
 
 /**
- * submit callback which runs after the original submit callback 'node_delete_confirm_submit'.
- * The goal is to redirect page to the all tool repositories page, instead of the front page by default.
+ * submit callback which runs after the original submit callback
+ * 'node_delete_confirm_submit'. The goal is to redirect page to the all tool
+ * repositories page, instead of the front page by default.
  */
 function node_delete_confirm_redirect(&$form, &$form_state) {
   $form_state['redirect'] = 'all_tool_repositories';
@@ -332,67 +308,13 @@ function node_delete_confirm_redirect(&$form, &$form_state) {
  */
 function create_galaxy_tool($form, &$form_state) {
 
-
-  // create the 'galaxy_tools/GALAXY_TOOL_NAME' directory if it does not exist.
-  if ($form_state['values']['existing_or_new_tool_repository'] == 'Existing') {
-    $galaxy_tool_name = $form_state['values']['existing_galaxy_tool'];
-  }
-  else {
-    $galaxy_tool_name = $form_state['values']['new_galaxy_tool_repository'];
-  }
-  $directory = 'public://galaxy_tools/' . $galaxy_tool_name;
-  file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
-  // create an empty tool xml file
-  $xml_file = $form_state['values']['title'];
-  //  $xml_file_path = file_create_filename($xml_file, $directory);
-  $xml_file_path = $directory . '/' . $xml_file;
-  try {
-    file_put_contents($xml_file_path, '');
-  } catch (Exception $e) {
-    drupal_set_message(t($e->getMessage()), 'error');
-  }
-
   // add galaxy_tool_name to node table for later use.
   db_update('node')
     ->fields([
-      'galaxy_tool_name' => $galaxy_tool_name,
+      'galaxy_tool_xml_name' => $form_state['values']['title'],
     ])
     ->condition('nid', $form_state['values']['nid'])
     ->execute();
-
-
-  // use default R Markdown XML file
-  if ($form_state['values']['start_with_tool_template'] == 'R Markdown XML template') {
-    // add default components to webform_component table if choose to start with tool template
-    foreach (get_tool_template_components() as $component) {
-      $component['nid'] = $form_state['values']['nid'];
-      $res = db_insert('webform_component')
-        ->fields($component)
-        ->execute();
-    }
-
-    // TODO: add render R script template and .Rmd template
-    $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
-    $render_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template_render.R';
-    copy($render_template, $directory . '/' . $xml_file_base . '_render.R');
-    $rmd_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.Rmd';
-    copy($rmd_template, $directory . '/' . $xml_file_base . '.Rmd');
-  }
-
-  // use custom XML file
-  if ($form_state['values']['start_with_tool_template'] == 'Custom XML') {
-    $fid = $form_state['values']['start_with_custom_xml'];
-    $uri = file_load($fid)->uri;
-    $webform_components = convert_xml_to_webform_components($uri);
-
-    foreach ($webform_components as $component) {
-      $component['nid'] = $form_state['values']['nid'];
-      $res = db_insert('webform_component')
-        ->fields($component)
-        ->execute();
-    }
-  }
-
 }
 
 /**
@@ -471,18 +393,52 @@ function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
   if (!isset($node->webform)) {
     return;
   }
-  // get galaxy tool name and xml file name;
+  // get galaxy tool xml file name;
   $query = db_select('node', 'n')
     ->fields('n')
     ->condition('nid', $node->nid, '=')
     ->execute()
     ->fetchAssoc();
-  $galaxy_tool_name = $query['galaxy_tool_name'];
-  $xml_file = $query['title'];
+  //use nid as prefix of the file name
+  $galaxy_tool_xml_name = $node->nid . '_' . $query['galaxy_tool_xml_name'];
   // write xml components into xml file.
-  $xml_file_path = 'public://galaxy_tools/' . $galaxy_tool_name . '/' . $xml_file;
+  $xml_file_path = 'public://galaxy_tool_xml/' . $galaxy_tool_xml_name;
   $xml = build_galaxy_tool_xml($node->webform['components']);
   // remove version tag from xml string
   $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
-  file_put_contents($xml_file_path, $xml_no_version_tag);
+  $file = file_save_data($xml_file_path, $xml_no_version_tag);
+
+  dpm($file);
+
+
+  /*
+   // create the 'publick://galaxy_tool_xml' directory if it does not exist.
+  $directory = 'public://galaxy_tool_xml/';
+  file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
+  // create an empty tool xml file
+  $xml_file = $form_state['values']['title'];
+  $xml_file_path = $directory . '/' . $xml_file;
+  try {
+    file_put_contents($xml_file_path, '');
+  } catch (Exception $e) {
+    drupal_set_message(t($e->getMessage()), 'error');
+  }
+
+
+  // use default R Markdown XML file
+  // add default components to webform_component table if choose to start with tool template
+  foreach (get_tool_template_components() as $component) {
+    $component['nid'] = $form_state['values']['nid'];
+    $res = db_insert('webform_component')
+      ->fields($component)
+      ->execute();
+  }
+
+  // add render R script template and .Rmd template
+  $xml_file_base = preg_replace('/\.xml$/', '', $xml_file);
+  $render_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template_render.R';
+  copy($render_template, $directory . '/' . $xml_file_base . '_render.R');
+  $rmd_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_templates/tool_template.Rmd';
+  copy($rmd_template, $directory . '/' . $xml_file_base . '.Rmd');
+   */
 }
