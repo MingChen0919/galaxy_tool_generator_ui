@@ -20,8 +20,8 @@ function galaxy_tool_generator_ui_install() {
   menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
-    'link_title' => 'All tool repositories',
-    'link_path' => 'all_tool_repositories',
+    'link_title' => 'All Galaxy tool XMLs',
+    'link_path' => 'all_galaxy_tool_xmls',
     'weight' => 2,
   ];
   menu_link_save($menu_link);

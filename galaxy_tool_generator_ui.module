@@ -62,10 +62,11 @@ function galaxy_tool_generator_ui_menu() {
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
     'weight' => 0,
   ];
-  $items['all_tool_repositories'] = [
-    'title' => 'All tool repositories',
-    'description' => t('A page to view all Galaxy tools'),
-    'page callback' => 'all_tool_repositories_page',
+  $items['all_galaxy_tool_xmls'] = [
+    'title' => 'All Tool XMLs',
+    'description' => t('A page to view all Galaxy tool XMLs'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => 'galaxy_tool_xml_all_form',
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
@@ -307,7 +308,7 @@ function node_delete_confirm_delete_xml(&$form, &$form_state) {
  * repositories page, instead of the front page by default.
  */
 function node_delete_confirm_redirect(&$form, &$form_state) {
-  $form_state['redirect'] = 'all_tool_repositories';
+  $form_state['redirect'] = 'all_galaxy_tool_xmls';
 }
 
 /**
