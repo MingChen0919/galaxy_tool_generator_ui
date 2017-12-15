@@ -1,14 +1,22 @@
 <?php
 
 function galaxy_tool_xml_all_form($form, &$form_state) {
-  $admin_access = user_access('administer nodes');
 
   // Build the sortable table header.
   $header = [
-    'galaxy_tool_xml_name' => ['data' => t('Too Name'), 'field' => 'n.galaxy_tool_xml_name'],
+    'galaxy_tool_xml_name' => [
+      'data' => t('Too Name'),
+      'field' => 'n.galaxy_tool_xml_name',
+    ],
     'tool_synopsis' => ['data' => t('Synopsis'), 'field' => 'n.tool_synopsis'],
-    'tool_description' => ['data' => t('Description'), 'field' => 'n.tool_description'],
-    'tool_categories' => ['data' => t('Categories'), 'field' => 'n.tool_categories'],
+    'tool_description' => [
+      'data' => t('Description'),
+      'field' => 'n.tool_description',
+    ],
+    'tool_categories' => [
+      'data' => t('Categories'),
+      'field' => 'n.tool_categories',
+    ],
     'author' => t('Author'),
     'changed' => [
       'data' => t('Updated'),
