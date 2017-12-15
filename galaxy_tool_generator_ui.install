@@ -102,6 +102,11 @@ function galaxy_tool_generator_ui_install() {
       'default' => '',
       'not null' => TRUE,
     ],
+    'galaxy_tool_xml_node' => [
+      'type' => 'int',
+      'default' => 0,
+      'not null' => TRUE,
+    ],
   ];
   db_add_field('node', 'galaxy_tool_xml_name', $galaxy_tool_xml['galaxy_tool_xml_name']);
   db_add_field('node', 'tool_xml_fid', $galaxy_tool_xml['tool_xml_fid']);
