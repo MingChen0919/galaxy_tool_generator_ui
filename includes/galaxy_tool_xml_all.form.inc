@@ -1,6 +1,6 @@
 <?php
 
-function galaxy_tool_xml_all_form($form, $form_state) {
+function galaxy_tool_xml_all_form($form, &$form_state) {
   $admin_access = user_access('administer nodes');
 
   // Build the sortable table header.
