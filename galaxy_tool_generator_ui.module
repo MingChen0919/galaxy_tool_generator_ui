@@ -56,7 +56,7 @@ function galaxy_tool_generator_ui_menu() {
     'description' => t('A page to collect API keys for tool development and testing'),
     'page callback' => 'api_keys_page',
     'access callback' => 'user_is_logged_in',
-//    'access arguments' => ['access content'],
+    //    'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
     'file' => 'api_keys.form.inc',
@@ -79,7 +79,7 @@ function galaxy_tool_generator_ui_menu() {
     'description' => t('A page for publishing tools to testtoolshed.'),
     'page callback' => 'publish_to_test_tool_shed_page',
     'access callback' => 'user_is_logged_in',
-//    'access arguments' => ['access content'],
+    //    'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
     'file' => 'publish_to_test_tool_shed.form.inc',
@@ -91,7 +91,7 @@ function galaxy_tool_generator_ui_menu() {
     'description' => t('A page for publishing tools to toolshed.'),
     'page callback' => 'publish_to_tool_shed_page',
     'access callback' => 'user_is_logged_in',
-//    'access arguments' => ['access content'],
+    //    'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
     'file' => 'publish_to_tool_shed.form.inc',
@@ -212,8 +212,8 @@ function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_
     'node_delete_confirm_submit',
     'node_delete_confirm_redirect',
   ];
-//  $form['description']['#markup'] = '<span style="color: #FF5666">This action cannot be undone. If all XML
-//    files from a tool repository are deleted, the tool repository will be removed.</span>';
+  //  $form['description']['#markup'] = '<span style="color: #FF5666">This action cannot be undone. If all XML
+  //    files from a tool repository are deleted, the tool repository will be removed.</span>';
   $form['actions']['submit'] = [
     '#type' => 'submit',
     '#value' => t('Delete XML'),
@@ -345,9 +345,7 @@ function galaxy_tool_generator_ui_node_view_alter(&$build) {
  *
  */
 function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
-  // create a directory to store all galaxy tool xml files
-  $galaxy_tool_xml_dir = 'public://galaxy_tool_XMLs';
-  file_prepare_directory($galaxy_tool_xml_dir, FILE_CREATE_DIRECTORY);
+  global $user;
 
   if (!isset($node->webform)) {
     return;
@@ -358,22 +356,28 @@ function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
     ->condition('nid', $node->nid, '=')
     ->execute()
     ->fetchAssoc();
-  //use nid as prefix of the file name
-  $galaxy_tool_xml_name = $node->nid . '_' . $query['galaxy_tool_xml_name'];
-  // write xml components into xml file.
-  $xml_file_path = 'public://galaxy_tool_XMLs/' . $galaxy_tool_xml_name;
-  $xml = build_galaxy_tool_xml($node->webform['components']);
-  // remove version tag from xml string
-  $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
-  // save xml string to a file and create a database entry
-  $file = file_save_data($xml_no_version_tag, $xml_file_path, FILE_EXISTS_REPLACE);
-  // insert xml file info into node table
-  db_update('node')
-    ->fields([
-      'tool_xml_fid' => $file->fid,
-      'tool_xml_uri' => $file->uri,
-      'galaxy_tool_xml_node' => 1,
-    ])
-    ->condition('nid', $node->nid)
-    ->execute();
+
+  // the tool xml file is created and updated when a galaxy webform node is being viewed.
+  if (node_access('update', $node)) {
+    // create a directory to store all galaxy tool xml files
+    $galaxy_tool_xml_dir = 'public://galaxy_tool_XMLs/' . $user->name;
+    file_prepare_directory($galaxy_tool_xml_dir, FILE_CREATE_DIRECTORY);
+    // write xml components into xml file.
+    $xml_file_path = $galaxy_tool_xml_dir . '/' . $query['galaxy_tool_xml_name'];
+    $xml = build_galaxy_tool_xml($node->webform['components']);
+    // remove version tag from xml string
+    $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
+    // save xml string to a file and create a database entry
+    $file = file_save_data($xml_no_version_tag, $xml_file_path, FILE_EXISTS_REPLACE);
+    // insert xml file info into node table
+    db_update('node')
+      ->fields([
+        'tool_xml_fid' => $file->fid,
+        'tool_xml_uri' => $file->uri,
+        'galaxy_tool_xml_node' => 1,
+      ])
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+
 }
