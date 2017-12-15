@@ -345,6 +345,10 @@ function galaxy_tool_generator_ui_node_view_alter(&$build) {
  *
  */
 function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
+  // create a directory to store all galaxy tool xml files
+  $galaxy_tool_xml_dir = 'public://galaxy_tool_XMLs';
+  file_prepare_directory($galaxy_tool_xml_dir, FILE_CREATE_DIRECTORY);
+
   if (!isset($node->webform)) {
     return;
   }
