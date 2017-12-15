@@ -5,10 +5,11 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
 
   // Build the sortable table header.
   $header = [
-    'title' => ['data' => t('Title'), 'field' => 'n.title'],
-    'type' => ['data' => t('Type'), 'field' => 'n.type'],
+    'galaxy_tool_xml_name' => ['data' => t('Too Name'), 'field' => 'n.galaxy_tool_xml_name'],
+    'tool_synopsis' => ['data' => t('Synopsis'), 'field' => 'n.tool_synopsis'],
+    'tool_description' => ['data' => t('Description'), 'field' => 'n.tool_description'],
+    'tool_categories' => ['data' => t('Categories'), 'field' => 'n.tool_categories'],
     'author' => t('Author'),
-    'status' => ['data' => t('Status'), 'field' => 'n.status'],
     'changed' => [
       'data' => t('Updated'),
       'field' => 'n.changed',
@@ -37,10 +38,16 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $languages = language_list();
   $destination = drupal_get_destination();
   $options = [];
+
   foreach ($nodes as $node) {
+    $res = db_select('node', 'n')
+      ->fields('n')
+      ->condition('nid', $node->nid)
+      ->execute()
+      ->fetchAssoc();
     $uri = entity_uri('node', $node);
     $options[$node->nid] = [
-      'title' => [
+      'galaxy_tool_xml_name' => [
         'data' => [
           '#type' => 'link',
           '#title' => $node->title,
@@ -49,9 +56,10 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
           '#suffix' => ' ' . theme('mark', ['type' => node_mark($node->nid, $node->changed)]),
         ],
       ],
-      'type' => check_plain(node_type_get_name($node)),
+      'tool_synopsis' => $res['tool_synopsis'],
+      'tool_description' => $res['tool_description'],
+      'tool_categories' => $res['tool_categories'],
       'author' => theme('username', ['account' => $node]),
-      'status' => $node->status ? t('published') : t('not published'),
       'changed' => format_date($node->changed, 'short'),
     ];
     // Build a list of all the accessible operations for the current node.
