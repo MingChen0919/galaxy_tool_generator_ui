@@ -345,10 +345,6 @@ function galaxy_tool_generator_ui_node_view_alter(&$build) {
  *
  */
 function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
-  // create a directory to store all galaxy tool xml files
-  $galaxy_tool_xml_dir = 'public://galaxy_tool_xml';
-  file_prepare_directory($galaxy_tool_xml_dir, FILE_CREATE_DIRECTORY);
-
   if (!isset($node->webform)) {
     return;
   }
@@ -361,7 +357,7 @@ function galaxy_tool_generator_ui_node_view($node, $view_mode, $langcode) {
   //use nid as prefix of the file name
   $galaxy_tool_xml_name = $node->nid . '_' . $query['galaxy_tool_xml_name'];
   // write xml components into xml file.
-  $xml_file_path = 'public://galaxy_tool_xml/' . $galaxy_tool_xml_name;
+  $xml_file_path = 'public://galaxy_tool_XMLs/' . $galaxy_tool_xml_name;
   $xml = build_galaxy_tool_xml($node->webform['components']);
   // remove version tag from xml string
   $xml_no_version_tag = str_replace("<?xml version=\"1.0\"?>\n", '', $xml);
