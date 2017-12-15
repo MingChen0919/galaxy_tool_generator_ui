@@ -19,11 +19,11 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
 
   $query = db_select('node', 'n')->extend('PagerDefault')->extend('TableSort');
   $query->addTag('node_admin_filter');
-  node_build_filter_query($query);
+//  node_build_filter_query($query);
 
 
   // restrict the query to galaxy_tool_xml node.
-  $query->condition('n.galaxy_tool_xml', 1);
+  $query->condition('n.galaxy_tool_xml_node', 1);
   $nids = $query
     ->fields('n', ['nid'])
     ->limit(50)
