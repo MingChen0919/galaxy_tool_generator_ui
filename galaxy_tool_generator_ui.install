@@ -190,10 +190,10 @@ function galaxy_tool_generator_ui_schema() {
         'default' => '',
         'not null' => TRUE,
       ],
-      'output_directory_structure' => [
-        'type' => 'text',
-        'default' => '',
+      'galaxy_tool_xml_node' => [
+        'type' => 'int',
         'not null' => TRUE,
+        'default' => 0,
       ],
     ],
     'primary key' => ['tool_id', 'tool_xml_fid'],
