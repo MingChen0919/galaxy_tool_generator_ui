@@ -84,17 +84,6 @@ function galaxy_tool_generator_ui_menu() {
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
     'weight' => 3,
   ];
-  //    $items['test_tool_on_galaxy_server'] = [
-  //        'title' => 'Test Tool on Galaxy Server',
-  //        'description' => t('A page for testing tool on Galaxy server.'),
-  //        'page callback' => 'test_tool_on_galaxy_server_page',
-  //        'access arguments' => ['access content'],
-  //        'menu_name' => 'main-menu',
-  //        'type' => MENU_NORMAL_ITEM,
-  //        'file' => 'test_tool_on_galaxy_server.form.inc',
-  //        'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-  //        'weight' => 4,
-  //    ];
   $items['publish_to_tool_shed'] = [
     'title' => 'Publish to Tool Shed',
     'description' => t('A page for publishing tools to toolshed.'),
