@@ -19,7 +19,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
 
   $query = db_select('node', 'n')->extend('PagerDefault')->extend('TableSort');
   $query->addTag('node_admin_filter');
-//  node_build_filter_query($query);
+  //  node_build_filter_query($query);
 
 
   // restrict the query to galaxy_tool_xml node.
@@ -56,10 +56,15 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     ];
     // Build a list of all the accessible operations for the current node.
     $operations = [];
+    $operations['view'] = [
+      'title' => t('view'),
+      'href' => 'node/' . $node->nid . '/webform-results',
+      'query' => $destination,
+    ];
     if (node_access('update', $node)) {
       $operations['edit'] = [
         'title' => t('edit'),
-        'href' => 'node/' . $node->nid . '/edit',
+        'href' => 'node/' . $node->nid . '/webform',
         'query' => $destination,
       ];
     }
