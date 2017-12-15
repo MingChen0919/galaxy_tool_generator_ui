@@ -212,8 +212,8 @@ function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_
     'node_delete_confirm_submit',
     'node_delete_confirm_redirect',
   ];
-  $form['description']['#markup'] = '<span style="color: #FF5666">This action cannot be undone. If all XML 
-    files from a tool repository are deleted, the tool repository will be removed.</span>';
+//  $form['description']['#markup'] = '<span style="color: #FF5666">This action cannot be undone. If all XML
+//    files from a tool repository are deleted, the tool repository will be removed.</span>';
   $form['actions']['submit'] = [
     '#type' => 'submit',
     '#value' => t('Delete XML'),
