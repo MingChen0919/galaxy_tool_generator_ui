@@ -151,7 +151,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     'remove_from_repository' => [
       '#type' => 'submit',
       '#value' => 'Remove from repository',
-      '#submit' => ['remove_one_xml_from_repository'],
+      '#submit' => ['remove_xml_from_repository'],
     ],
     'empty_repository' => [
       '#type' => 'submit',
@@ -164,7 +164,11 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   return $form;
 }
 
-
+/**
+ * @param $form
+ * @param $form_state
+ * submit callback to add xmls to build up repository
+ */
 function add_xml_to_repository($form, &$form_state) {
   // add selected XMLs to xmls_in_repository array.
   $xmls_in_repository = variable_get('xmls_in_repository', []);
@@ -175,10 +179,25 @@ function add_xml_to_repository($form, &$form_state) {
   variable_set('xmls_in_repository', $combined_xmls);
 }
 
-function remove_one_xml_from_repository($form, &$form_state) {
-
+/**
+ * @param $form
+ * @param $form_state
+ * submit callback to remove xmls from repository
+ */
+function remove_xml_from_repository($form, &$form_state) {
+  $xmls_in_repository = variable_get('xmls_in_repository', []);
+  $selected_xmls = array_filter($form_state['values']['selected_nodes']);
+  foreach ($selected_xmls as $xml) {
+    unset($xmls_in_repository[$xml]);
+  }
+  variable_set('xmls_in_repository', $xmls_in_repository);
 }
 
+/**
+ * @param $form
+ * @param $form_state
+ * submit callback to remove all selected xml from repository.
+ */
 function remove_all_xml_from_repository($form, &$form_state) {
   variable_set('xmls_in_repository', []);
 }
