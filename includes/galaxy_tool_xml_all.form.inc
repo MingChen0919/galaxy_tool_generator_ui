@@ -46,6 +46,8 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       ->execute()
       ->fetchAssoc();
     $uri = entity_uri('node', $node);
+    // it is important to use nid as the options keys, because we will need the nid
+    // to track which XMLs are selected when we build a repository.
     $options[$node->nid] = [
       'galaxy_tool_xml_name' => [
         'data' => [
@@ -106,9 +108,19 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     }
   }
 
+  $selected_xmls = variable_get('xmls_in_repository', []);
+  $selected_xmls_options = [];
+  foreach ($selected_xmls as $xml) {
+    $selected_xmls_options[$xml] = $options[$xml];
+  }
+
   // Only use a tableselect when the current user is able to perform any
   // operations.
-  $form['nodes'] = [
+  $form['all_xmls'] = [
+    '#type' => 'fieldset',
+    '#title' => t('All Tool XMLs'),
+  ];
+  $form['all_xmls']['xmls'] = [
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $options,
@@ -116,6 +128,57 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   ];
 
 
-  $form['pager'] = ['#markup' => theme('pager')];
+  $form['all_xmls']['pager'] = ['#markup' => theme('pager')];
+  $form['all_xmls']['actions'] = [
+    '#type' => 'action',
+    'add_to_repository' => [
+      '#type' => 'submit',
+      '#value' => 'Add to repository',
+      '#submit' => ['add_xml_to_repository'],
+    ],
+  ];
+
+  $form['repository'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Tool XMLs in repository'),
+  ];
+  $form['repository']['selected_nodes'] = [
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $selected_xmls_options,
+    '#empty' => t('No content available.'),
+  ];
+  $form['repository']['actions'] = [
+    '#type' => 'action',
+    'remove_from_repository' => [
+      '#type' => 'submit',
+      '#value' => 'Remove from repository',
+      '#submit' => ['remove_one_xml_from_repository'],
+    ],
+    'empty_repository' => [
+      '#type' => 'submit',
+      '#value' => 'Empty repository',
+      '#submit' => ['remove_all_xml_from_repository'],
+    ],
+  ];
+
+
   return $form;
+}
+
+
+function add_xml_to_repository($form, &$form_state) {
+  // add selected XMLs to xmls_in_repository array.
+  $xmls_in_repository = variable_get('xmls_in_repository', []);
+  $selected_xmls = array_filter($form_state['values']['xmls']);
+  $combined_xmls = array_unique(array_merge($xmls_in_repository, $selected_xmls));
+  variable_set('xmls_in_repository', $combined_xmls);
+}
+
+function remove_one_xml_from_repository($form, &$form_state) {
+
+}
+
+function remove_all_xml_from_repository($form, &$form_state) {
+  variable_set('xmls_in_repository', []);
 }
