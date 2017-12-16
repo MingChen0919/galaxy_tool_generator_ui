@@ -8,14 +8,9 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       'data' => t('Too Name'),
       'field' => 'n.galaxy_tool_xml_name',
     ],
-    'tool_synopsis' => ['data' => t('Synopsis'), 'field' => 'n.tool_synopsis'],
     'tool_description' => [
       'data' => t('Description'),
       'field' => 'n.tool_description',
-    ],
-    'tool_categories' => [
-      'data' => t('Categories'),
-      'field' => 'n.tool_categories',
     ],
     'author' => t('Author'),
     'changed' => [
@@ -31,8 +26,6 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   //  node_build_filter_query($query);
 
 
-  // restrict the query to galaxy_tool_xml node.
-  $query->condition('n.galaxy_tool_xml_node', 1);
   $nids = $query
     ->fields('n', ['nid'])
     ->limit(50)
@@ -43,7 +36,6 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $nodes = node_load_multiple($nids);
 
   // Prepare the list of nodes.
-  $languages = language_list();
   $destination = drupal_get_destination();
   $options = [];
 
@@ -64,9 +56,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
           '#suffix' => ' ' . theme('mark', ['type' => node_mark($node->nid, $node->changed)]),
         ],
       ],
-      'tool_synopsis' => $res['tool_synopsis'],
       'tool_description' => $res['tool_description'],
-      'tool_categories' => $res['tool_categories'],
       'author' => theme('username', ['account' => $node]),
       'changed' => format_date($node->changed, 'short'),
     ];

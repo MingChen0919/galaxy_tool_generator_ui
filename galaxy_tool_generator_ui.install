@@ -4,13 +4,13 @@
  * implements hook_install().
  */
 function galaxy_tool_generator_ui_install() {
-  $menu_link = [
-    'menu_name' => 'main-menu',
-    'link_title' => 'Sign In/Up',
-    'link_path' => 'user',
-    'weight' => -50,
-  ];
-  menu_link_save($menu_link);
+//  $menu_link = [
+//    'menu_name' => 'main-menu',
+//    'link_title' => 'Sign In/Up',
+//    'link_path' => 'user',
+//    'weight' => -50,
+//  ];
+//  menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'API Keys',
@@ -55,7 +55,7 @@ function galaxy_tool_generator_ui_install() {
     'access overlay',
   ];
   // Anonymous users
-  //user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $permissions);
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $permissions);
   // Authenticated users
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
@@ -94,35 +94,22 @@ function galaxy_tool_generator_ui_install() {
       'not null' => TRUE,
       'length' => 255,
     ],
-    'tool_synopsis' => [
-      'type' => 'varchar',
-      'default' => '',
-      'not null' => TRUE,
-      'length' => 255,
-    ],
     'tool_description' => [
       'type' => 'text',
       'default' => '',
       'not null' => TRUE,
     ],
-    'tool_categories' => [
+    'tool_xml_type' => [
       'type' => 'varchar',
       'default' => '',
-      'not null' => TRUE,
-    ],
-    'galaxy_tool_xml_node' => [
-      'type' => 'int',
-      'default' => 0,
       'not null' => TRUE,
     ],
   ];
   db_add_field('node', 'galaxy_tool_xml_name', $galaxy_tool_xml['galaxy_tool_xml_name']);
   db_add_field('node', 'tool_xml_fid', $galaxy_tool_xml['tool_xml_fid']);
   db_add_field('node', 'tool_xml_uri', $galaxy_tool_xml['tool_xml_uri']);
-  db_add_field('node', 'tool_synopsis', $galaxy_tool_xml['tool_synopsis']);
   db_add_field('node', 'tool_description', $galaxy_tool_xml['tool_description']);
-  db_add_field('node', 'tool_categories', $galaxy_tool_xml['tool_categories']);
-  db_add_field('node', 'galaxy_tool_xml_node', $galaxy_tool_xml['galaxy_tool_xml_node']);
+  db_add_field('node', 'tool_xml_type', $galaxy_tool_xml['tool_xml_type']);
 
   // create galaxy_tool_repositories directory for assembled tool repositories.
   $galaxy_tool_repositories = 'public://galaxy_tool_repositories/';
