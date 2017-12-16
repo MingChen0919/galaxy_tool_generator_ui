@@ -239,6 +239,11 @@ function galaxy_tool_generator_ui_form_node_delete_confirm_alter(&$form, &$form_
 function node_delete_confirm_delete_xml(&$form, &$form_state) {
 
   $nid = $form['#node']->nid;
+  // after a webform node is deleted, the variable xmls_in_repository needs to
+  // be updated.
+  $xmls_in_repository = variable_get('xmls_in_repository', []);
+  unset($xmls_in_repository[$nid]);
+  variable_set('xmls_in_repository', $xmls_in_repository);
   $res = db_select('node', 'n')
     ->fields('n')
     ->condition('nid', $nid)

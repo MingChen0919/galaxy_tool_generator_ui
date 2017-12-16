@@ -170,6 +170,8 @@ function add_xml_to_repository($form, &$form_state) {
   $xmls_in_repository = variable_get('xmls_in_repository', []);
   $selected_xmls = array_filter($form_state['values']['xmls']);
   $combined_xmls = array_unique(array_merge($xmls_in_repository, $selected_xmls));
+  // set array keys equal to array values
+  $combined_xmls = drupal_map_assoc(array_values($combined_xmls));
   variable_set('xmls_in_repository', $combined_xmls);
 }
 
