@@ -276,22 +276,25 @@ function create_galaxy_tool($form, &$form_state) {
 
   // use default R Markdown XML file
   // add default components to webform_component table if choose to start with tool template
-  foreach (get_tool_template_components() as $component) {
-    $component['nid'] = $form_state['values']['nid'];
-    db_insert('webform_component')
-      ->fields($component)
-      ->execute();
+  if ($form_state['values']['start_with_tool_template'] == 'R Markdown XML template') {
+    foreach (get_tool_template_components() as $component) {
+      $component['nid'] = $form_state['values']['nid'];
+      db_insert('webform_component')
+        ->fields($component)
+        ->execute();
+    }
   }
 
   // use uploaded XML file
   if ($form_state['values']['start_with_tool_template'] == 'Uploaded XML') {
     $fid = $form_state['values']['start_with_uploaded_xml'];
     $uri = file_load($fid)->uri;
+    // build components from uploaded xml file.
     $webform_components = convert_xml_to_webform_components($uri);
 
     foreach ($webform_components as $component) {
       $component['nid'] = $form_state['values']['nid'];
-      $res = db_insert('webform_component')
+      db_insert('webform_component')
         ->fields($component)
         ->execute();
     }
