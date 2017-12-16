@@ -12,7 +12,6 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       'data' => t('Description'),
       'field' => 'n.tool_description',
     ],
-    'author' => t('Author'),
     'changed' => [
       'data' => t('Updated'),
       'field' => 'n.changed',
@@ -59,7 +58,6 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
         ],
       ],
       'tool_description' => $res['tool_description'],
-      'author' => theme('username', ['account' => $node]),
       'changed' => format_date($node->changed, 'short'),
     ];
     // Build a list of all the accessible operations for the current node.
