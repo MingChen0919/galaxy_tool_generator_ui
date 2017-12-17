@@ -132,7 +132,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     '#type' => 'action',
     'add_to_repository' => [
       '#type' => 'submit',
-      '#value' => "Move to <i>Selected Tool XMLs</i> below",
+      '#value' => 'Move to Selected Tool XMLs below',
       '#submit' => ['add_xml_to_repository'],
     ],
   ];
@@ -168,6 +168,15 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   ];
 
 
+  exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
+  $output = preg_replace('/`/', '|', $output);
+  $form['tool_repository_structure'] = [
+    '#type' => 'fieldset',
+    '#title' => 'Tool Repository Structure',
+  ];
+  $form['tool_repository_structure']['content'] = [
+    '#markup' => implode('<br/>', $output),
+  ];
   return $form;
 }
 
