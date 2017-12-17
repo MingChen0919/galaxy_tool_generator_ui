@@ -74,29 +74,17 @@ function galaxy_tool_generator_ui_menu() {
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
     'weight' => 2,
   ];
-  $items['publish_to_test_tool_shed'] = [
-    'title' => 'Publish to Test Tool Shed',
-    'description' => t('A page for publishing tools to testtoolshed.'),
-    'page callback' => 'publish_to_test_tool_shed_page',
+  $items['publish_tool_repository'] = [
+    'title' => 'Publish tool repository',
+    'description' => t('A page for publishing tool repository.'),
+    'page callback' => 'publish_tool_repository_page',
     //    'access callback' => 'user_is_logged_in',
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
-    'file' => 'publish_to_test_tool_shed.form.inc',
+    'file' => 'publish_tool_repository.form.inc',
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
     'weight' => 3,
-  ];
-  $items['publish_to_tool_shed'] = [
-    'title' => 'Publish to Tool Shed',
-    'description' => t('A page for publishing tools to toolshed.'),
-    'page callback' => 'publish_to_tool_shed_page',
-    //    'access callback' => 'user_is_logged_in',
-    'access arguments' => ['access content'],
-    'menu_name' => 'main-menu',
-    'type' => MENU_NORMAL_ITEM,
-    'file' => 'publish_to_tool_shed.form.inc',
-    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-    'weight' => 5,
   ];
 
   return $items;
@@ -119,9 +107,9 @@ function api_keys_page() {
 /**
  * Page callback for publish_tool page.
  */
-function publish_to_test_tool_shed_page() {
+function publish_tool_repository_page() {
   // TODO: build a form to list all xml files and the galaxy tool directory it comes from
-  return drupal_get_form('publish_to_test_tool_shed_form');
+  return drupal_get_form('publish_tool_repository_form');
 }
 
 /**
