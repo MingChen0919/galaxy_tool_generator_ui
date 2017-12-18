@@ -137,7 +137,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     'add_to_repository' => [
       '#type' => 'submit',
       '#value' => 'Register XMLs',
-      '#submit' => ['add_xml_to_repository'],
+      '#submit' => ['register_xmls'],
     ],
   ];
 
@@ -158,12 +158,12 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     'remove_from_repository' => [
       '#type' => 'submit',
       '#value' => 'Unregister XMLs',
-      '#submit' => ['remove_xml_from_repository'],
+      '#submit' => ['unregister_xmls'],
     ],
     'empty_repository' => [
       '#type' => 'submit',
       '#value' => 'Unregister All XMLs',
-      '#submit' => ['remove_all_xml_from_repository'],
+      '#submit' => ['unregister_all_xmls'],
     ],
   ];
 
@@ -203,7 +203,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
  * @param $form_state
  * submit callback to add xmls to build up repository
  */
-function add_xml_to_repository($form, &$form_state) {
+function register_xmls($form, &$form_state) {
   // add selected XMLs to xmls_in_repository array.
   $xmls_in_repository = variable_get('xmls_in_repository', []);
   $registered_xmls = array_filter($form_state['values']['xmls']);
@@ -218,7 +218,7 @@ function add_xml_to_repository($form, &$form_state) {
  * @param $form_state
  * submit callback to remove xmls from repository
  */
-function remove_xml_from_repository($form, &$form_state) {
+function unregister_xmls($form, &$form_state) {
   $xmls_in_repository = variable_get('xmls_in_repository', []);
   $registered_xmls = array_filter($form_state['values']['registered_xmls']);
   foreach ($registered_xmls as $xml) {
@@ -232,7 +232,7 @@ function remove_xml_from_repository($form, &$form_state) {
  * @param $form_state
  * submit callback to remove all selected xml from repository.
  */
-function remove_all_xml_from_repository($form, &$form_state) {
+function unregister_all_xmls($form, &$form_state) {
   variable_set('xmls_in_repository', []);
 }
 
