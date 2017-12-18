@@ -106,7 +106,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     }
   }
 
-  $registered_xmls = variable_get('xmls_in_repository', []);
+  $registered_xmls = variable_get('registered_xml_nids', []);
   $registered_xmls_options = [];
   foreach ($registered_xmls as $xml) {
     $registered_xmls_options[$xml] = $options[$xml];
@@ -186,16 +186,6 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       '#value' => 'Build repository',
       '#submit' => ['build_galaxy_tool_repository'],
     ],
-    'remove_unregistered_xmls' => [
-      '#type' => 'submit',
-      '#value' => 'Remove all XMLs',
-      '#submit' => ['build_galaxy_tool_repository'],
-    ],
-    'empty_repository' => [
-      '#type' => 'submit',
-      '#value' => 'Empty repository',
-      '#submit' => ['build_galaxy_tool_repository'],
-    ],
   ];
   $form['tool_repository_structure']['content'] = [
     '#markup' => '<hr/>' . implode('<br/>', $output),
@@ -212,13 +202,13 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
  * submit callback to add xmls to build up repository
  */
 function register_xmls($form, &$form_state) {
-  // add selected XMLs to xmls_in_repository array.
-  $xmls_in_repository = variable_get('xmls_in_repository', []);
+  // add selected XMLs to registered_xml_nids array.
+  $registered_xml_nids = variable_get('registered_xml_nids', []);
   $registered_xmls = array_filter($form_state['values']['unregistered_xmls']);
-  $combined_xmls = array_unique(array_merge($xmls_in_repository, $registered_xmls));
+  $combined_xmls = array_unique(array_merge($registered_xml_nids, $registered_xmls));
   // set array keys equal to array values
   $combined_xmls = drupal_map_assoc(array_values($combined_xmls));
-  variable_set('xmls_in_repository', $combined_xmls);
+  variable_set('registered_xml_nids', $combined_xmls);
 }
 
 /**
@@ -227,7 +217,7 @@ function register_xmls($form, &$form_state) {
  * submit callback to register all XMLs
  */
 function register_all_xmls($form, &$form_state) {
-  variable_set('xmls_in_repository', array_keys($form_state['storage']['all_xmls']));
+  variable_set('registered_xml_nids', array_keys($form_state['storage']['all_xmls']));
 }
 
 /**
@@ -236,12 +226,12 @@ function register_all_xmls($form, &$form_state) {
  * submit callback to unregister selected xmls
  */
 function unregister_xmls($form, &$form_state) {
-  $xmls_in_repository = variable_get('xmls_in_repository', []);
+  $registered_xml_nids = variable_get('registered_xml_nids', []);
   $registered_xmls = array_filter($form_state['values']['registered_xmls']);
   foreach ($registered_xmls as $xml) {
-    unset($xmls_in_repository[$xml]);
+    unset($registered_xml_nids[$xml]);
   }
-  variable_set('xmls_in_repository', $xmls_in_repository);
+  variable_set('registered_xml_nids', $registered_xml_nids);
 }
 
 /**
@@ -250,19 +240,53 @@ function unregister_xmls($form, &$form_state) {
  * submit callback to remove all selected xml from repository.
  */
 function unregister_all_xmls($form, &$form_state) {
-  variable_set('xmls_in_repository', []);
+  variable_set('registered_xml_nids', []);
 }
 
 
 function build_galaxy_tool_repository($form, &$form_state) {
+  // copy selected XML files into 'public://galaxy_tool_repository/'.
+  $nids = array_keys($form_state['values']['registered_xmls']);
+  copy_registered_xmls_to_repository($nids);
+}
+
+/**
+ * @param $nids array an array of nids of galaxy webform nodes.
+ * copy registered XMLs to tool repository directory.
+ */
+function copy_registered_xmls_to_repository ($nids) {
   // prepare the galaxy tool repository directory. Copy XML files into this directory,
   // and add any other files into this directory. When all files are ready, this directory
   // will be used as a galaxy tool repository and published to test tool shed or tool shed.
   $galaxy_tool_repository = 'public://galaxy_tool_repository/';
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
 
-  // copy selected XML files into 'public://galaxy_tool_repository/'.
-  $nids = array_keys($form_state['values']['registered_xmls']);
+  foreach ($nids as $nid) {
+    $node = db_select('node', 'n')
+      ->fields('n')
+      ->condition('nid', $nid)
+      ->execute()
+      ->fetchAssoc();
+    $fid = $node['tool_xml_fid'];
+//    $file = file_load($fid);
+    // there is no need to invoke a database record when copying files to the galaxy_tool_repository directory.
+    $file = file_copy(file_load($fid), $galaxy_tool_repository, FILE_EXISTS_REPLACE);
+    // TODO: save fids of copied files into a variable.
+    dpm($file);
+  }
+}
+
+/**
+ * @param $nids array an array of nids of galaxy webform nodes.
+ * remove XMLs from tool repository directory.
+ */
+function remove_xmls_from_repository ($nids) {
+  // prepare the galaxy tool repository directory. Copy XML files into this directory,
+  // and add any other files into this directory. When all files are ready, this directory
+  // will be used as a galaxy tool repository and published to test tool shed or tool shed.
+  $galaxy_tool_repository = 'public://galaxy_tool_repository/';
+  file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
+
   foreach ($nids as $nid) {
     $node = db_select('node', 'n')
       ->fields('n')
@@ -272,6 +296,7 @@ function build_galaxy_tool_repository($form, &$form_state) {
     $fid = $node['tool_xml_fid'];
     $file = file_load($fid);
     // there is no need to invoke a database record when copying files to the galaxy_tool_repository directory.
-    file_unmanaged_copy($file->uri, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
+    $file = file_copy($file->uri, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
+    dpm($file);
   }
 }
