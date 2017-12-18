@@ -106,24 +106,27 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     }
   }
 
-  $selected_xmls = variable_get('xmls_in_repository', []);
-  $selected_xmls_options = [];
-  foreach ($selected_xmls as $xml) {
-    $selected_xmls_options[$xml] = $options[$xml];
+  $registered_xmls = variable_get('xmls_in_repository', []);
+  $registered_xmls_options = [];
+  foreach ($registered_xmls as $xml) {
+    $registered_xmls_options[$xml] = $options[$xml];
   }
 
+  $unregistered_xmls_options = array_diff_key($options, $registered_xmls_options);
   // Only use a tableselect when the current user is able to perform any
   // operations.
   $form['all_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('All Tool XMLs'),
-    '#description' => t('All tool XMLs that are available for building a tool repository.'),
+    '#description' => t('All tool XMLs that are available for building a tool repository.
+      Click the <span style="color: #19B5FE">Register XMLs</span> button to add XMLs to
+      the <span style="color: #19B5FE">Registered XMLs</span> table below.'),
     '#collapsible' => TRUE,
   ];
   $form['all_xmls']['xmls'] = [
     '#type' => 'tableselect',
     '#header' => $header,
-    '#options' => $options,
+    '#options' => $unregistered_xmls_options,
     '#empty' => t('No content available.'),
   ];
 
@@ -133,39 +136,34 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     '#type' => 'action',
     'add_to_repository' => [
       '#type' => 'submit',
-      '#value' => 'Move to Selected Tool XMLs below',
+      '#value' => 'Register XMLs',
       '#submit' => ['add_xml_to_repository'],
     ],
   ];
 
-  $form['selected_xmls'] = [
+  $form['registered_xmls'] = [
     '#type' => 'fieldset',
-    '#title' => t('Selected Tool XMLs'),
+    '#title' => t('Registered XMLs'),
     '#description' => t('These are the tool XMLs that will be used to build a tool repository'),
     '#collapsible' => TRUE,
   ];
-  $form['selected_xmls']['selected_xmls'] = [
+  $form['registered_xmls']['registered_xmls'] = [
     '#type' => 'tableselect',
     '#header' => $header,
-    '#options' => $selected_xmls_options,
+    '#options' => $registered_xmls_options,
     '#empty' => t('No content available.'),
   ];
-  $form['selected_xmls']['actions'] = [
+  $form['registered_xmls']['actions'] = [
     '#type' => 'action',
     'remove_from_repository' => [
       '#type' => 'submit',
-      '#value' => 'Remove XMLs',
+      '#value' => 'Unregister XMLs',
       '#submit' => ['remove_xml_from_repository'],
     ],
     'empty_repository' => [
       '#type' => 'submit',
-      '#value' => 'Remove All XMLs',
+      '#value' => 'Unregister All XMLs',
       '#submit' => ['remove_all_xml_from_repository'],
-    ],
-    'build_repository' => [
-      '#type' => 'submit',
-      '#value' => 'Build repository',
-      '#submit' => ['build_galaxy_tool_repository'],
     ],
   ];
 
@@ -178,6 +176,11 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     '#collapsible' => TRUE,
   ];
   $form['tool_repository_structure']['actions'] = [
+    'build_repository' => [
+      '#type' => 'submit',
+      '#value' => 'Build repository',
+      '#submit' => ['build_galaxy_tool_repository'],
+    ],
     'remove_all_xmls' => [
       '#type' => 'submit',
       '#value' => 'Remove all XMLs',
@@ -203,8 +206,8 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
 function add_xml_to_repository($form, &$form_state) {
   // add selected XMLs to xmls_in_repository array.
   $xmls_in_repository = variable_get('xmls_in_repository', []);
-  $selected_xmls = array_filter($form_state['values']['xmls']);
-  $combined_xmls = array_unique(array_merge($xmls_in_repository, $selected_xmls));
+  $registered_xmls = array_filter($form_state['values']['xmls']);
+  $combined_xmls = array_unique(array_merge($xmls_in_repository, $registered_xmls));
   // set array keys equal to array values
   $combined_xmls = drupal_map_assoc(array_values($combined_xmls));
   variable_set('xmls_in_repository', $combined_xmls);
@@ -217,8 +220,8 @@ function add_xml_to_repository($form, &$form_state) {
  */
 function remove_xml_from_repository($form, &$form_state) {
   $xmls_in_repository = variable_get('xmls_in_repository', []);
-  $selected_xmls = array_filter($form_state['values']['selected_xmls']);
-  foreach ($selected_xmls as $xml) {
+  $registered_xmls = array_filter($form_state['values']['registered_xmls']);
+  foreach ($registered_xmls as $xml) {
     unset($xmls_in_repository[$xml]);
   }
   variable_set('xmls_in_repository', $xmls_in_repository);
@@ -242,7 +245,7 @@ function build_galaxy_tool_repository($form, &$form_state) {
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
 
   // copy selected XML files into 'public://galaxy_tool_repository/'.
-  $nids = array_keys($form_state['values']['selected_xmls']);
+  $nids = array_keys($form_state['values']['registered_xmls']);
   foreach ($nids as $nid) {
     $node = db_select('node', 'n')
       ->fields('n')
