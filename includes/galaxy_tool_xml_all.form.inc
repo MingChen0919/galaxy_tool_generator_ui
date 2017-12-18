@@ -115,15 +115,15 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $unregistered_xmls_options = array_diff_key($options, $registered_xmls_options);
   // Only use a tableselect when the current user is able to perform any
   // operations.
-  $form['all_xmls'] = [
+  $form['unregistered_xmls'] = [
     '#type' => 'fieldset',
-    '#title' => t('All Tool XMLs'),
+    '#title' => t('Unregistered XMLs'),
     '#description' => t('All tool XMLs that are available for building a tool repository.
       Click the <span style="color: #19B5FE">Register XMLs</span> button to add XMLs to
       the <span style="color: #19B5FE">Registered XMLs</span> table below.'),
     '#collapsible' => TRUE,
   ];
-  $form['all_xmls']['xmls'] = [
+  $form['unregistered_xmls']['xmls'] = [
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $unregistered_xmls_options,
@@ -131,8 +131,8 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   ];
 
 
-  $form['all_xmls']['pager'] = ['#markup' => theme('pager')];
-  $form['all_xmls']['actions'] = [
+  $form['unregistered_xmls']['pager'] = ['#markup' => theme('pager')];
+  $form['unregistered_xmls']['actions'] = [
     '#type' => 'action',
     'add_to_repository' => [
       '#type' => 'submit',
@@ -181,7 +181,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       '#value' => 'Build repository',
       '#submit' => ['build_galaxy_tool_repository'],
     ],
-    'remove_all_xmls' => [
+    'remove_unregistered_xmls' => [
       '#type' => 'submit',
       '#value' => 'Remove all XMLs',
       '#submit' => ['build_galaxy_tool_repository'],
