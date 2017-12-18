@@ -112,9 +112,8 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     $registered_xmls_options[$xml] = $options[$xml];
   }
 
+  // table to display all unregistered XMLs
   $unregistered_xmls_options = array_diff_key($options, $registered_xmls_options);
-  // Only use a tableselect when the current user is able to perform any
-  // operations.
   $form['unregistered_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('Unregistered XMLs'),
@@ -123,24 +122,29 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       the <span style="color: #19B5FE">Registered XMLs</span> table below.'),
     '#collapsible' => TRUE,
   ];
-  $form['unregistered_xmls']['xmls'] = [
+  $form['unregistered_xmls']['unregistered_xmls'] = [
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $unregistered_xmls_options,
     '#empty' => t('No content available.'),
   ];
-
-
   $form['unregistered_xmls']['pager'] = ['#markup' => theme('pager')];
-  $form['unregistered_xmls']['actions'] = [
+  $form['unregistered_xmls']['unregister_actions'] = [
     '#type' => 'action',
-    'add_to_repository' => [
+    'register_xmls' => [
       '#type' => 'submit',
       '#value' => 'Register XMLs',
       '#submit' => ['register_xmls'],
     ],
+    'register_all_xmls' => [
+      '#type' => 'submit',
+      '#value' => 'Register All XMLs',
+      '#submit' => ['register_all_xmls'],
+    ],
   ];
 
+
+  // table to display all registered XMLs
   $form['registered_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('Registered XMLs'),
@@ -153,7 +157,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     '#options' => $registered_xmls_options,
     '#empty' => t('No content available.'),
   ];
-  $form['registered_xmls']['actions'] = [
+  $form['registered_xmls']['register_actions'] = [
     '#type' => 'action',
     'remove_from_repository' => [
       '#type' => 'submit',
@@ -168,6 +172,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   ];
 
 
+  // markup to display structure of tool repository directory
   exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
   $output = preg_replace('/`/', '|', $output);
   $form['tool_repository_structure'] = [
@@ -195,6 +200,9 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['tool_repository_structure']['content'] = [
     '#markup' => '<hr/>' . implode('<br/>', $output),
   ];
+
+  // store all xmls options
+  $form_state['storage']['all_xmls'] = $options;
   return $form;
 }
 
@@ -206,7 +214,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
 function register_xmls($form, &$form_state) {
   // add selected XMLs to xmls_in_repository array.
   $xmls_in_repository = variable_get('xmls_in_repository', []);
-  $registered_xmls = array_filter($form_state['values']['xmls']);
+  $registered_xmls = array_filter($form_state['values']['unregistered_xmls']);
   $combined_xmls = array_unique(array_merge($xmls_in_repository, $registered_xmls));
   // set array keys equal to array values
   $combined_xmls = drupal_map_assoc(array_values($combined_xmls));
@@ -216,7 +224,16 @@ function register_xmls($form, &$form_state) {
 /**
  * @param $form
  * @param $form_state
- * submit callback to remove xmls from repository
+ * submit callback to register all XMLs
+ */
+function register_all_xmls($form, &$form_state) {
+  variable_set('xmls_in_repository', array_keys($form_state['storage']['all_xmls']));
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ * submit callback to unregister selected xmls
  */
 function unregister_xmls($form, &$form_state) {
   $xmls_in_repository = variable_get('xmls_in_repository', []);
