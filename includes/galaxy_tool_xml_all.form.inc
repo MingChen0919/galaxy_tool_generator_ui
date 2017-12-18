@@ -117,7 +117,8 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['all_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('All Tool XMLs'),
-    '#description' => t('All tool XMLs that are available for building a tool repository.')
+    '#description' => t('All tool XMLs that are available for building a tool repository.'),
+    '#collapsible' => TRUE,
   ];
   $form['all_xmls']['xmls'] = [
     '#type' => 'tableselect',
@@ -140,7 +141,8 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['selected_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('Selected Tool XMLs'),
-    '#description' => t('These are the tool XMLs that will be used to build a tool repository')
+    '#description' => t('These are the tool XMLs that will be used to build a tool repository'),
+    '#collapsible' => TRUE,
   ];
   $form['selected_xmls']['selected_xmls'] = [
     '#type' => 'tableselect',
@@ -164,7 +166,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       '#type' => 'submit',
       '#value' => 'Build repository',
       '#submit' => ['build_galaxy_tool_repository'],
-    ]
+    ],
   ];
 
 
@@ -173,9 +175,22 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['tool_repository_structure'] = [
     '#type' => 'fieldset',
     '#title' => 'Tool Repository Structure',
+    '#collapsible' => TRUE,
+  ];
+  $form['tool_repository_structure']['actions'] = [
+    'remove_all_xmls' => [
+      '#type' => 'submit',
+      '#value' => 'Remove all XMLs',
+      '#submit' => ['build_galaxy_tool_repository'],
+    ],
+    'empty_repository' => [
+      '#type' => 'submit',
+      '#value' => 'Empty repository',
+      '#submit' => ['build_galaxy_tool_repository'],
+    ],
   ];
   $form['tool_repository_structure']['content'] = [
-    '#markup' => implode('<br/>', $output),
+    '#markup' => '<hr/>' . implode('<br/>', $output),
   ];
   return $form;
 }
