@@ -253,6 +253,8 @@ function build_galaxy_tool_repository($form, &$form_state) {
 /**
  * @param $nids array an array of nids of galaxy webform nodes.
  * copy registered XMLs to tool repository directory.
+ * Every time we click the build repository button, the previously copied files
+ * get removed. And we update the variable copied_xml_fids to store the new copied file fids.
  */
 function copy_registered_xmls_to_repository ($nids) {
   // prepare the galaxy tool repository directory. Copy XML files into this directory,
@@ -261,6 +263,15 @@ function copy_registered_xmls_to_repository ($nids) {
   $galaxy_tool_repository = 'public://galaxy_tool_repository/';
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
 
+  // delete previously copied XMLs
+  foreach (variable_get('copied_xml_fids', []) as $copied_xml_fid) {
+    file_delete(file_load($copied_xml_fid), TRUE);
+  }
+
+
+  // we need to record which files are copied to the tool repository. Every time
+  // we click the build repository button, the previously copied files get removed.
+  $copied_xml_fids = [];
   foreach ($nids as $nid) {
     $node = db_select('node', 'n')
       ->fields('n')
@@ -268,35 +279,10 @@ function copy_registered_xmls_to_repository ($nids) {
       ->execute()
       ->fetchAssoc();
     $fid = $node['tool_xml_fid'];
-//    $file = file_load($fid);
-    // there is no need to invoke a database record when copying files to the galaxy_tool_repository directory.
     $file = file_copy(file_load($fid), $galaxy_tool_repository, FILE_EXISTS_REPLACE);
     // TODO: save fids of copied files into a variable.
-    dpm($file);
+    $copied_xml_fids[] = $file->fid;
   }
-}
-
-/**
- * @param $nids array an array of nids of galaxy webform nodes.
- * remove XMLs from tool repository directory.
- */
-function remove_xmls_from_repository ($nids) {
-  // prepare the galaxy tool repository directory. Copy XML files into this directory,
-  // and add any other files into this directory. When all files are ready, this directory
-  // will be used as a galaxy tool repository and published to test tool shed or tool shed.
-  $galaxy_tool_repository = 'public://galaxy_tool_repository/';
-  file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
-
-  foreach ($nids as $nid) {
-    $node = db_select('node', 'n')
-      ->fields('n')
-      ->condition('nid', $nid)
-      ->execute()
-      ->fetchAssoc();
-    $fid = $node['tool_xml_fid'];
-    $file = file_load($fid);
-    // there is no need to invoke a database record when copying files to the galaxy_tool_repository directory.
-    $file = file_copy($file->uri, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
-    dpm($file);
-  }
+  // update variable copied_xml_fids
+  variable_set('copied_xml_fids', $copied_xml_fids);
 }
