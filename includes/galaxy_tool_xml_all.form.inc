@@ -117,9 +117,9 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['unregistered_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('Unregistered XMLs'),
-    '#description' => t('All tool XMLs that are available for building a tool repository.
-      Click the <span style="color: #19B5FE">Register XMLs</span> button to add XMLs to
-      the <span style="color: #19B5FE">Registered XMLs</span> table below.'),
+    '#description' => t('<span style="color: #42D9C8">Unregistered XMLs</span> can 
+        be added to the <span style="color: #19B5FE">Registered XMLs</span> table below
+        to build an galaxy tool Repository.'),
     '#collapsible' => TRUE,
   ];
   $form['unregistered_xmls']['unregistered_xmls'] = [
@@ -148,7 +148,10 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['registered_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('Registered XMLs'),
-    '#description' => t('These are the tool XMLs that will be used to build a tool repository'),
+    '#description' => t('<span style="color: #19B5FE">Registered XMLs</span> are XMLs that 
+        will be included into a Galaxy tool repository. Every time the 
+        <span style="color: #19B5FE">registered XMLs</span> are updated, 
+        the <b>Build Repository</b> button needs to be clicked to include the updates.'),
     '#collapsible' => TRUE,
   ];
   $form['registered_xmls']['registered_xmls'] = [
@@ -169,6 +172,11 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       '#value' => 'Unregister All XMLs',
       '#submit' => ['unregister_all_xmls'],
     ],
+    'build_repository' => [
+      '#type' => 'submit',
+      '#value' => 'Build Repository',
+      '#submit' => ['build_galaxy_tool_repository'],
+    ],
   ];
 
 
@@ -180,16 +188,13 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     '#title' => 'Tool Repository Structure',
     '#collapsible' => TRUE,
   ];
-  $form['tool_repository_structure']['actions'] = [
-    'build_repository' => [
-      '#type' => 'submit',
-      '#value' => 'Build repository',
-      '#submit' => ['build_galaxy_tool_repository'],
-    ],
-  ];
+  $output[0] = 'Repository Directory: galaxy_tool_repository';
+  $repository_content_markup = implode('<br/>', $output);
   $form['tool_repository_structure']['content'] = [
-    '#markup' => '<hr/>' . implode('<br/>', $output),
+    '#markup' => $repository_content_markup,
   ];
+  // save the markup to a variable
+
 
   // store all xmls options
   $form_state['storage']['all_xmls'] = $options;
@@ -285,4 +290,6 @@ function copy_registered_xmls_to_repository ($nids) {
   }
   // update variable copied_xml_fids
   variable_set('copied_xml_fids', $copied_xml_fids);
+
+
 }
