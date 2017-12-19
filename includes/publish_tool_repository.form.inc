@@ -19,37 +19,56 @@ function publish_tool_repository_form($form, &$form_state) {
     Please go to the ' . l('API Keys page', 'api_keys') . ' to add this information.', 'warning');
   }
 
+  // repository content
+  // markup to display structure of tool repository directory
+  exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
+  $output = preg_replace('/`/', '|', $output);
+  $form['repository_structure'] = [
+    '#type' => 'fieldset',
+    '#title' => 'Tool Repository Structure',
+    '#collapsible' => TRUE,
+  ];
+  $output[0] = 'Repository Directory: galaxy_tool_repository';
+  $repository_content_markup = implode('<br/>', $output);
+  $form['repository_structure']['content'] = [
+    '#markup' => $repository_content_markup,
+  ];
+
   // prepare tool repository
-  $form['name'] = [
+  $form['repository'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Repository metadata'),
+  ];
+  $form['repository']['name'] = [
     '#type' => 'textfield',
     '#title' => 'Name',
     '#required' => TRUE,
     '#description' => t('Tool repository name.'),
   ];
-  $form['owner'] = [
+  $form['repository']['owner'] = [
     '#type' => 'value',
     '#value' => variable_get('testtoolshed_username'),
   ];
-  $form['description'] = [
+  $form['repository']['description'] = [
     '#type' => 'textfield',
     '#title' => t('Synopsis'),
     '#description' => t('A short description for the tool.'),
     '#required' => TRUE,
   ];
-  $form['long_description'] = [
+  $form['repository']['long_description'] = [
     '#type' => 'textarea',
     '#title' => t('Detailed description'),
     '#description' => t('A longer README type description of the package, as tool 
       dependencies do no currently support README files.'),
   ];
-  $form['remote_repository_url'] = [
+  $form['repository']['remote_repository_url'] = [
     '#type' => 'textfield',
     '#title' => t('Remote repository URL'),
     '#description' => t('This should be the path to the folder in your github repository, 
       on the branch you create releases from (usually master). This will eventually 
       be used with the toolshed for update hooks.'),
   ];
-  $form['type'] = [
+  $form['repository']['type'] = [
     '#type' => 'select',
     '#title' => t('The repository type'),
     '#options' => drupal_map_assoc([
@@ -59,20 +78,20 @@ function publish_tool_repository_form($form, &$form_state) {
     ]),
     '#default_value' => 'unrestricted',
   ];
-  $form['categories'] = [
+  $form['repository']['categories'] = [
     '#type' => 'textarea',
     '#title' => t('Categories'),
     '#description' => t('The category that this tool should belong to. Multiple
       categories can be separated by comma, space or newline.'),
   ];
-  $form['message'] = [
+  $form['repository']['message'] = [
     '#type' => 'textfield',
     '#title' => t('Message'),
     '#description' => t('Commit message for tool shed upload.'),
     '#required' => TRUE,
   ];
 
-  $form['actions'] = [
+  $form['repository']['actions'] = [
     '#type' => 'action',
     'test_tool_shed' => [
       '#type' => 'submit',
