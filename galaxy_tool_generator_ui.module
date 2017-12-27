@@ -25,6 +25,15 @@ function galaxy_tool_generator_ui_init() {
   }
 }
 
+/**
+ * Implements hook_process_HOOK().
+ */
+function galaxy_tool_generator_ui_process_page(&$variables) {
+  $variables['breadcrumb'] = NULL;
+  $variables['logo'] = NULL;
+  $variables['site_slogan'] = 'Make Galaxy tool development easier!';
+  $variables['front_page'] = '/node/add/webform';
+}
 
 /**
  * Implements hook_libraries_info().
