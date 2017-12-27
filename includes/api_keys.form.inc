@@ -103,7 +103,7 @@ function api_keys_form_submit($form, &$form_state) {
       drupal_set_message('Test Tool Shed API has been updated.');
       break;
     case 'Tool Shed':
-      variable_set('toolshed_api', $form_state['values']['tool_shed_username']);
+      variable_set('toolshed_username', $form_state['values']['tool_shed_username']);
       variable_set('toolshed_api', $form_state['values']['tool_shed_api_key']);
       drupal_set_message('Tool Shed API has been updated.');
       break;
