@@ -277,7 +277,7 @@ function get_tool_template_components() {
         'galaxy_tool_xml_tag' => 'param',
         'attributes' =>
           [
-            'type' => 'integer',
+            'type' => 'boolean',
             'name' => 'echo',
             'label' => 'Display analysis code in report?',
             'optional' => 'False',
