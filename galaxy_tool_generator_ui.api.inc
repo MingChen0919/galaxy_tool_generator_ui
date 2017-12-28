@@ -238,7 +238,7 @@ function get_tool_template_components() {
                         -r $report
                         -d $report.files_path
                         -s $sink_message
-                        -t \'${__tool_directory__}/tool_template.Rmd
+                        -t \'${__tool_directory__}/tool_template.Rmd\'
                     ',
         ],
         'private' => 0,
