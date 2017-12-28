@@ -83,6 +83,7 @@ function publish_tool_repository_form($form, &$form_state) {
     '#title' => t('Categories'),
     '#description' => t('The category that this tool should belong to. Multiple
       categories can be separated by comma, space or newline.'),
+    '#required' => TRUE,
   ];
   $form['repository']['message'] = [
     '#type' => 'textfield',
