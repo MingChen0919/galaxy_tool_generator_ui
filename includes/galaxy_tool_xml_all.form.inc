@@ -110,6 +110,9 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $registered_xmls_options = [];
   foreach ($registered_xmls as $xml) {
     $registered_xmls_options[$xml] = $options[$xml];
+    if ($registered_xmls_options[$xml]['operations']['data']['#links']['delete']) {
+      unset($registered_xmls_options[$xml]['operations']['data']['#links']['delete']);
+    }
   }
 
   // table to display all unregistered XMLs
