@@ -172,10 +172,10 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     '#weight' => -5,
   ];
   $form['tool_description'] = [
-    '#type' => 'textarea',
+    '#type' => 'textfield',
     '#title' => t('Tool description'),
     '#description' => t('Detailed information about this tool'),
-    '#required' => TRUE,
+//    '#required' => TRUE,
   ];
   $form['start_with_tool_template'] = [
     '#type' => 'radios',
