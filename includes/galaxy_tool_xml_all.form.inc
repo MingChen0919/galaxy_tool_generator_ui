@@ -234,7 +234,7 @@ function register_all_xmls($form, &$form_state) {
  * submit callback to unregister selected xmls
  */
 function unregister_xmls($form, &$form_state) {
-  $registered_xml_nids = variable_get('registered_xml_nids', []);
+  $registered_xml_nids = drupal_map_assoc(variable_get('registered_xml_nids', []));
   $registered_xmls = array_filter($form_state['values']['registered_xmls']);
   foreach ($registered_xmls as $xml) {
     unset($registered_xml_nids[$xml]);
