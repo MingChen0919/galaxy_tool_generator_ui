@@ -5,7 +5,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   // Build the sortable table header.
   $header = [
     'galaxy_tool_xml_name' => [
-      'data' => t('Too Name'),
+      'data' => t('Tool Name'),
       'field' => 'n.galaxy_tool_xml_name',
     ],
     'tool_description' => [
@@ -120,8 +120,8 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['unregistered_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('Unregistered XMLs'),
-    '#description' => t('<span style="color: #42D9C8">Unregistered XMLs</span> can 
-        be added to the <span style="color: #19B5FE">Registered XMLs</span> table below
+    '#description' => t('<b>Unregistered XMLs</b> can 
+        be added to the <b">Registered XMLs</b> table below
         to build an galaxy tool Repository.'),
     '#collapsible' => TRUE,
   ];
@@ -151,9 +151,9 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['registered_xmls'] = [
     '#type' => 'fieldset',
     '#title' => t('Registered XMLs'),
-    '#description' => t('<span style="color: #19B5FE">Registered XMLs</span> are XMLs that 
+    '#description' => t('<b>Registered XMLs</b> are XMLs that 
         will be included into a Galaxy tool repository. Every time the 
-        <span style="color: #19B5FE">registered XMLs</span> are updated, 
+        <b>registered XMLs</b> are updated, 
         the <b>Build Repository</b> button needs to be clicked to include the updates.'),
     '#collapsible' => TRUE,
   ];
@@ -198,6 +198,41 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   ];
   // save the markup to a variable
 
+
+  // form interface to delete XML files in public://galaxy_tool_repository
+  $all_files = scandir('public://galaxy_tool_repository/');
+  $all_xml_files = [];
+  foreach ($all_files as $file) {
+    if (preg_match('/\.xml$/', $file)) {
+      $all_xml_files[$file] = [
+        'galaxy_tool_xml_name' => $file,
+      ];
+    }
+  }
+  $remove_xmls_table_header = [
+    'galaxy_tool_xml_name' => [
+      'data' => t('Tool Name'),
+    ],
+  ];
+  $form['remove_xmls'] = [
+    '#type' => 'fieldset',
+    '#title' => 'Remove XMLs',
+    '#description' => t('You can remove <b>XML files</b> from the Galaxy tool repository.'),
+    '#collapsible' => TRUE,
+  ];
+  $form['remove_xmls']['remove_xmls'] = [
+    '#type' => 'tableselect',
+    '#header' => $remove_xmls_table_header,
+    '#options' => $all_xml_files,
+    '#empty' => t('No content available.'),
+  ];
+  $form['remove_xmls']['remove_xmls_actions'] = [
+    'remove_xmls' => [
+      '#type' => 'submit',
+      '#value' => 'Remove XMLs',
+      '#submit' => ['remove_xmls_from_galaxy_tool_repository'],
+    ],
+  ];
 
   // store all xmls options
   $form_state['storage']['all_xmls'] = $options;
@@ -252,34 +287,21 @@ function unregister_all_xmls($form, &$form_state) {
 }
 
 
-function build_galaxy_tool_repository($form, &$form_state) {
-  // copy selected XML files into 'public://galaxy_tool_repository/'.
-  $nids = array_keys($form_state['values']['registered_xmls']);
-  copy_registered_xmls_to_repository($nids);
-}
-
 /**
- * @param $nids array an array of nids of galaxy webform nodes.
- * copy registered XMLs to tool repository directory.
- * Every time we click the build repository button, the previously copied files
- * get removed. And we update the variable copied_xml_fids to store the new copied file fids.
+ * @param $form
+ * @param $form_state
+ * Copy registered XML files to public://galaxy_tool_repository.
  */
-function copy_registered_xmls_to_repository ($nids) {
+function build_galaxy_tool_repository($form, &$form_state) {
   // prepare the galaxy tool repository directory. Copy XML files into this directory,
   // and add any other files into this directory. When all files are ready, this directory
   // will be used as a galaxy tool repository and published to test tool shed or tool shed.
   $galaxy_tool_repository = 'public://galaxy_tool_repository/';
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
 
-  // delete previously copied XMLs
-  foreach (variable_get('copied_xml_fids', []) as $copied_xml_fid) {
-    file_delete(file_load($copied_xml_fid), TRUE);
-  }
 
-
-  // we need to record which files are copied to the tool repository. Every time
-  // we click the build repository button, the previously copied files get removed.
-  $copied_xml_fids = [];
+  // copy selected XML files into 'public://galaxy_tool_repository/'.
+  $nids = array_keys($form_state['values']['registered_xmls']);
   foreach ($nids as $nid) {
     $node = db_select('node', 'n')
       ->fields('n')
@@ -287,12 +309,19 @@ function copy_registered_xmls_to_repository ($nids) {
       ->execute()
       ->fetchAssoc();
     $fid = $node['tool_xml_fid'];
-    $file = file_copy(file_load($fid), $galaxy_tool_repository, FILE_EXISTS_REPLACE);
-    // TODO: save fids of copied files into a variable.
-    $copied_xml_fids[] = $file->fid;
+    file_unmanaged_copy(file_load($fid)->uri, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
   }
-  // update variable copied_xml_fids
-  variable_set('copied_xml_fids', $copied_xml_fids);
+}
 
 
+/**
+ * @param $form
+ * @param $form_state
+ * Remove XML files from public://galaxy_tool_repository
+ */
+function remove_xmls_from_galaxy_tool_repository($form, &$form_state) {
+  $delete_xml = array_filter($form_state['values']['remove_xmls']);
+  foreach ($delete_xml as $xml) {
+    file_unmanaged_delete('public://galaxy_tool_repository/' . $xml);
+  }
 }
