@@ -8,3 +8,5 @@ dependencies[] = webform
 dependencies[] = galaxy_tool_generator
 dependencies[] = xml_field
 dependencies[] = libraries
+dependencies[] = jquery_update
+

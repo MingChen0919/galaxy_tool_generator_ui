@@ -236,6 +236,9 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
 
   // store all xmls options
   $form_state['storage']['all_xmls'] = $options;
+
+  drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/build_repository_confirm.js');
+
   return $form;
 }
 
