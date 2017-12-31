@@ -253,8 +253,8 @@ function mirror_tool_repository_form($form, &$form_state) {
     ],
   ];
 
-  //  drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/mirror_gtg_to_galaxy_confirm.js');
-  //  drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/mirror_galaxy_to_gtg_confirm.js');
+  drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/mirror_gtg_to_galaxy_confirm.js');
+  drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/mirror_galaxy_to_gtg_confirm.js');
 
   return $form;
 }
