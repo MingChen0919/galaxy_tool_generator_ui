@@ -40,6 +40,7 @@ function publish_tool_repository_form($form, &$form_state) {
   $form['repository'] = [
     '#type' => 'fieldset',
     '#title' => t('Repository metadata'),
+    '#collapsible' => TRUE,
   ];
   $form['repository']['name'] = [
     '#type' => 'textfield',
@@ -211,4 +212,44 @@ function publish_tool_repository($tool_directory, $shed_key, $shed_owner, $shed,
   else {
     drupal_set_message($update_repo_output, 'warning');
   }
+}
+
+
+
+function mirror_tool_repository_form($form, &$form_state) {
+  // mirror tool repository
+  $form['mirror_tool_repository'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Mirror Tool Repository'),
+    '#collapsible' => TRUE,
+    '#description' => t('Allows mapping the GTG tool repository to a Galaxy tool repository and vice versa.'),
+  ];
+  $form['mirror_tool_repository']['mirror_tool_repository'] = [
+    '#type' => 'textfield',
+    '#title' => t('Tool Repository name'),
+    '#description' => t('The name of a install tool repository in a running Galaxy instance'),
+    '#required' => TRUE,
+  ];
+  $form['mirror_tool_repository']['mirror_actions'] = [
+    'from_gtg_to_galaxy' => [
+      '#type' => 'submit',
+      '#value' => 'From GTG to Galaxy',
+      '#submit' => ['mirror_from_gtg_to_galaxy'],
+    ],
+    'from_galaxy_to_gtg' => [
+      '#type' => 'submit',
+      '#value' => 'From Galaxy to GTG',
+      '#submit' => ['mirror_from_galaxy_to_gtg'],
+    ],
+  ];
+
+  return $form;
+}
+
+function mirror_from_gtg_to_galaxy() {
+  dpm(glob('rmarkdown_deseq2_count_matrix'));
+}
+
+function mirror_from_galaxy_to_gtg() {
+  dpm(glob('rmarkdown_deseq2_count_matrix'));
 }

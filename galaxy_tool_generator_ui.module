@@ -31,7 +31,7 @@ function galaxy_tool_generator_ui_init() {
 function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['breadcrumb'] = NULL;
   $variables['logo'] = NULL;
-  $variables['site_slogan'] = 'Make Galaxy tool development easier!';
+  $variables['site_slogan'] = 'Making Galaxy tool development easier!';
   $variables['front_page'] = '/node/add/webform';
 }
 
@@ -118,7 +118,11 @@ function api_keys_page() {
  */
 function publish_tool_repository_page() {
   // TODO: build a form to list all xml files and the galaxy tool directory it comes from
-  return drupal_get_form('publish_tool_repository_form');
+  $forms = [
+    'form_1' => drupal_get_form('mirror_tool_repository_form'),
+    'form_2' => drupal_get_form('publish_tool_repository_form'),
+  ];
+  return $forms;
 }
 
 /**
