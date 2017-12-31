@@ -253,6 +253,8 @@ function mirror_tool_repository_form($form, &$form_state) {
     ],
   ];
 
+  //  drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/mirror_gtg_to_galaxy_confirm.js');
+  //  drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/mirror_galaxy_to_gtg_confirm.js');
 
   return $form;
 }
@@ -266,9 +268,11 @@ function mirror_from_gtg_to_galaxy($form, &$form_state) {
 
   $command = 'find . -name ' . $form_state['values']['mirror_tool_repository'];
   exec($command, $shed_tool_repository_paths, $shed_tool_return_var);
-  $shed_tool_repository = str_replace('./sites/default/files/', 'public://', $shed_tool_repository_paths[1]);
 
-  if (file_exists($shed_tool_repository)) {
+
+  if (isset($shed_tool_repository_paths[1]) && file_exists($shed_tool_repository_paths[1])) {
+    $shed_tool_repository = str_replace('./sites/default/files/', 'public://', $shed_tool_repository_paths[1]);
+
     // remove shed_tool_repository
     $command_rm = 'rm -rf ' . $shed_tool_repository_paths[1] . '/*';
     exec($command_rm, $rm_output, $rm_return_var);
@@ -279,6 +283,12 @@ function mirror_from_gtg_to_galaxy($form, &$form_state) {
     $message = 'The Galaxy tool repository <b>' . $shed_tool_repository . '</b> has been
                replaced with the GTG tool repository.';
     drupal_set_message($message);
+  }
+  else {
+    drupal_set_message('Tool repository <b>' .
+      $form_state['values']['mirror_tool_repository'] .
+      '</b> does not exist!<br/>' .
+      'Please make sure you have a running Galaxy instance and the tool repository has been installed.', 'error');
   }
 
   $form_state['rebuild'] = TRUE;
@@ -292,9 +302,10 @@ function mirror_from_gtg_to_galaxy($form, &$form_state) {
 function mirror_from_galaxy_to_gtg($form, &$form_state) {
   $command = 'find . -name ' . $form_state['values']['mirror_tool_repository'];
   exec($command, $shed_tool_repository_paths, $shed_tool_return_var);
-  $shed_tool_repository = str_replace('./sites/default/files/', 'public://', $shed_tool_repository_paths[1]);
 
-  if (file_exists($shed_tool_repository)) {
+  if (isset($shed_tool_repository_paths[1]) && file_exists($shed_tool_repository_paths[1])) {
+    $shed_tool_repository = str_replace('./sites/default/files/', 'public://', $shed_tool_repository_paths[1]);
+
     // remove gtg_tool_repository
     $command_rm = 'rm -rf ./sites/default/files/galaxy_tool_repository/*';
     exec($command_rm, $rm_output, $rm_return_var);
@@ -304,6 +315,12 @@ function mirror_from_galaxy_to_gtg($form, &$form_state) {
     exec($command_cp, $cp_output, $cp_return_var);
     $message = 'The GTG tool repository  has been replaced with the shed tool repository <b>' . $shed_tool_repository . '</b>';
     drupal_set_message($message);
+  }
+  else {
+    drupal_set_message('Tool repository <b>' .
+      $form_state['values']['mirror_tool_repository'] .
+      '</b> does not exist!<br/>' .
+      'Please make sure you have a running Galaxy instance and the tool repository has been installed.', 'error');
   }
 
   $form_state['rebuild'] = TRUE;
