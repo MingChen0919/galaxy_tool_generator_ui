@@ -8,15 +8,17 @@ function publish_tool_repository_form($form, &$form_state) {
   $testtoolshed_username = variable_get('testtoolshed_username', '');
   $testtoolshed_api = variable_get('testtoolshed_api', '');
   if ($testtoolshed_username == '' or $testtoolshed_api == '') {
-    drupal_set_message('It seems you have not provided API keys associated with your test tool shed account. 
-    Please go to the ' . l('API Keys page', 'api_keys') . ' to add this information.', 'warning');
+    drupal_set_message('To publish the repository to <b>Test Tool Shed</b>, 
+    the API key for your <b>Test Tool Shed</b> account is required. 
+    Please go to the ' . l('API Keys page', 'api_keys') . ' to add the API key.', 'warning');
   }
 
   $toolshed_username = variable_get('toolshed_username', '');
   $toolshed_api = variable_get('toolshed_api', '');
   if ($toolshed_username == '' or $toolshed_api == '') {
-    drupal_set_message('It seems you have not provided API keys associated with your tool shed account. 
-    Please go to the ' . l('API Keys page', 'api_keys') . ' to add this information.', 'warning');
+    drupal_set_message('To publish the repository to <b>Tool Shed</b>,
+    the API key for your <b>Tool Shed</b> account is required. 
+    Please go to the ' . l('API Keys page', 'api_keys') . ' to add the API key.', 'warning');
   }
 
   // repository content
