@@ -11,18 +11,18 @@ require 'GalaxyToolshed/GTRepositories.php';
  * Implements hook_init().
  */
 function galaxy_tool_generator_ui_init() {
-//  $library = libraries_detect('blend4php');
-//  if (!$library) {
-//    drupal_set_message(t('The blend4php library is not installed. Please <code>git clone</code>
-//        the module from ' . l('here', 'https://github.com/galaxyproject/blend4php.git') .
-//      ' and place it into the <span style="color: #FF5666">sites/all/libraries/</span> directory.'), 'warning');
-//  }
-//
-//  // Try to load the blend4php library.
-//  $library = libraries_load('blend4php');
-//  if (empty($library['loaded'])) {
-//    drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
-//  }
+  //  $library = libraries_detect('blend4php');
+  //  if (!$library) {
+  //    drupal_set_message(t('The blend4php library is not installed. Please <code>git clone</code>
+  //        the module from ' . l('here', 'https://github.com/galaxyproject/blend4php.git') .
+  //      ' and place it into the <span style="color: #FF5666">sites/all/libraries/</span> directory.'), 'warning');
+  //  }
+  //
+  //  // Try to load the blend4php library.
+  //  $library = libraries_load('blend4php');
+  //  if (empty($library['loaded'])) {
+  //    drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
+  //  }
 }
 
 /**
@@ -175,7 +175,7 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     '#type' => 'textfield',
     '#title' => t('Tool description'),
     '#description' => t('Detailed information about this tool'),
-//    '#required' => TRUE,
+    //    '#required' => TRUE,
   ];
   $form['start_with_tool_template'] = [
     '#type' => 'radios',
@@ -248,7 +248,9 @@ function node_delete_confirm_delete_xml(&$form, &$form_state) {
     ->fetchAssoc();
   // delete xml file
   $xml_file = file_load($res['tool_xml_fid']);
-  file_delete($xml_file);
+  if ($xml_file) {
+    file_delete($xml_file);
+  }
 }
 
 
