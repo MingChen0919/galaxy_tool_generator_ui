@@ -2,23 +2,23 @@
 
 /**
  *
-function get_tool_repositories() {
-  // create galaxy_tools directory if it doesn't exist.
-  $galaxy_tools_directory = 'public://galaxy_tools/';
-  file_prepare_directory($galaxy_tools_directory, FILE_CREATE_DIRECTORY);
-  // get all galaxy tools names by scanning the galaxy_tools directory.
-  $directories_in_galaxy_tools = scandir($galaxy_tools_directory);
-  // remove '.' an '..' directories.
-  $all_galaxy_tools = [];
-  foreach ($directories_in_galaxy_tools as $directory) {
-    if (!in_array($directory, ['.', '..'])) {
-      $all_galaxy_tools[] = $directory;
-    }
-  }
-  // convert $all_galaxy_tools to a non-associative array.
-  $all_galaxy_tools = array_values($all_galaxy_tools);
-  return $all_galaxy_tools;
-}
+ * function get_tool_repositories() {
+ * // create galaxy_tools directory if it doesn't exist.
+ * $galaxy_tools_directory = 'public://galaxy_tools/';
+ * file_prepare_directory($galaxy_tools_directory, FILE_CREATE_DIRECTORY);
+ * // get all galaxy tools names by scanning the galaxy_tools directory.
+ * $directories_in_galaxy_tools = scandir($galaxy_tools_directory);
+ * // remove '.' an '..' directories.
+ * $all_galaxy_tools = [];
+ * foreach ($directories_in_galaxy_tools as $directory) {
+ * if (!in_array($directory, ['.', '..'])) {
+ * $all_galaxy_tools[] = $directory;
+ * }
+ * }
+ * // convert $all_galaxy_tools to a non-associative array.
+ * $all_galaxy_tools = array_values($all_galaxy_tools);
+ * return $all_galaxy_tools;
+ * }
  */
 
 /**
@@ -487,6 +487,11 @@ function convert_xml_to_webform_components($xml_file_path) {
             $attributes[$attr->name] = $attr->value;
           }
         };
+
+        // tool->inputs->param is special webform component, we need to add the type to complete the path.
+        if ($node_path == 'tool_inputs_param') {
+          $node_path = $node_path . '_type_' . $attributes['type'];
+        }
 
         // check if the current node has value. We can't use DOMNode->nodeValue
         // since it will return all values from its child nodes.
