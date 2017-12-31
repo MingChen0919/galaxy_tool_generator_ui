@@ -116,6 +116,7 @@ function publish_tool_repository_form($form, &$form_state) {
  * submit callback to publish repository to test tool shed.
  */
 function publish_to_test_tool_shed($form, &$form_state) {
+  drupal_set_message('Publish to <b>Test Tool Shed</b>');
   // create .shed.yml file for planemo to publish tool to toolshed.
   $shed_yml_path = 'public://galaxy_tool_repository/.shed.yml';
   $shed_yml = [];
@@ -147,6 +148,7 @@ function publish_to_test_tool_shed($form, &$form_state) {
  * submit callback to publish repository to tool shed.
  */
 function publish_to_tool_shed($form, &$form_state) {
+  drupal_set_message('Publish to <b>Tool Shed</b>');
   // create .shed.yml file for planemo to publish tool to toolshed.
   $shed_yml_path = 'public://galaxy_tool_repository/.shed.yml';
   $shed_yml = [];
