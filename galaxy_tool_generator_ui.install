@@ -4,20 +4,20 @@
  * implements hook_install().
  */
 function galaxy_tool_generator_ui_install() {
-//  $menu_link = [
-//    'menu_name' => 'main-menu',
-//    'link_title' => 'Sign In/Up',
-//    'link_path' => 'user',
-//    'weight' => -50,
-//  ];
-//  menu_link_save($menu_link);
-  $gtg_flowchart_menu = [
+  //  $menu_link = [
+  //    'menu_name' => 'main-menu',
+  //    'link_title' => 'Sign In/Up',
+  //    'link_path' => 'user',
+  //    'weight' => -50,
+  //  ];
+  //  menu_link_save($menu_link);
+  $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'GTG Flowchart',
     'link_path' => 'gtg_flowchart',
-    'weight' => -50,
+//    'weight' => -100,
   ];
-  menu_link_save($gtg_flowchart_menu);
+  menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'API Keys',
@@ -105,11 +105,23 @@ function galaxy_tool_generator_ui_install() {
       'not null' => TRUE,
     ],
   ];
-  db_add_field('node', 'galaxy_tool_xml_name', $galaxy_tool_xml['galaxy_tool_xml_name']);
-  db_add_field('node', 'tool_xml_fid', $galaxy_tool_xml['tool_xml_fid']);
-  db_add_field('node', 'tool_xml_uri', $galaxy_tool_xml['tool_xml_uri']);
-  db_add_field('node', 'tool_description', $galaxy_tool_xml['tool_description']);
-  db_add_field('node', 'tool_xml_type', $galaxy_tool_xml['tool_xml_type']);
+
+  if (!db_field_exists('node', 'galaxy_tool_xml_name')) {
+    db_add_field('node', 'galaxy_tool_xml_name', $galaxy_tool_xml['galaxy_tool_xml_name']);
+  }
+  if (!db_field_exists('node', 'tool_xml_fid')) {
+    db_add_field('node', 'tool_xml_fid', $galaxy_tool_xml['tool_xml_fid']);
+  }
+  if (!db_field_exists('node', 'tool_xml_uri')) {
+    db_add_field('node', 'tool_xml_uri', $galaxy_tool_xml['tool_xml_uri']);
+  }
+  if (!db_field_exists('node', 'tool_description')) {
+    db_add_field('node', 'tool_description', $galaxy_tool_xml['tool_description']);
+  }
+  if (!db_field_exists('node', 'tool_xml_type')) {
+    db_add_field('node', 'tool_xml_type', $galaxy_tool_xml['tool_xml_type']);
+  }
+
 
 }
 
