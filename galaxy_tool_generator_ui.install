@@ -15,7 +15,7 @@ function galaxy_tool_generator_ui_install() {
     'menu_name' => 'main-menu',
     'link_title' => 'GTG Flowchart',
     'link_path' => 'gtg_flowchart',
-//    'weight' => -100,
+    'weight' => -100,
   ];
   menu_link_save($menu_link);
   $menu_link = [
