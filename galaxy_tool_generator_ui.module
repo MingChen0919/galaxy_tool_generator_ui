@@ -66,11 +66,18 @@ function galaxy_tool_generator_ui_libraries_info() {
  * Implements hook_menu().
  */
 function galaxy_tool_generator_ui_menu() {
+  $items['gtg_flowchart'] = [
+    'title' => ['GTG Flowchart'],
+    'description' => t('A page to display GTG flowchart'),
+    'page callback' => 'gtg_flowchart_page',
+    'access arguments' => ['access content'],
+    'type' => 'MENU_NORMAL_ITEM',
+    'weight' => 1,
+  ];
   $items['api_keys'] = [
     'title' => 'API Keys',
     'description' => t('A page to collect API keys for tool development and testing'),
     'page callback' => 'api_keys_page',
-    //    'access callback' => 'user_is_logged_in',
     'access arguments' => ['access content'],
     'menu_name' => 'main-menu',
     'type' => MENU_NORMAL_ITEM,
@@ -105,6 +112,16 @@ function galaxy_tool_generator_ui_menu() {
   return $items;
 }
 
+
+function gtg_flowchart_page() {
+  $page_builder = [
+    'gtg_flowchart' => [
+      '#markup' => '<img src="images/gtg-flowchart.png" alt="GTG flowchart">',
+    ],
+  ];
+
+  return $page_builder;
+}
 /**
  * Page callback for all_tool_repositories page.
  */

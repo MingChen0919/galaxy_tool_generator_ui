@@ -11,6 +11,13 @@ function galaxy_tool_generator_ui_install() {
 //    'weight' => -50,
 //  ];
 //  menu_link_save($menu_link);
+  $gtg_flowchart_menu = [
+    'menu_name' => 'main-menu',
+    'link_title' => 'GTG Flowchart',
+    'link_path' => 'gtg_flowchart',
+    'weight' => -50,
+  ];
+  menu_link_save($gtg_flowchart_menu);
   $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'API Keys',
