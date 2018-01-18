@@ -4,22 +4,6 @@
  * Form handler for publishing galaxy tools.
  */
 function publish_tool_repository_form($form, &$form_state) {
-  // first, check if API key and username for test tool shed exists
-  $testtoolshed_username = variable_get('testtoolshed_username', '');
-  $testtoolshed_api = variable_get('testtoolshed_api', '');
-  if ($testtoolshed_username == '' or $testtoolshed_api == '') {
-    drupal_set_message('To publish the repository to <b>Test Tool Shed</b>, 
-    the API key for your <b>Test Tool Shed</b> account is required. 
-    Please go to the ' . l('API Keys page', 'api_keys') . ' to add the API key.', 'warning');
-  }
-
-  $toolshed_username = variable_get('toolshed_username', '');
-  $toolshed_api = variable_get('toolshed_api', '');
-  if ($toolshed_username == '' or $toolshed_api == '') {
-    drupal_set_message('To publish the repository to <b>Tool Shed</b>,
-    the API key for your <b>Tool Shed</b> account is required. 
-    Please go to the ' . l('API Keys page', 'api_keys') . ' to add the API key.', 'warning');
-  }
 
   // repository content
   // markup to display structure of tool repository directory
@@ -35,6 +19,24 @@ function publish_tool_repository_form($form, &$form_state) {
   $form['repository_structure']['content'] = [
     '#markup' => $repository_content_markup,
   ];
+
+  // first, check if API key and username for test tool shed account exists
+  $testtoolshed_username = variable_get('testtoolshed_username', '');
+  $testtoolshed_api = variable_get('testtoolshed_api', '');
+  if ($testtoolshed_username == '' or $testtoolshed_api == '') {
+    drupal_set_message('Please go to the ' . l('API Keys page', 'api_keys') .
+      ' to add the API key for your <b>Galaxy Test Tool Shed account<b/>.', 'warning');
+    return $form;
+  }
+
+  // check if API key and username for tool shed account exists
+  $toolshed_username = variable_get('toolshed_username', '');
+  $toolshed_api = variable_get('toolshed_api', '');
+  if ($toolshed_username == '' or $toolshed_api == '') {
+    drupal_set_message('Please go to the ' . l('API Keys page', 'api_keys') .
+      ' to add the API key for your <b>Galaxy Tool Shed account<b/>.', 'warning');
+    return $form;
+  }
 
   // prepare tool repository
   $form['repository'] = [
@@ -237,7 +239,7 @@ function mirror_tool_repository_form($form, &$form_state) {
   $form['mirror_tool_repository']['mirror_tool_repository'] = [
     '#type' => 'textfield',
     '#title' => t('Tool Repository name'),
-    '#description' => t('The name of a install tool repository in a running Galaxy instance'),
+    '#description' => t('The name of an installed tool repository in a running Galaxy instance'),
     '#required' => TRUE,
   ];
   $form['mirror_tool_repository']['mirror_actions'] = [
