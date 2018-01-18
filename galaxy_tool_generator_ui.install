@@ -15,35 +15,35 @@ function galaxy_tool_generator_ui_install() {
     'menu_name' => 'main-menu',
     'link_title' => 'GTG Flowchart',
     'link_path' => 'gtg_flowchart',
-    'weight' => -100,
+    'weight' => 0,
   ];
   menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'API Keys',
     'link_path' => 'api_keys',
-    'weight' => -49,
+    'weight' => 1,
   ];
   menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'Create Tool XML',
     'link_path' => 'node/add/webform',
-    'weight' => -48,
+    'weight' => -2,
   ];
   menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'Build Tool Repository',
     'link_path' => 'build_tool_repository',
-    'weight' => -47,
+    'weight' => -3,
   ];
   menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
     'link_title' => 'Publish Tool Repository',
     'link_path' => 'publish_tool_repository',
-    'weight' => -56,
+    'weight' => -4,
   ];
   menu_link_save($menu_link);
 
