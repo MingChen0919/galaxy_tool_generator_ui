@@ -149,6 +149,7 @@ function galaxy_tool_generator_ui_menu_alter(&$items) {
   unset($items['node/%webform_menu/webform/emails']);
   unset($items['node/%webform_menu/webform/configure']);
   $items['node/%webform_menu/webform']['title'] = 'XML components';
+  $items['node/%node/view']['title'] = 'View/Update XML';
 
 
   foreach (array_keys($items) as $menu_link) {
