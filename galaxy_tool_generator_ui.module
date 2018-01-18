@@ -67,11 +67,11 @@ function galaxy_tool_generator_ui_libraries_info() {
  */
 function galaxy_tool_generator_ui_menu() {
   $items['gtg_flowchart'] = [
-    'title' => ['GTG Flowchart'],
+    'title' => 'GTG Flowchart',
     'description' => t('A page to display GTG flowchart'),
     'page callback' => 'gtg_flowchart_page',
     'access arguments' => ['access content'],
-    'type' => 'MENU_NORMAL_ITEM',
+    'type' => MENU_NORMAL_ITEM,
     'weight' => 1,
   ];
   $items['api_keys'] = [
@@ -116,7 +116,7 @@ function galaxy_tool_generator_ui_menu() {
 function gtg_flowchart_page() {
   $page_builder = [
     'gtg_flowchart' => [
-      '#markup' => '<img src="images/gtg-flowchart.png" alt="GTG flowchart">',
+      '#markup' => '<img src="public://gtg-flowchart.png" alt="GTG flowchart" />',
     ],
   ];
 
