@@ -33,7 +33,7 @@ function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['logo'] = NULL;
   $variables['site_name'] = 'Voyager';
   $variables['site_slogan'] = 'Making Galaxy tool development easier!';
-  $variables['front_page'] = '/node/add/webform';
+  $variables['front_page'] = '/gtg_flowchart';
 
   // change page title
   if (current_path() == 'node/add/webform') {
@@ -73,7 +73,7 @@ function galaxy_tool_generator_ui_menu() {
       'access arguments' => ['access content'],
       'menu_name' => 'main-menu',
       'type' => MENU_NORMAL_ITEM,
-      'weight' => 0,
+      'weight' => -1,
     ];
   $items['api_keys'] = [
     'title' => 'API Keys',
@@ -119,7 +119,7 @@ function gtg_flowchart_page() {
     'gtg_flowchart' => [
       '#markup' => '<img src="https://github.com/MingChen0919/galaxy_tool_generator_ui/raw/master/images/gtg-flowchart.png" 
                          alt="GTG flowchart" 
-                         width="100%"/>',
+                         width="80%"/>',
     ],
   ];
 
