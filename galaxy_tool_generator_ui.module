@@ -116,7 +116,9 @@ function galaxy_tool_generator_ui_menu() {
 function gtg_flowchart_page() {
   $page_builder = [
     'gtg_flowchart' => [
-      '#markup' => '<img src="public://gtg-flowchart.png" alt="GTG flowchart" />',
+      '#markup' => '<img src="https://github.com/MingChen0919/galaxy_tool_generator_ui/raw/master/images/gtg-flowchart.png" 
+                         alt="GTG flowchart" 
+                         width="100%"/>',
     ],
   ];
 
