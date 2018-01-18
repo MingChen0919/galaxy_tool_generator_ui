@@ -31,8 +31,14 @@ function galaxy_tool_generator_ui_init() {
 function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['breadcrumb'] = NULL;
   $variables['logo'] = NULL;
+  $variables['site_name'] = 'Voyager';
   $variables['site_slogan'] = 'Making Galaxy tool development easier!';
   $variables['front_page'] = '/node/add/webform';
+
+  // change page title
+  if (current_path() == 'node/add/webform') {
+    $variables['title'] = 'Create Tool XML';
+  }
 }
 
 /**
@@ -150,6 +156,7 @@ function galaxy_tool_generator_ui_menu_alter(&$items) {
   unset($items['node/%webform_menu/webform/configure']);
   $items['node/%webform_menu/webform']['title'] = 'XML components';
   $items['node/%node/view']['title'] = 'View XML';
+  $items['node/add/webform']['title'] = 'Tool XML';
 
 
   foreach (array_keys($items) as $menu_link) {
@@ -162,6 +169,18 @@ function galaxy_tool_generator_ui_menu_alter(&$items) {
   // hide webform node edit page
   $items['node/%node/edit']['access callback'] = FALSE;
 }
+
+
+/**
+ * @param $paths
+ * implements hook_admin_paths_alter
+ * disable admin overlay for creat webform page.
+ */
+function galaxy_tool_generator_ui_admin_paths_alter(&$paths) {
+  //return FALSE to the path where you don't want to show in OVERLAY
+  $paths['node/add/webform'] = FALSE;
+}
+
 
 /**
  * Implements hook_form_FORM_ID_alter().
