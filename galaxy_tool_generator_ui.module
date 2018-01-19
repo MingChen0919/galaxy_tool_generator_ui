@@ -73,7 +73,7 @@ function galaxy_tool_generator_ui_menu() {
       'access arguments' => ['access content'],
       'menu_name' => 'main-menu',
       'type' => MENU_NORMAL_ITEM,
-      'weight' => -1,
+      'weight' => 1,
     ];
   $items['api_keys'] = [
     'title' => 'API Keys',
@@ -84,7 +84,7 @@ function galaxy_tool_generator_ui_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'api_keys.form.inc',
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-    'weight' => 0,
+    'weight' => 3,
   ];
   $items['build_tool_repository'] = [
     'title' => 'Build Tool Repository',
@@ -95,7 +95,7 @@ function galaxy_tool_generator_ui_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'galaxy_tool_xml_all.form.inc',
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-    'weight' => 2,
+    'weight' => 4,
   ];
   $items['publish_tool_repository'] = [
     'title' => 'Publish tool repository',
@@ -107,7 +107,7 @@ function galaxy_tool_generator_ui_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'publish_tool_repository.form.inc',
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
-    'weight' => 3,
+    'weight' => 5,
   ];
 
   return $items;
