@@ -34,7 +34,7 @@ function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['logo'] = drupal_get_path('module', 'galaxy_tool_generator_ui'). '/images/gtg-logo-87_93.png';
   $variables['site_name'] = 'Galaxy Tool Generator';
   $variables['site_slogan'] = 'Making Galaxy tool development easier!';
-  $variables['front_page'] = drupal_get_path('module', 'galaxy_tool_generator_ui'). '/images/gtg-flowchart.png';
+  $variables['front_page'] = '/gtg_flowchart';
 
   // change page title
   if (current_path() == 'node/add/webform') {
