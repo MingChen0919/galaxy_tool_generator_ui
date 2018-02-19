@@ -394,6 +394,7 @@ function get_tool_template_components() {
       'extra' => serialize([
         'galaxy_tool_xml_tag' => 'citation',
         'attributes' => [
+          'type' => 'bibtex',
           //  keep the space at the first line.
           'XML_VALUE' => '
                     @article{allaire2016rmarkdown,
