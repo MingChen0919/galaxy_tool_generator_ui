@@ -147,8 +147,9 @@ function api_keys_page() {
 function publish_tool_repository_page() {
   // TODO: build a form to list all xml files and the galaxy tool directory it comes from
   $forms = [
-    'form_1' => drupal_get_form('mirror_tool_repository_form'),
-    'form_2' => drupal_get_form('publish_tool_repository_form'),
+    'form_1' => drupal_get_form('publish_tool_repository_form'),
+    'form_2' => drupal_get_form('mirror_tool_repository_form'),
+
   ];
   return $forms;
 }

@@ -21,24 +21,6 @@ function publish_tool_repository_form($form, &$form_state)
         '#markup' => $repository_content_markup,
     ];
 
-    // first, check if API key and username for test tool shed account exists
-    $testtoolshed_username = variable_get('testtoolshed_username', '');
-    $testtoolshed_api = variable_get('testtoolshed_api', '');
-    if ($testtoolshed_username == '' or $testtoolshed_api == '') {
-        drupal_set_message('Please go to the ' . l('API Keys page', 'api_keys') .
-            ' to add the API key for your <b>Galaxy Test Tool Shed account<b/>.', 'warning');
-        return $form;
-    }
-
-    // check if API key and username for tool shed account exists
-    $toolshed_username = variable_get('toolshed_username', '');
-    $toolshed_api = variable_get('toolshed_api', '');
-    if ($toolshed_username == '' or $toolshed_api == '') {
-        drupal_set_message('Please go to the ' . l('API Keys page', 'api_keys') .
-            ' to add the API key for your <b>Galaxy Tool Shed account<b/>.', 'warning');
-        return $form;
-    }
-
     // prepare tool repository
     $form['repository'] = [
         '#type' => 'fieldset',
@@ -111,6 +93,27 @@ function publish_tool_repository_form($form, &$form_state)
             '#submit' => ['publish_to_tool_shed'],
         ],
     ];
+
+
+  // submit button is not available if tool shed api is not entered.
+  // first, check if API key and username for test tool shed account exists
+  $testtoolshed_username = variable_get('testtoolshed_username', '');
+  $testtoolshed_api = variable_get('testtoolshed_api', '');
+  if ($testtoolshed_username == '' or $testtoolshed_api == '') {
+    drupal_set_message('Please go to the ' . l('API Keys page', 'api_keys') .
+      ' to add the API key for your <b>Galaxy Test Tool Shed account</b>.', 'warning');
+    unset($form['repository']['actions']['test_tool_shed']);
+  }
+
+  // check if API key and username for tool shed account exists
+  $toolshed_username = variable_get('toolshed_username', '');
+  $toolshed_api = variable_get('toolshed_api', '');
+  if ($toolshed_username == '' or $toolshed_api == '') {
+    drupal_set_message('Please go to the ' . l('API Keys page', 'api_keys') .
+      ' to add the API key for your <b>Galaxy Tool Shed account</b>.', 'warning');
+    unset($form['repository']['actions']['tool_shed']);
+  }
+
     return $form;
 }
 
