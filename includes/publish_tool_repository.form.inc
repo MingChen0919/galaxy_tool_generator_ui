@@ -66,7 +66,6 @@ function publish_tool_repository_form($form, &$form_state)
         ]),
         '#default_value' => 'unrestricted',
     ];
-    $category_options = get_toolshed_tool_categories();
     $form['repository']['categories'] = [
         '#type' => 'checkboxes',
         '#title' => t('Categories'),
