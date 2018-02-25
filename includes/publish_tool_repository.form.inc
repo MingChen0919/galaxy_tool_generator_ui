@@ -66,6 +66,7 @@ function publish_tool_repository_form($form, &$form_state)
         ]),
         '#default_value' => 'unrestricted',
     ];
+    $category_options = get_toolshed_tool_categories();
     $form['repository']['categories'] = [
         '#type' => 'checkboxes',
         '#title' => t('Categories'),
@@ -73,6 +74,7 @@ function publish_tool_repository_form($form, &$form_state)
         '#options' => get_toolshed_tool_categories(),
         '#required' => TRUE,
     ];
+
     $form['repository']['message'] = [
         '#type' => 'textfield',
         '#title' => t('Message'),
@@ -134,7 +136,7 @@ function publish_to_test_tool_shed($form, &$form_state)
     $shed_yml['long_description'] = $form_state['values']['long_description'];
     $shed_yml['remote_repository_url'] = $form_state['values']['remote_repository_url'];
     $shed_yml['type'] = $form_state['values']['type'];
-    $shed_yml['categories'] = $form_state['values']['categories'];
+    $shed_yml['categories'] = array_filter($form_state['values']['categories']);
 
     $shed_yml_string = yaml_emit($shed_yml);
     file_unmanaged_save_data($shed_yml_string, $shed_yml_path, FILE_EXISTS_REPLACE);
@@ -144,7 +146,7 @@ function publish_to_test_tool_shed($form, &$form_state)
     $shed_owner = variable_get('testtoolshed_username', '');
     $shed = 'testtoolshed';
     $message = $form_state['values']['message'];
-    publish_tool_repository($tool_directory, $shed_key, $shed_owner, $shed, $message);
+//    publish_tool_repository($tool_directory, $shed_key, $shed_owner, $shed, $message);
 
     $form_state['rebuild'] = TRUE;
 }
