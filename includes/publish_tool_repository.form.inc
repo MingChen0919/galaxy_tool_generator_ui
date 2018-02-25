@@ -145,7 +145,7 @@ function publish_to_test_tool_shed($form, &$form_state)
     $shed_owner = variable_get('testtoolshed_username', '');
     $shed = 'testtoolshed';
     $message = $form_state['values']['message'];
-//    publish_tool_repository($tool_directory, $shed_key, $shed_owner, $shed, $message);
+    publish_tool_repository($tool_directory, $shed_key, $shed_owner, $shed, $message);
 
     $form_state['rebuild'] = TRUE;
 }
