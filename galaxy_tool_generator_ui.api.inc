@@ -404,7 +404,7 @@ function get_tool_template_components() {
                         journal={R package version 0.9},
                         volume={6},
                         year={2016}
-                    ',
+                    }',
         ],
         'private' => 0,
       ]),
