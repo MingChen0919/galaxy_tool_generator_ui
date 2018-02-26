@@ -529,13 +529,12 @@ function convert_xml_to_webform_components($xml_file_path) {
 /**
  * @param $webform_node a webform node.
  */
-function get_tool_command_string_from_sh(&$webform_node) {
+function get_tool_command_string_from_sh($webform_node) {
   $tool_command_sh = 'public://galaxy_tool_repository/tool_command.sh';
   if (!file_exists($tool_command_sh)) {
     return;
   }
   $tool_command_string = file_get_contents($tool_command_sh);
-  dpm($tool_command_string);
   foreach ($webform_node->webform['components'] as $key=>$value) {
     if ($value['type'] == 'tool_command') {
       $webform_node->webform['components'][$key]['extra']['attributes']['XML_VALUE'] = $tool_command_string;
