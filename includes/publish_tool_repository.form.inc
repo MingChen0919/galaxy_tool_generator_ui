@@ -66,14 +66,15 @@ function publish_tool_repository_form($form, &$form_state)
         ]),
         '#default_value' => 'unrestricted',
     ];
+    $category_options = get_toolshed_tool_categories();
     $form['repository']['categories'] = [
         '#type' => 'checkboxes',
         '#title' => t('Categories'),
         '#description' => t('The categories that this tool should belong to.'),
         '#options' => get_toolshed_tool_categories(),
+        '#default_value' => [end($category_options)],
         '#required' => TRUE,
     ];
-
     $form['repository']['message'] = [
         '#type' => 'textfield',
         '#title' => t('Message'),
