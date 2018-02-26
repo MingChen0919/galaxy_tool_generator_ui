@@ -1,11 +1,6 @@
 <?php
 
 require drupal_get_path('module', 'galaxy_tool_generator_ui') . '/galaxy_tool_generator_ui.api.inc';
-require 'GalaxyToolshed/GalaxyToolshed.php';
-require 'GalaxyToolshed/GalaxyToolshedRequest.php';
-require 'GalaxyToolshed/GalaxyToolshedResponse.php';
-require 'GalaxyToolshed/GTRepositories.php';
-
 
 /**
  * Implements hook_init().
