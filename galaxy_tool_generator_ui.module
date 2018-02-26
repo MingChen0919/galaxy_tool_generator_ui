@@ -308,7 +308,9 @@ function create_galaxy_tool($form, &$form_state) {
   // use default R Markdown XML file
   // add default components to webform_component table if choose to start with tool template
   if ($form_state['values']['start_with_tool_template'] == 'R Markdown XML template') {
-    foreach (get_tool_template_components() as $component) {
+    $rmarkdwon_tool_xml_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/rmarkdown_tool_xml_template.xml';
+    $template_webform_components = convert_xml_to_webform_components($rmarkdwon_tool_xml_template);
+    foreach ($template_webform_components as $component) {
       $component['nid'] = $form_state['values']['nid'];
       db_insert('webform_component')
         ->fields($component)
