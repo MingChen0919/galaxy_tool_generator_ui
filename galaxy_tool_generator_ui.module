@@ -150,21 +150,6 @@ function publish_tool_repository_page() {
 }
 
 /**
- * page callback for testing tool on galaxy server.
- *
- * @return mixed
- */
-//function test_tool_on_galaxy_server_page()
-//{
-//    return drupal_get_form('test_tool_on_galaxy_server_form');
-//}
-
-function publish_to_tool_shed_page() {
-  return drupal_get_form('publish_to_tool_shed_form');
-}
-
-
-/**
  * Implements hook_menu_alter().
  */
 function galaxy_tool_generator_ui_menu_alter(&$items) {
