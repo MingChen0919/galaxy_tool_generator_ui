@@ -303,6 +303,9 @@ function build_galaxy_tool_repository($form, &$form_state) {
   $galaxy_tool_repository = 'public://galaxy_tool_repository/';
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
 
+  // copy render_r_helper.R into 'public://galaxy_tool_repository/'.
+  $render_r_helper = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/render_r_helper.R';
+  file_unmanaged_copy($render_r_helper, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
 
   // copy selected XML files into 'public://galaxy_tool_repository/'.
   $nids = array_keys($form_state['values']['registered_xmls']);
