@@ -169,7 +169,7 @@ function publish_to_tool_shed($form, &$form_state)
     $shed_yml['long_description'] = $form_state['values']['long_description'];
     $shed_yml['remote_repository_url'] = $form_state['values']['remote_repository_url'];
     $shed_yml['type'] = $form_state['values']['type'];
-    $shed_yml['categories'] = array_map('trim', explode(',', $form_state['values']['categories']));
+    $shed_yml['categories'] = array_filter($form_state['values']['categories']);
 
     $shed_yml_string = yaml_emit($shed_yml);
     file_unmanaged_save_data($shed_yml_string, $shed_yml_path, FILE_EXISTS_REPLACE);
