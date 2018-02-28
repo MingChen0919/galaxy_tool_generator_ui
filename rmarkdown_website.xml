@@ -1,6 +1,6 @@
 <tool name="Tool site" id='aurora_tool_site' version="1.0.0">
     <description>
-        "some description"
+        some description
     </description>
     <requirements>
         <requirement type="package" version="1.15.0.6-0">pandoc</requirement>
