@@ -440,9 +440,10 @@ function convert_xml_to_webform_components($xml_file_path) {
   $tool_node = $dom->getElementsByTagName('tool')->item(0);
   $attributes = [];
   foreach ($tool_node->attributes as $attr) {
-    if ($attr->name != 'id') {
-      $attributes[$attr->name] = $attr->value;
-    }
+//    if ($attr->name != 'id') {
+//      $attributes[$attr->name] = $attr->value;
+//    }
+    $attributes[$attr->name] = $attr->value;
   };
   $webform_components[] = [
     'cid' => $cid,
