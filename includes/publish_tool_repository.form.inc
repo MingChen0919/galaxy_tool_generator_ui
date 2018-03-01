@@ -281,24 +281,26 @@ function mirror_tool_repository_form($form, &$form_state) {
  */
 function mirror_from_gtg_to_galaxy($form, &$form_state) {
 
+  // find tool repository in galaxy
   $command = 'find . -name ' . $form_state['values']['mirror_tool_repository_revision'];
   exec($command, $shed_tool_repository_paths, $shed_tool_return_var);
 
-
   if (isset($shed_tool_repository_paths[0]) && file_exists($shed_tool_repository_paths[0])) {
-    $shed_tool_repository = str_replace('./sites/default/files/', 'public://', $shed_tool_repository_paths[0]);
+    $shed_tool_repository = str_replace(' ./sites /default/files / ', 'public://',
+      $shed_tool_repository_paths[0] . '/' . $form_state['values']['mirror_tool_repository']);
 
-    // remove shed_tool_repository
+    // remove repository contents in shed_tools
     $command_rm = 'rm -rf ' . $shed_tool_repository_paths[0] . '/' . $form_state['values']['mirror_tool_repository'] . '/*';
     exec($command_rm, $rm_output, $rm_return_var);
 
-    // copy gtg_tool_repository to shed_tool_repository
-    $command_cp = 'cp -r ./sites/default/files/galaxy_tool_repository/* ' . $shed_tool_repository_paths[0] . '/' . $form_state['values']['mirror_tool_repository'] . '/*';
+    // copy gtg_tool_repository to tool repository in shed_tools
+    $command_cp = 'cp -r ./sites/default/files/galaxy_tool_repository/* ' . $shed_tool_repository_paths[0] . '/' . $form_state['values']['mirror_tool_repository'];
     exec($command_cp, $cp_output, $cp_return_var);
-    $message = 'The Galaxy tool repository <b>' . $shed_tool_repository . '</b> has been
+    $message = 'The Galaxy tool repository <b>' . $form_state['values']['mirror_tool_repository'] . '</b> has been
                replaced with the GTG tool repository.';
     drupal_set_message($message);
   }
+
   else {
     drupal_set_message('Tool repository <b>' .
       $form_state['values']['mirror_tool_repository'] .
@@ -328,7 +330,7 @@ function mirror_from_galaxy_to_gtg($form, &$form_state) {
     // copy shed_tool_repository to gtg_tool_repository
     $command_cp = 'cp -r ' . $shed_tool_repository_paths[0] . '/' . $form_state['values']['mirror_tool_repository'] . '/* ./sites/default/files/galaxy_tool_repository/ ';
     exec($command_cp, $cp_output, $cp_return_var);
-    $message = 'The GTG tool repository  has been replaced with the shed tool repository <b>' . $shed_tool_repository . '</b>';
+    $message = 'The GTG tool repository  has been replaced with the shed tool repository <b>' . $form_state['values']['mirror_tool_repository'] . '</b>';
     drupal_set_message($message);
   }
   else {
