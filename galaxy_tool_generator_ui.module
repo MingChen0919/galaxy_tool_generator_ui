@@ -2,6 +2,9 @@
 
 require drupal_get_path('module', 'galaxy_tool_generator_ui') . '/galaxy_tool_generator_ui.api.inc';
 
+const RMARKDOWN_REPORT_XML = 'https://raw.githubusercontent.com/statonlab/aurora-galaxy-tools/master/aurora-tool-templates/rmarkdown-report/rmarkdown_report.xml';
+const RMARKDOWN_WEBSITE_XML = 'https://raw.githubusercontent.com/statonlab/aurora-galaxy-tools/master/aurora-tool-templates/rmarkdown-website/rmarkdown_site.xml';
+
 /**
  * Implements hook_init().
  */
@@ -324,13 +327,12 @@ function create_galaxy_tool($form, &$form_state) {
   // add default components to webform_component table if choose to start with tool template
   if ($form_state['values']['start_with_tool_template'] == 'R Markdown XML template') {
     if ($form_state['values']['rmarkdown_tool_type'] == 'Website') {
-      $rmarkdown_tool_type = 'rmarkdown_report.xml';
+      $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_REPORT_XML);
     }
     else {
-      $rmarkdown_tool_type = 'rmarkdown_website.xml';
+      $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_WEBSITE_XML);
     }
-    $rmarkdwon_tool_xml_template = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/' . $rmarkdown_tool_type;
-    $template_webform_components = convert_xml_to_webform_components($rmarkdwon_tool_xml_template);
+
     foreach ($template_webform_components as $component) {
       $component['nid'] = $form_state['values']['nid'];
       db_insert('webform_component')
