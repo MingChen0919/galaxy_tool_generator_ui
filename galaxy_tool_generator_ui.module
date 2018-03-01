@@ -42,11 +42,11 @@ function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['site_name'] = 'Galaxy Tool Generator';
   $variables['site_slogan'] = 'Making Galaxy tool development easier!';
   $variables['front_page'] = '/gtg_flowchart';
-
   // change page title
   if (current_path() == 'node/add/webform') {
     $variables['title'] = 'Create Tool XML';
   }
+
 }
 
 /**
