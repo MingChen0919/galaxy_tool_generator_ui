@@ -440,9 +440,9 @@ function convert_xml_to_webform_components($xml_file_path) {
   $tool_node = $dom->getElementsByTagName('tool')->item(0);
   $attributes = [];
   foreach ($tool_node->attributes as $attr) {
-//    if ($attr->name != 'id') {
-//      $attributes[$attr->name] = $attr->value;
-//    }
+    //    if ($attr->name != 'id') {
+    //      $attributes[$attr->name] = $attr->value;
+    //    }
     $attributes[$attr->name] = $attr->value;
   };
   $webform_components[] = [
@@ -536,7 +536,7 @@ function get_tool_command_string_from_sh($webform_node) {
     return;
   }
   $tool_command_string = file_get_contents($tool_command_sh);
-  foreach ($webform_node->webform['components'] as $key=>$value) {
+  foreach ($webform_node->webform['components'] as $key => $value) {
     if ($value['type'] == 'tool_command') {
       $webform_node->webform['components'][$key]['extra']['attributes']['XML_VALUE'] = $tool_command_string;
     }
@@ -553,4 +553,57 @@ function get_tool_command_string_from_sh($webform_node) {
     ->condition('nid', $webform_node->nid)
     ->condition('type', 'tool_command')
     ->execute();
+}
+
+/**
+ * @param $xml the name of an XML file in the galaxy tool repository (e.g.,
+ *   'fastqc.xml').
+ * @param $tool_type The tool repository type. Valid types include: 'rmarkdown_report' and 'rmarkdown_website'
+ */
+function get_rmarkdown_non_xml_templates($xml, $tool_type) {
+
+  $galaxy_tool_basename = preg_replace('/\.xml$/', '', $xml);
+  $galaxy_tool_repository = 'public://galaxy_tool_repository/';
+  file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
+
+  if ($tool_type == 'rmarkdown_report') {
+    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_REPORT_RENDER));
+    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.Rmd', file_get_contents(RMARKDOWN_REPORT_RMD));
+  }
+  else {
+    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_WEBSITE_RENDER));
+    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_site.yml', file_get_contents(RMARKDOWN_WEBSITE_YML));
+    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_index.Rmd', file_get_contents(RMARKDOWN_WEBSITE_INDEX_RMD));
+  }
+}
+
+
+/**
+ * @param $xml the name of an xml file in 'public://galaxy_tool_repository/'
+ */
+function delete_rmarkdown_non_xml_templates($xml) {
+  $galaxy_tool_basename = preg_replace('/\.xml$/', '', $xml);
+  $galaxy_tool_repository = 'public://galaxy_tool_repository/';
+
+  $render = $galaxy_tool_repository . $galaxy_tool_basename . '_render.R';
+  $rmd = $galaxy_tool_repository . $galaxy_tool_basename . '.Rmd';
+  $yml = $galaxy_tool_repository . $galaxy_tool_basename . '_site.yml';
+  $index_rmd = $galaxy_tool_repository . $galaxy_tool_basename . '_index.Rmd';
+
+  if (file_exists($render)) {
+    file_unmanaged_delete($render);
+  }
+
+  if (file_exists($rmd)) {
+    file_unmanaged_delete($rmd);
+  }
+
+  if (file_exists($yml)) {
+    file_unmanaged_delete($yml);
+  }
+
+  if (file_exists($index_rmd)) {
+    file_unmanaged_delete($index_rmd);
+  }
+
 }
