@@ -531,7 +531,8 @@ function convert_xml_to_webform_components($xml_file_path) {
  * @param $webform_node a webform node.
  */
 function get_tool_command_string_from_sh($webform_node) {
-  $tool_command_sh = 'public://galaxy_tool_repository/tool_command.sh';
+  $xml_basename = preg_replace('/\.xml$/', '', $webform_node->title);
+  $tool_command_sh = 'public://galaxy_tool_repository/' . $xml_basename . '.sh';
   if (!file_exists($tool_command_sh)) {
     return;
   }
