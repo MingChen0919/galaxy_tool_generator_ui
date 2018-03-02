@@ -38,7 +38,7 @@ function galaxy_tool_generator_ui_init() {
 function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['breadcrumb'] = NULL;
   //  $variables['logo'] = NULL;
-  $variables['logo'] = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/images/gtg-logo-87_93.png';
+  $variables['logo'] = '/'.drupal_get_path('module', 'galaxy_tool_generator_ui') . '/images/gtg-logo-87_93.png';
   $variables['site_name'] = 'Galaxy Tool Generator';
   $variables['site_slogan'] = 'Making Galaxy tool development easier!';
   $variables['front_page'] = '/gtg_flowchart';
