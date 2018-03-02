@@ -234,7 +234,7 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
       'rmarkdown_website' => 'Website',
     ],
     '#description' => t('<b>Single report</b> tool outputs a single HTML document. <b>Website</b> tool outputs a static website.'),
-    '#default_value' => 'Single report',
+    '#default_value' => 'rmarkdown_report',
     '#states' => [
       'visible' => [
         ':input[name="start_with_tool_template"]' => ['value' => 'R Markdown XML template'],
