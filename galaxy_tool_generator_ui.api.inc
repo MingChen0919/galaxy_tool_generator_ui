@@ -117,7 +117,7 @@ function get_tool_template_components() {
         'attributes' =>
           [
             'type' => 'package',
-            'version' => '1.3',
+            'version' => '1.6',
             'XML_VALUE' => 'r-rmarkdown',
           ],
         'private' => 0,
