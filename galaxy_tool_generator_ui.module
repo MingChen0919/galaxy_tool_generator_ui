@@ -4,6 +4,8 @@ require drupal_get_path('module', 'galaxy_tool_generator_ui') . '/galaxy_tool_ge
 
 const AURORA_TOOL_TEMPLATES_URL = 'https://raw.githubusercontent.com/statonlab/aurora-galaxy-tools/master/aurora-tool-templates/';
 
+const RMARKDOWN_HELPER_R = AURORA_TOOL_TEMPLATES_URL . 'helper.R';
+
 const RMARKDOWN_REPORT_XML = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-report/rmarkdown_report.xml';
 const RMARKDOWN_REPORT_RENDER = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-report/rmarkdown_report_render.R';
 const RMARKDOWN_REPORT_RMD = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-report/rmarkdown_report.Rmd';

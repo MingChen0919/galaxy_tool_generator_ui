@@ -567,6 +567,7 @@ function get_rmarkdown_non_xml_templates($xml, $tool_type) {
   $galaxy_tool_repository = 'public://galaxy_tool_repository/';
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
 
+  file_put_contents($galaxy_tool_repository . '/helper.R', file_get_contents(RMARKDOWN_HELPER_R));
   if ($tool_type == 'rmarkdown_report') {
     file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_REPORT_RENDER));
     file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.Rmd', file_get_contents(RMARKDOWN_REPORT_RMD));
@@ -606,5 +607,4 @@ function delete_rmarkdown_non_xml_templates($xml) {
   if (file_exists($index_rmd)) {
     file_unmanaged_delete($index_rmd);
   }
-
 }
