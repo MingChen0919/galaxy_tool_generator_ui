@@ -7,18 +7,18 @@ function publish_tool_repository_form($form, &$form_state) {
 
   // repository content
   // markup to display structure of tool repository directory
-  exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
-  $output = preg_replace('/`/', '|', $output);
-  $form['repository_structure'] = [
-    '#type' => 'fieldset',
-    '#title' => 'Tool Repository Structure',
-    '#collapsible' => TRUE,
-  ];
-  $output[0] = 'Repository Directory: galaxy_tool_repository';
-  $repository_content_markup = implode('<br/>', $output);
-  $form['repository_structure']['content'] = [
-    '#markup' => $repository_content_markup,
-  ];
+//  exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
+//  $output = preg_replace('/`/', '|', $output);
+//  $form['repository_structure'] = [
+//    '#type' => 'fieldset',
+//    '#title' => 'Tool Repository Structure',
+//    '#collapsible' => TRUE,
+//  ];
+//  $output[0] = 'Repository Directory: galaxy_tool_repository';
+//  $repository_content_markup = implode('<br/>', $output);
+//  $form['repository_structure']['content'] = [
+//    '#markup' => $repository_content_markup,
+//  ];
 
   // prepare tool repository
   $form['repository'] = [

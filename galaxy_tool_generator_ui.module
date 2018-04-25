@@ -40,7 +40,7 @@ function galaxy_tool_generator_ui_init() {
 function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['breadcrumb'] = NULL;
   //  $variables['logo'] = NULL;
-  $variables['logo'] = '/'.drupal_get_path('module', 'galaxy_tool_generator_ui') . '/images/gtg-logo-87_93.png';
+  $variables['logo'] = '/' . drupal_get_path('module', 'galaxy_tool_generator_ui') . '/images/gtg-logo-87_93.png';
   $variables['site_name'] = 'Galaxy Tool Generator';
   $variables['site_slogan'] = 'Making Galaxy tool development easier!';
   $variables['front_page'] = '/gtg_flowchart';
@@ -155,12 +155,30 @@ function api_keys_page() {
  */
 function publish_tool_repository_page() {
   // TODO: build a form to list all xml files and the galaxy tool directory it comes from
-  $forms = [
-    'form_1' => drupal_get_form('publish_tool_repository_form'),
-    'form_2' => drupal_get_form('mirror_tool_repository_form'),
-
+  $planemo_items = [
+    'Create repository in test tool shed: <span style="color: #FF5666"><code>planemo shed_create --shed_target testtoolshed</code></span>',
+    'Publish repository in test tool shed: <span style="color: #FF5666"><code>planemo shed_update --check_diff --shed_target testtoolshed</code></span>',
+    'Create repository in tool shed: <span style="color: #FF5666"><code>planemo shed_create --shed_target toolshed</code></span>',
+    'Publish repository in tool shed: <span style="color: #FF5666"><code>planemo shed_update --check_diff --shed_target toolshed</code></span>',
   ];
-  return $forms;
+  $item_varialbe = [
+    'items' => $planemo_items,
+    'title' => '',
+    'type' => 'ul'
+  ];
+  $page_builder = [
+    'publish_with_planemo' => [
+      '#markup' => 'The form below creates a <span style="color: #FF5666"><code>.planemo.yml</code></span> file and then use the ' .
+        l('planemo tool', 'http://planemo.readthedocs.io/en/latest/publishing.html') .
+        ' to publish the repository to <b>Tool Shed</b> or <b>Test Tool Shed</b>.<br/>' .
+        'It uses the following command to create and/or update tool repository:<br/>' .
+        theme('item_list', $item_varialbe),
+    ],
+    'form_1' => drupal_get_form('publish_tool_repository_form'),
+    //    'form_2' => drupal_get_form('mirror_tool_repository_form'),
+  ];
+
+  return $page_builder;
 }
 
 /**
