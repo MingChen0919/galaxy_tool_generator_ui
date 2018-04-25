@@ -198,22 +198,22 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
       'data' => t('Tool Name'),
     ],
   ];
-  $form['non_xml_templates'] = [
-    '#type' => 'fieldset',
-    '#title' => 'Non XML Templates',
-    '#description' => t('You can add non XML templates to or remove XML files from the Galaxy tool repository.'),
-    '#collapsible' => TRUE,
-  ];
-
-  // markup to display structure of tool repository directory
-  exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
-  $output = preg_replace('/`/', '|', $output);
-  $output[0] = 'Repository Directory: galaxy_tool_repository';
-  $repository_content_markup = implode('<br/>', $output);
-  $form['non_xml_templates']['tool_repository_structure']['content'] = [
-    '#markup' => $repository_content_markup,
-  ];
-  // save the markup to a variable
+//  $form['non_xml_templates'] = [
+//    '#type' => 'fieldset',
+//    '#title' => 'Non XML Templates',
+//    '#description' => t('You can add non XML templates to or remove XML files from the Galaxy tool repository.'),
+//    '#collapsible' => TRUE,
+//  ];
+//
+//  // markup to display structure of tool repository directory
+//  exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
+//  $output = preg_replace('/`/', '|', $output);
+//  $output[0] = 'Repository Directory: galaxy_tool_repository';
+//  $repository_content_markup = implode('<br/>', $output);
+//  $form['non_xml_templates']['tool_repository_structure']['content'] = [
+//    '#markup' => $repository_content_markup,
+//  ];
+//  // save the markup to a variable
 
   $form['non_xml_templates']['xmls'] = [
     '#type' => 'tableselect',
@@ -224,19 +224,19 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $form['non_xml_templates']['actions'] = [
     'add_report_templates' => [
       '#type' => 'submit',
-      '#value' => 'Add templates (R Markdown report)',
+      '#value' => 'Add other templates (Aurora Galaxy Tool)',
       '#submit' => ['add_report_templates'],
     ],
-    'add_website_templates' => [
-      '#type' => 'submit',
-      '#value' => 'Add templates (R Markdown website)',
-      '#submit' => ['add_website_templates'],
-    ],
-    'remove_xmls' => [
-      '#type' => 'submit',
-      '#value' => 'Remove XMLs & templates',
-      '#submit' => ['remove_xmls_from_galaxy_tool_repository'],
-    ],
+//    'add_website_templates' => [
+//      '#type' => 'submit',
+//      '#value' => 'Add templates (R Markdown website)',
+//      '#submit' => ['add_website_templates'],
+//    ],
+//    'remove_xmls' => [
+//      '#type' => 'submit',
+//      '#value' => 'Remove XMLs & templates',
+//      '#submit' => ['remove_xmls_from_galaxy_tool_repository'],
+//    ],
   ];
 
   // store all xmls options
@@ -336,12 +336,12 @@ function add_report_templates($form, &$form_state) {
  * @param $form
  * @param $form_state
  */
-function add_website_templates($form, &$form_state) {
-  $xmls = array_filter($form_state['values']['xmls']);
-  foreach ($xmls as $xml) {
-    get_rmarkdown_non_xml_templates($xml, 'rmarkdown_website');
-  }
-}
+//function add_website_templates($form, &$form_state) {
+//  $xmls = array_filter($form_state['values']['xmls']);
+//  foreach ($xmls as $xml) {
+//    get_rmarkdown_non_xml_templates($xml, 'rmarkdown_website');
+//  }
+//}
 
 /**
  * @param $form

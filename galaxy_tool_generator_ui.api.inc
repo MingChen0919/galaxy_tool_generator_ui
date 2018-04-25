@@ -566,17 +566,26 @@ function get_rmarkdown_non_xml_templates($xml, $tool_type) {
   $galaxy_tool_basename = preg_replace('/\.xml$/', '', $xml);
   $galaxy_tool_repository = 'public://galaxy_tool_repository/';
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
+  // remove everything from $galaxy_tool_repository
+  // file_unmanaged_delete_recursive($galaxy_tool_repository);
 
+  file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_REPORT_RENDER));
+  file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.Rmd', file_get_contents(RMARKDOWN_REPORT_RMD));
   file_put_contents($galaxy_tool_repository . '/helper.R', file_get_contents(RMARKDOWN_HELPER_R));
-  if ($tool_type == 'rmarkdown_report') {
-    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_REPORT_RENDER));
-    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.Rmd', file_get_contents(RMARKDOWN_REPORT_RMD));
-  }
-  else {
-    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_WEBSITE_RENDER));
-    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_site.yml', file_get_contents(RMARKDOWN_WEBSITE_YML));
-    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_index.Rmd', file_get_contents(RMARKDOWN_WEBSITE_INDEX_RMD));
-  }
+  file_put_contents($galaxy_tool_repository . '/expose-outputs.sh', file_get_contents(RMARKDOWN_EXPOSE_OUTPUTS));
+  file_put_contents($galaxy_tool_repository . '/getopt_specification.csv', file_get_contents(RMARKDOWN_GETOPT_CSV));
+  file_put_contents($galaxy_tool_repository . '/shell-script-template.sh', file_get_contents(RMARKDOWN_SHELL_TEMPLATE));
+  file_put_contents($galaxy_tool_repository . '/vakata-jstree-3.3.5.zip', file_get_contents(RMARKDOWN_JSTREE));
+
+//  if ($tool_type == 'rmarkdown_report') {
+//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_REPORT_RENDER));
+//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.Rmd', file_get_contents(RMARKDOWN_REPORT_RMD));
+//  }
+//  else {
+//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_WEBSITE_RENDER));
+//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_site.yml', file_get_contents(RMARKDOWN_WEBSITE_YML));
+//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_index.Rmd', file_get_contents(RMARKDOWN_WEBSITE_INDEX_RMD));
+//  }
 }
 
 

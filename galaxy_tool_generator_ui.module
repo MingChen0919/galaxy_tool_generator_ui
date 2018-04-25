@@ -4,16 +4,22 @@ require drupal_get_path('module', 'galaxy_tool_generator_ui') . '/galaxy_tool_ge
 
 const AURORA_TOOL_TEMPLATES_URL = 'https://raw.githubusercontent.com/statonlab/aurora-galaxy-tools/master/aurora-tool-templates/';
 
+const RMARKDOWN_REPORT_XML = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown_report.xml';
+const RMARKDOWN_REPORT_RENDER = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown_report_render.R';
+const RMARKDOWN_REPORT_RMD = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown_report.Rmd';
+
 const RMARKDOWN_HELPER_R = AURORA_TOOL_TEMPLATES_URL . 'helper.R';
+const RMARKDOWN_GETOPT_CSV = AURORA_TOOL_TEMPLATES_URL . 'getopt_specification.csv';
+const RMARKDOWN_EXPOSE_OUTPUTS = AURORA_TOOL_TEMPLATES_URL . 'expose-outputs.sh';
+const RMARKDOWN_SHELL_TEMPLATE = AURORA_TOOL_TEMPLATES_URL . 'shell-script-template.sh';
+const RMARKDOWN_JSTREE = AURORA_TOOL_TEMPLATES_URL . 'vakata-jstree-3.3.5.zip';
 
-const RMARKDOWN_REPORT_XML = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-report/rmarkdown_report.xml';
-const RMARKDOWN_REPORT_RENDER = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-report/rmarkdown_report_render.R';
-const RMARKDOWN_REPORT_RMD = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-report/rmarkdown_report.Rmd';
 
-const RMARKDOWN_WEBSITE_XML = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/rmarkdown_site.xml';
-const RMARKDOWN_WEBSITE_YML = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/_site.yml';
-const RMARKDOWN_WEBSITE_INDEX_RMD = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/index.Rmd';
-const RMARKDOWN_WEBSITE_RENDER = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/rmarkdown_site_render.R';
+
+//const RMARKDOWN_WEBSITE_XML = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/rmarkdown_site.xml';
+//const RMARKDOWN_WEBSITE_YML = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/_site.yml';
+//const RMARKDOWN_WEBSITE_INDEX_RMD = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/index.Rmd';
+//const RMARKDOWN_WEBSITE_RENDER = AURORA_TOOL_TEMPLATES_URL . 'rmarkdown-website/rmarkdown_site_render.R';
 
 
 /**
@@ -240,27 +246,27 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
     '#type' => 'radios',
     '#title' => t('Start with a template XML'),
     '#options' => drupal_map_assoc([
-      'R Markdown XML template',
+      'Aurora Galaxy Tool',
       'Uploaded XML',
       'From scratch',
     ]),
-    '#default_value' => 'R Markdown XML template',
+    '#default_value' => 'Aurora Galaxy Tool',
   ];
-  $form['rmarkdown_tool_type'] = [
-    '#type' => 'radios',
-    '#title' => t('R Markdown tool type'),
-    '#options' => [
-      'rmarkdown_report' => 'Single report',
-      'rmarkdown_website' => 'Website',
-    ],
-    '#description' => t('<b>Single report</b> tool outputs a single HTML document. <b>Website</b> tool outputs a static website.'),
-    '#default_value' => 'rmarkdown_report',
-    '#states' => [
-      'visible' => [
-        ':input[name="start_with_tool_template"]' => ['value' => 'R Markdown XML template'],
-      ],
-    ],
-  ];
+//  $form['rmarkdown_tool_type'] = [
+//    '#type' => 'radios',
+//    '#title' => t('R Markdown tool type'),
+//    '#options' => [
+//      'rmarkdown_report' => 'Single report',
+//      'rmarkdown_website' => 'Website',
+//    ],
+//    '#description' => t('<b>Single report</b> tool outputs a single HTML document. <b>Website</b> tool outputs a static website.'),
+//    '#default_value' => 'rmarkdown_report',
+//    '#states' => [
+//      'visible' => [
+//        ':input[name="start_with_tool_template"]' => ['value' => 'R Markdown XML template'],
+//      ],
+//    ],
+//  ];
   $form['start_with_uploaded_xml'] = [
     '#type' => 'managed_file',
     '#title' => t('Choose a Galaxy XML file'),
@@ -352,16 +358,17 @@ function create_galaxy_tool($form, &$form_state) {
     ->condition('nid', $form_state['values']['nid'])
     ->execute();
 
-  // use default R Markdown XML file
+  // use default Aurora Galaxy Tool XML file
   // add default components to webform_component table if choose to start with tool template
-  if ($form_state['values']['start_with_tool_template'] == 'R Markdown XML template') {
-    if ($form_state['values']['rmarkdown_tool_type'] == 'rmarkdown_report') {
-      $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_REPORT_XML);
-    }
-    else {
-      $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_WEBSITE_XML);
-    }
+  if ($form_state['values']['start_with_tool_template'] == 'Aurora Galaxy Tool') {
+//    if ($form_state['values']['rmarkdown_tool_type'] == 'rmarkdown_report') {
+//      $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_REPORT_XML);
+//    }
+//    else {
+//      $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_WEBSITE_XML);
+//    }
 
+    $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_REPORT_XML);
     foreach ($template_webform_components as $component) {
       $component['nid'] = $form_state['values']['nid'];
       db_insert('webform_component')
