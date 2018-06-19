@@ -24,6 +24,7 @@
 /**
  * Return an array to build tool template components.
  */
+/*
 function get_tool_template_components() {
   $tool_template_components = [
     [
@@ -416,7 +417,7 @@ function get_tool_template_components() {
 
   return $tool_template_components;
 }
-
+*/
 
 /*
  * This function converts a Galaxy tool XML file back to an array of webform components.
@@ -559,7 +560,8 @@ function get_tool_command_string_from_sh($webform_node) {
 /**
  * @param $xml the name of an XML file in the galaxy tool repository (e.g.,
  *   'fastqc.xml').
- * @param $tool_type The tool repository type. Valid types include: 'rmarkdown_report' and 'rmarkdown_website'
+ * @param $tool_type The tool repository type. Valid types include:
+ *   'rmarkdown_report' and 'rmarkdown_website'
  */
 function get_rmarkdown_non_xml_templates($xml, $tool_type) {
 
@@ -569,23 +571,58 @@ function get_rmarkdown_non_xml_templates($xml, $tool_type) {
   // remove everything from $galaxy_tool_repository
   // file_unmanaged_delete_recursive($galaxy_tool_repository);
 
-  file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_REPORT_RENDER));
-  file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.Rmd', file_get_contents(RMARKDOWN_REPORT_RMD));
-  file_put_contents($galaxy_tool_repository . '/helper.R', file_get_contents(RMARKDOWN_HELPER_R));
-  file_put_contents($galaxy_tool_repository . '/expose-outputs.sh', file_get_contents(RMARKDOWN_EXPOSE_OUTPUTS));
-  file_put_contents($galaxy_tool_repository . '/getopt_specification.csv', file_get_contents(RMARKDOWN_GETOPT_CSV));
-  file_put_contents($galaxy_tool_repository . '/shell-script-template.sh', file_get_contents(RMARKDOWN_SHELL_TEMPLATE));
-  file_put_contents($galaxy_tool_repository . '/vakata-jstree-3.3.5.zip', file_get_contents(RMARKDOWN_JSTREE));
+  $aurora_tool_templates_root = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/';
+  // create rmarkdown_report_render.R file
+  $render_r_file = $galaxy_tool_repository . $galaxy_tool_basename . '_render.R';
+  if (!file_exists($render_r_file)) {
+    $rmarkdown_report_render_str = str_replace('rmarkdown_report.Rmd', $galaxy_tool_basename . '.Rmd',
+      file_get_contents($aurora_tool_templates_root . 'rmarkdown_report_render.R'));
+    $rmarkdown_report_render_str = str_replace('getopt.csv', $galaxy_tool_basename . '_getopt.csv', $rmarkdown_report_render_str);
+    $rmarkdown_report_render_str = str_replace('galaxy_outputs.sh', $galaxy_tool_basename . '_galaxy_outputs.sh', $rmarkdown_report_render_str);
+    file_put_contents($render_r_file, $rmarkdown_report_render_str);
+  }
+  else {
+    drupal_set_message($galaxy_tool_basename . '_render.R already exists.', 'warning');
+  }
 
-//  if ($tool_type == 'rmarkdown_report') {
-//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_REPORT_RENDER));
-//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.Rmd', file_get_contents(RMARKDOWN_REPORT_RMD));
-//  }
-//  else {
-//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_render.R', file_get_contents(RMARKDOWN_WEBSITE_RENDER));
-//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_site.yml', file_get_contents(RMARKDOWN_WEBSITE_YML));
-//    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_index.Rmd', file_get_contents(RMARKDOWN_WEBSITE_INDEX_RMD));
-//  }
+  // create TOOL_BASE.Rmd file
+  $rmarkdown_file = $galaxy_tool_repository . $galaxy_tool_basename . '.Rmd';
+  if (!file_exists($rmarkdown_file)) {
+    file_put_contents($rmarkdown_file, file_get_contents($aurora_tool_templates_root . 'rmarkdown_report.Rmd'));
+  }
+  else {
+    drupal_set_message($galaxy_tool_basename . '.Rmd already exists.', 'warning');
+  }
+
+  // create TOOL_BASE_galaxy_outputs.sh file
+  $galaxy_outputs_file = $galaxy_tool_repository . $galaxy_tool_basename . '_galaxy_outputs.sh';
+  if (!file_exists($galaxy_outputs_file)) {
+    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_galaxy_outputs.sh',
+      file_get_contents($aurora_tool_templates_root . 'galaxy_outputs.sh'));
+  }
+  else {
+    drupal_set_message($galaxy_tool_basename . '_galaxy_outputs.sh already exists.', 'warning');
+  }
+
+  // create TOOL_BASE_getopt.csv file
+  $getopt_csv_file = $galaxy_tool_repository . $galaxy_tool_basename . '_getopt.csv';
+  if (!file_exists($getopt_csv_file)) {
+    file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '_getopt.csv',
+      file_get_contents($aurora_tool_templates_root . 'getopt.csv'));
+  }
+  else {
+    drupal_set_message($galaxy_tool_basename . '_getopt.csv already exists.', 'warning');
+  }
+
+  // add vakata-jstree-3.3.5 javascript library
+  if (!file_exists($galaxy_tool_repository . '/vakata-jstree-3.3.5.zip')) {
+    file_put_contents($galaxy_tool_repository . '/vakata-jstree-3.3.5.zip', file_get_contents($aurora_tool_templates_root . 'vakata-jstree-3.3.5.zip'));
+  }
+  // edit TOOL_BASE.xml file
+  //  $tool_xml = str_replace('rmarkdown_report_render.R', $galaxy_tool_basename . '_render.R',
+  //    file_get_contents($galaxy_tool_repository . $galaxy_tool_basename . '.xml'));
+  //  file_put_contents($galaxy_tool_repository . $galaxy_tool_basename . '.xml', $tool_xml);
+
 }
 
 

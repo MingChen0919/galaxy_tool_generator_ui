@@ -368,7 +368,8 @@ function create_galaxy_tool($form, &$form_state) {
 //      $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_WEBSITE_XML);
 //    }
 
-    $template_webform_components = convert_xml_to_webform_components(RMARKDOWN_REPORT_XML);
+    $rmarkdown_report_xml = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/rmarkdown_report.xml';
+    $template_webform_components = convert_xml_to_webform_components($rmarkdown_report_xml);
     foreach ($template_webform_components as $component) {
       $component['nid'] = $form_state['values']['nid'];
       db_insert('webform_component')
