@@ -275,6 +275,7 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
       'Aurora Galaxy Tool',
       'Uploaded XML',
       'From scratch',
+      'Use planemo tool_init',
     ]),
     '#default_value' => 'Aurora Galaxy Tool',
   ];
@@ -305,6 +306,104 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
       'file_validate_extensions' => ['xml'],
     ],
   ];
+
+
+  // start with planemo tool_init
+  $form['start_with_planemo_tool_init'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Start with planemo tool_init'),
+    '#states' => [
+      'visible' => [
+        ':input[name="start_with_tool_template"]' => ['value' => 'Use planemo tool_init'],
+      ],
+    ],
+  ];
+  $form['start_with_planemo_tool_init']['id'] = [
+    '#type' => 'textfield',
+    '#description' => 'Short identifier for new tool (no whitespace)',
+    '#title' => '<span style="color: #FF5666"><code>-i, --id</code></span>',
+  ];
+  $form['start_with_planemo_tool_init']['name'] = [
+    '#type' => 'textfield',
+    '#description' => 'Name for new tool (user facing)',
+    '#title' => '<span style="color: #FF5666"><code>-n, --name</code></span>',
+  ];
+  $form['start_with_planemo_tool_init']['version'] = [
+    '#type' => 'textfield',
+    '#description' => 'Tool XML version',
+    '#title' => '<span style="color: #FF5666"><code>--version</code></span>',
+  ];
+  $form['start_with_planemo_tool_init']['description'] = [
+    '#type' => 'textfield',
+    '#description' => 'Short description for new tool (user facing)',
+    '#title' => '<span style="color: #FF5666"><code>-d, --description</code></span>',
+  ];
+  $form['start_with_planemo_tool_init']['command'] = [
+    '#type' => 'textfield',
+    '#description' => 'Command potentially including cheetah variables ()(e.g. \'seqtk seq -a $input > $output\')',
+    '#title' => '<span style="color: #FF5666"><code>-c, --command</code></span>',
+  ];
+  $form['start_with_planemo_tool_init']['example_command'] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--example_command</code></span>',
+    '#description' => 'Example to command with paths to build Cheetah
+                            template from (e.g. \'seqtk seq -a 2.fastq >
+                            2.fasta\'). Option cannot be used with --command,
+                            should be used --example_input and
+                            --example_output.',
+  ];
+  $form['start_with_planemo_tool_init']['example_input'] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--example_input</code></span>',
+    '#description' => 'For use with --example_command, replace input file
+                            (e.g. 2.fastq with a data input parameter).',
+  ];
+  $form['start_with_planemo_tool_init']['example_output'] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--example_output</code></span>',
+    '#description' => 'For use with --example_command, replace input file
+                            (e.g. 2.fastq with a tool output).',
+  ];
+  $form['start_with_planemo_tool_init']['named_output'] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--named_output</code></span>',
+    '#description' => 'Create a named output for use with command block
+                            for example specify --named_output=output1.bam and
+                            then use \'-o $output1\' in your command block.',
+  ];
+  $form['start_with_planemo_tool_init']['input'] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--input</code></span>',
+    '#description' => 'An input description (e.g. input.fasta)',
+  ];
+  $form['start_with_planemo_tool_init']['output'] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--output</code></span>',
+    '#description' => 'An output location (e.g. output.bam), the Galaxy
+                            datatype is inferred from the extension.',
+  ];
+  $form['start_with_planemo_tool_init'][''] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--</code></span>',
+    '#description' => '',
+  ];
+  $form['start_with_planemo_tool_init'][''] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--</code></span>',
+    '#description' => '',
+  ];
+  $form['start_with_planemo_tool_init'][''] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--</code></span>',
+    '#description' => '',
+  ];
+  $form['start_with_planemo_tool_init'][''] = [
+    '#type' => 'textfield',
+    '#title' => '<span style="color: #FF5666"><code>--</code></span>',
+    '#description' => '',
+  ];
+
+
 
 
   // add submit handler
