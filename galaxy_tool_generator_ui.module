@@ -49,7 +49,7 @@ function galaxy_tool_generator_ui_process_page(&$variables) {
   $variables['logo'] = '/' . drupal_get_path('module', 'galaxy_tool_generator_ui') . '/images/gtg-logo-87_93.png';
   $variables['site_name'] = 'Galaxy Tool Generator';
   $variables['site_slogan'] = 'Making Galaxy tool development easier!';
-  $variables['front_page'] = '/gtg_flowchart';
+  $variables['front_page'] = '/node/add/webform';
   // change page title
   if (current_path() == 'node/add/webform') {
     $variables['title'] = 'Create Tool XML';
@@ -82,15 +82,15 @@ function galaxy_tool_generator_ui_libraries_info() {
  * Implements hook_menu().
  */
 function galaxy_tool_generator_ui_menu() {
-  $items['gtg_flowchart'] = [
-    'title' => 'GTG Flowchart',
-    'description' => t('A page to dispaly GTG flowchart.'),
-    'page callback' => 'gtg_flowchart_page',
-    'access arguments' => ['access content'],
-    'menu_name' => 'main-menu',
-    'type' => MENU_NORMAL_ITEM,
-    'weight' => 1,
-  ];
+//  $items['gtg_flowchart'] = [
+//    'title' => 'GTG Flowchart',
+//    'description' => t('A page to dispaly GTG flowchart.'),
+//    'page callback' => 'gtg_flowchart_page',
+//    'access arguments' => ['access content'],
+//    'menu_name' => 'main-menu',
+//    'type' => MENU_NORMAL_ITEM,
+//    'weight' => 1,
+//  ];
   $items['api_keys'] = [
     'title' => 'API Keys',
     'description' => t('A page to collect API keys for tool development and testing'),
@@ -141,17 +141,17 @@ function galaxy_tool_generator_ui_menu() {
 }
 
 
-function gtg_flowchart_page() {
-  $page_builder = [
-    'gtg_flowchart' => [
-      '#markup' => '<img src="https://github.com/MingChen0919/galaxy_tool_generator_ui/raw/master/images/gtg-flowchart.png" 
-                         alt="GTG flowchart" 
-                         width="80%"/>',
-    ],
-  ];
-
-  return $page_builder;
-}
+//function gtg_flowchart_page() {
+//  $page_builder = [
+//    'gtg_flowchart' => [
+//      '#markup' => '<img src="https://github.com/MingChen0919/galaxy_tool_generator_ui/raw/master/images/gtg-flowchart.png"
+//                         alt="GTG flowchart"
+//                         width="80%"/>',
+//    ],
+//  ];
+//
+//  return $page_builder;
+//}
 
 /**
  * Page callback for all_tool_repositories page.
