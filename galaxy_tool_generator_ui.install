@@ -38,6 +38,12 @@ function galaxy_tool_generator_ui_install() {
   menu_link_save($menu_link);
   $menu_link = [
     'menu_name' => 'main-menu',
+    'link_title' => 'Planemo Test Tool',
+    'link_path' => 'planemo_test_tool',
+  ];
+  menu_link_save($menu_link);
+  $menu_link = [
+    'menu_name' => 'main-menu',
     'link_title' => 'Publish Tool Repository',
     'link_path' => 'publish_tool_repository',
   ];

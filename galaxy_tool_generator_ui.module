@@ -113,6 +113,17 @@ function galaxy_tool_generator_ui_menu() {
     'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
     'weight' => 4,
   ];
+  $items['planemo_test_tool'] = [
+    'title' => 'Planemo Test Tool',
+    'description' => t('Test tools with planemo'),
+    'page callback' => 'planemo_test_tool_page',
+    'access arguments' => ['access content'],
+    'menu_name' => 'main-menu',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'planemo_test_tool.form.inc',
+    'file path' => drupal_get_path('module', 'galaxy_tool_generator_ui') . '/includes',
+    'weight' => 4,
+  ];
   $items['publish_tool_repository'] = [
     'title' => 'Publish tool repository',
     'description' => t('A page for publishing tool repository.'),
@@ -154,6 +165,17 @@ function galaxy_tool_xml_all_page() {
  */
 function api_keys_page() {
   return drupal_get_form('api_keys_form');
+}
+
+/**
+ * page callback for planemo test tool page
+ */
+function planemo_test_tool_page() {
+  $page_builder = [
+    'planemo_test_tool_form' => drupal_get_form('planemo_test_tool_form'),
+  ];
+
+  return $page_builder;
 }
 
 /**

@@ -43,8 +43,22 @@ function planemo_test_tool_form($form, &$form_state) {
 
   $form['submit'] = [
     '#type' => 'submit',
-    '#value' => t('Submit'),
+    '#value' => t('Run command'),
     '#submit' => ['planemo_test_form_form_submit'],
+  ];
+
+  $list = [];
+  $list['type'] = 'ul';
+  $list['title'] = 'Open the following URLs in a new tab to check results';
+  $list['items'] = [];
+
+  $list['items'][] = l('command stdout and stderr', 'sites/default/files/planemo.log.txt');
+  $list['items'][] = l('tool_test_output.html', 'sites/default/files/galaxy_tool_repository/tool_test_output.html');
+  $list['items'][] = l('tool_test_output.json', 'sites/default/files/galaxy_tool_repository/tool_test_output.json');
+
+
+  $form['instruction'] = [
+    '#markup' => theme('item_list', $list),
   ];
 
   return $form;
@@ -59,10 +73,9 @@ function planemo_test_form_form_submit($form, &$form_state) {
   else {
     $planemo_command = $form_state['values']['planemo_command'] . ' ' . $xml_file;
   }
-  $command = 'sudo su && cd /var/www/html/sites/default/files/galaxy_tool_repository && sudo -u root ' .
-    $planemo_command . ' 2>&1';
-  exec($command, $stdout_and_stderr,$return_var);
-  $stdout_and_stderr = implode('<br/>', $stdout_and_stderr);
 
-  drupal_set_message($stdout_and_stderr, 'warning');
+  $command = 'sudo su && cd /var/www/html/sites/default/files/galaxy_tool_repository && sudo -u root ' .
+    $planemo_command . ' >/var/www/html/sites/default/files/planemo.log.txt 2>&1 &';
+  passthru($command, $return_var);
+
 }
