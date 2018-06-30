@@ -168,7 +168,7 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('XMLs in <code>galaxy_tool_repository</code>'),
     '#description' => t('Only XMLs in <span style="color: #FF5666">
-        <code>galaxy_tool_repository</code></span> can be published to the Galaxy Tool Shed (or Test Tool Shed).')
+        <code>galaxy_tool_repository</code></span> can be published to the Galaxy Tool Shed (or Test Tool Shed).'),
   ];
   $form['selected_xmls']['xml_list'] = [
     '#markup' => $markup,
@@ -210,5 +210,67 @@ function register_selected_xmls($form, &$form_state) {
     file_unmanaged_copy(file_load($fid)->uri, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
   }
 
+  // sync galaxy_tool_repository to specified shed tool path.
+  $shed_tool_path = variable_get('shed_tool_path', '');
+  $full_shed_tool_path = 'public://' . $shed_tool_path;
+  if (file_exists($full_shed_tool_path)) {
+    $command = 'cd /var/www/html/sites/default/files/' . $shed_tool_path . ' && ' .
+      'rm -rf * &&' .
+      'cp -r /var/www/html/sites/default/files/galaxy_tool_repository/* /var/www/html/sites/default/files/' . $shed_tool_path;
+    passthru($command, $return_var);
+  }
+
   $form_state['rebuild'] = TRUE;
+}
+
+
+/**
+ * @param $form
+ * @param $form_state
+ *
+ * @return mixed
+ */
+function sync_to_galaxy_form($form, &$form_state) {
+  $form['sync_to_galaxy'] = [
+    '#type' => 'fieldset',
+    '#title' => 'Sync to Galaxy',
+    '#description' => t('Sync <code>galaxy_tool_repository</code> to a shed tool in the running Galaxy instance.'),
+  ];
+  $shed_tool_path = variable_get('shed_tool_path', '');
+  if ($shed_tool_path != '') {
+    $full_shed_tool_path = 'public://' . $shed_tool_path;
+    if (file_exists($full_shed_tool_path)) {
+      $form['sync_to_galaxy']['path_markup'] = [
+        '#markup' => t('<code><b>galaxy_tool_repository</b></code> is being synced to the path: 
+        <span style="color: #FF5666"><b>' . $shed_tool_path . '</b></span><br/>'),
+      ];
+    }
+  }
+  $form['sync_to_galaxy']['shed_tool_path'] = [
+    '#type' => 'textfield',
+    '#title' => 'Path to a shed tool',
+    '#size' => 60,
+  ];
+  $form['sync_to_galaxy']['submit'] = [
+    '#type' => 'submit',
+    '#value' => 'Update',
+  ];
+
+  return $form;
+}
+
+
+/**
+ * @param $form
+ * @param $form_state
+ */
+function sync_to_galaxy_form_validate($form, &$form_state) {
+  $full_shed_tool_path = 'public://' . $form_state['values']['shed_tool_path'];
+  if (!file_exists($full_shed_tool_path)) {
+    drupal_set_message(t('<span style="color: #FF5666"><b>' . $form_state['values']['shed_tool_path'] .
+      '</b></span> is not a valid shed tool path.'), 'error');
+  }
+  else {
+    variable_set('shed_tool_path', $form_state['values']['shed_tool_path']);
+  }
 }

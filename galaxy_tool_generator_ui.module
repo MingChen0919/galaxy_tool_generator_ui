@@ -146,7 +146,11 @@ function gtg_flowchart_page() {
  * Page callback for all_tool_repositories page.
  */
 function galaxy_tool_xml_all_page() {
-  return drupal_get_form('galaxy_tool_xml_all_form');
+  $page_builder = [
+    'form_1' => drupal_get_form('galaxy_tool_xml_all_form'),
+    'form_2' => drupal_get_form('sync_to_galaxy_form'),
+  ];
+  return $page_builder;
 }
 
 /**
