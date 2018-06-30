@@ -27,12 +27,12 @@ function api_keys_form($form, &$form_state) {
   $form['test_tool_shed']['test_tool_shed_username'] = [
     '#type' => 'textfield',
     '#title' => t('Username'),
-    '#description' => t('The public username of your Test Tool Shed account'),
+    '#description' => t('The public username of your <span style="color: #FF5666">Test Tool Shed account</span>'),
   ];
   $form['test_tool_shed']['test_tool_shed_api_key'] = [
     '#type' => 'password',
     '#title' => t('API Key'),
-    '#description' => t('The associated API key of your Test Tool Shed account'),
+    '#description' => t('The associated API key of your <span style="color: #FF5666">Test Tool Shed account</span>'),
   ];
 
   $form['tool_shed'] = [
@@ -48,12 +48,12 @@ function api_keys_form($form, &$form_state) {
   $form['tool_shed']['tool_shed_username'] = [
     '#type' => 'textfield',
     '#title' => t('Username'),
-    '#description' => t('The public username of your Test Tool Shed account'),
+    '#description' => t('The public username of your <span style="color: #19B5FE">Tool Shed account</span>'),
   ];
   $form['tool_shed']['tool_shed_api_key'] = [
     '#type' => 'password',
     '#title' => t('API Key'),
-    '#description' => t('The associated API key of your Test Tool Shed account'),
+    '#description' => t('The associated API key of your <span style="color: #19B5FE">Tool Shed account</span>'),
   ];
 
   //    $form['galaxy_admin'] = [

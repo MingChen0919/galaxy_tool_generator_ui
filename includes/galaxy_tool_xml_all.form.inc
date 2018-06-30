@@ -119,10 +119,9 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
   $unregistered_xmls_options = array_diff_key($options, $registered_xmls_options);
   $form['unregistered_xmls'] = [
     '#type' => 'fieldset',
-    '#title' => t('Unregistered XMLs'),
-    '#description' => t('<b>Unregistered XMLs</b> can 
-        be added to the <b">Registered XMLs</b> table below
-        to build an galaxy tool Repository.'),
+    '#title' => t('Tool XMLs'),
+    '#description' => t('Select one or more XMLs and push them into the 
+        <span style="color: #FF5666"><code>galaxy_tool_repository</code></span> directory.'),
     '#collapsible' => TRUE,
   ];
   $form['unregistered_xmls']['unregistered_xmls'] = [
@@ -136,111 +135,45 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
     '#type' => 'action',
     'register_xmls' => [
       '#type' => 'submit',
-      '#value' => 'Register XMLs',
-      '#submit' => ['register_xmls'],
+      '#value' => 'Update XMLs in galaxy_tool_directory folder',
+      '#submit' => ['register_selected_xmls'],
     ],
-    'register_all_xmls' => [
-      '#type' => 'submit',
-      '#value' => 'Register All XMLs',
-      '#submit' => ['register_all_xmls'],
-    ],
+    //    'register_all_xmls' => [
+    //      '#type' => 'submit',
+    //      '#value' => 'Register All XMLs',
+    //      '#submit' => ['register_all_xmls'],
+    //    ],
   ];
 
 
-  // table to display all registered XMLs
-  $form['registered_xmls'] = [
-    '#type' => 'fieldset',
-    '#title' => t('Registered XMLs'),
-    '#description' => t('<b>Registered XMLs</b> are XMLs that 
-        will be included into a Galaxy tool repository. Every time the 
-        <b>registered XMLs</b> are updated, 
-        the <b>Build Repository</b> button needs to be clicked to include the updates.'),
-    '#collapsible' => TRUE,
-  ];
-  $form['registered_xmls']['registered_xmls'] = [
-    '#type' => 'tableselect',
-    '#header' => $header,
-    '#options' => $registered_xmls_options,
-    '#empty' => t('No content available.'),
-  ];
-  $form['registered_xmls']['register_actions'] = [
-    '#type' => 'action',
-    'remove_from_repository' => [
-      '#type' => 'submit',
-      '#value' => 'Unregister XMLs',
-      '#submit' => ['unregister_xmls'],
-    ],
-    'empty_repository' => [
-      '#type' => 'submit',
-      '#value' => 'Unregister All XMLs',
-      '#submit' => ['unregister_all_xmls'],
-    ],
-    'build_repository' => [
-      '#type' => 'submit',
-      '#value' => 'Build Repository',
-      '#submit' => ['build_galaxy_tool_repository'],
-    ],
-  ];
-
-
-  // form interface to delete XML files in public://galaxy_tool_repository
-  $all_files = scandir('public://galaxy_tool_repository/');
+  $galaxy_tool_repository = 'public://galaxy_tool_repository/';
+  file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
+  $all_files = scandir($galaxy_tool_repository);
   $all_xml_files = [];
+  $all_xml_files['type'] = 'ul';
+  $all_xml_files['title'] = '';
+  $all_xml_files['items'] = [];
   foreach ($all_files as $file) {
     if (preg_match('/\.xml$/', $file)) {
-      $all_xml_files[$file] = [
-        'galaxy_tool_xml_name' => $file,
-      ];
+      $all_xml_files['items'][] = l($file, 'sites/default/files/galaxy_tool_repository/' . $file);
     }
   }
-  $remove_xmls_table_header = [
-    'galaxy_tool_xml_name' => [
-      'data' => t('Tool Name'),
-    ],
+  if (count($all_xml_files['items']) == 0) {
+    $markup = 'No XMLs in <span style="color: #FF5666"><code>galaxy_tool_repository</code></span>';
+  }
+  else {
+    $markup = theme('item_list', $all_xml_files);
+  }
+  $form['selected_xmls'] = [
+    '#type' => 'fieldset',
+    '#title' => t('XMLs in <code>galaxy_tool_repository</code>'),
+    '#description' => t('Only XMLs in <span style="color: #FF5666">
+        <code>galaxy_tool_repository</code></span> can be published to the Galaxy Tool Shed (or Test Tool Shed).')
   ];
-//  $form['non_xml_templates'] = [
-//    '#type' => 'fieldset',
-//    '#title' => 'Non XML Templates',
-//    '#description' => t('You can add non XML templates to or remove XML files from the Galaxy tool repository.'),
-//    '#collapsible' => TRUE,
-//  ];
-//
-//  // markup to display structure of tool repository directory
-//  exec('tree -F /var/www/html/sites/default/files/galaxy_tool_repository', $output);
-//  $output = preg_replace('/`/', '|', $output);
-//  $output[0] = 'Repository Directory: galaxy_tool_repository';
-//  $repository_content_markup = implode('<br/>', $output);
-//  $form['non_xml_templates']['tool_repository_structure']['content'] = [
-//    '#markup' => $repository_content_markup,
-//  ];
-//  // save the markup to a variable
-
-  $form['non_xml_templates']['xmls'] = [
-    '#type' => 'tableselect',
-    '#header' => $remove_xmls_table_header,
-    '#options' => $all_xml_files,
-    '#empty' => t('No content available.'),
-  ];
-  $form['non_xml_templates']['actions'] = [
-    'add_report_templates' => [
-      '#type' => 'submit',
-      '#value' => 'Add other templates (Aurora Galaxy Tool)',
-      '#submit' => ['add_report_templates'],
-    ],
-//    'add_website_templates' => [
-//      '#type' => 'submit',
-//      '#value' => 'Add templates (R Markdown website)',
-//      '#submit' => ['add_website_templates'],
-//    ],
-//    'remove_xmls' => [
-//      '#type' => 'submit',
-//      '#value' => 'Remove XMLs & templates',
-//      '#submit' => ['remove_xmls_from_galaxy_tool_repository'],
-//    ],
+  $form['selected_xmls']['xml_list'] = [
+    '#markup' => $markup,
   ];
 
-  // store all xmls options
-  $form_state['storage']['all_xmls'] = $options;
 
   drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/build_repository_confirm.js');
   drupal_add_js(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/js/remove_xml_confirm.js');
@@ -253,63 +186,20 @@ function galaxy_tool_xml_all_form($form, &$form_state) {
  * @param $form_state
  * submit callback to add xmls to build up repository
  */
-function register_xmls($form, &$form_state) {
-  // add selected XMLs to registered_xml_nids array.
-  $registered_xml_nids = variable_get('registered_xml_nids', []);
-  $registered_xmls = array_filter($form_state['values']['unregistered_xmls']);
-  $combined_xmls = array_unique(array_merge($registered_xml_nids, $registered_xmls));
-  // set array keys equal to array values
-  $combined_xmls = drupal_map_assoc(array_values($combined_xmls));
-  variable_set('registered_xml_nids', $combined_xmls);
-}
+function register_selected_xmls($form, &$form_state) {
 
-/**
- * @param $form
- * @param $form_state
- * submit callback to register all XMLs
- */
-function register_all_xmls($form, &$form_state) {
-  variable_set('registered_xml_nids', array_keys($form_state['storage']['all_xmls']));
-}
-
-/**
- * @param $form
- * @param $form_state
- * submit callback to unregister selected xmls
- */
-function unregister_xmls($form, &$form_state) {
-  $registered_xml_nids = drupal_map_assoc(variable_get('registered_xml_nids', []));
-  $registered_xmls = array_filter($form_state['values']['registered_xmls']);
-  foreach ($registered_xmls as $xml) {
-    unset($registered_xml_nids[$xml]);
-  }
-  variable_set('registered_xml_nids', $registered_xml_nids);
-}
-
-/**
- * @param $form
- * @param $form_state
- * submit callback to remove all selected xml from repository.
- */
-function unregister_all_xmls($form, &$form_state) {
-  variable_set('registered_xml_nids', []);
-}
-
-
-/**
- * @param $form
- * @param $form_state
- * Copy registered XML files to public://galaxy_tool_repository.
- */
-function build_galaxy_tool_repository($form, &$form_state) {
-  // prepare the galaxy tool repository directory. Copy XML files into this directory,
-  // and add any other files into this directory. When all files are ready, this directory
-  // will be used as a galaxy tool repository and published to test tool shed or tool shed.
+  // remove all XMLs before copy any selected XMLs into the galaxy_tool_repository directory
   $galaxy_tool_repository = 'public://galaxy_tool_repository/';
   file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
+  $all_files = scandir($galaxy_tool_repository);
+  foreach ($all_files as $file) {
+    if (preg_match('/\.xml$/', $file)) {
+      file_unmanaged_delete($galaxy_tool_repository . $file);
+    }
+  }
 
   // copy selected XML files into 'public://galaxy_tool_repository/'.
-  $nids = array_keys($form_state['values']['registered_xmls']);
+  $nids = array_filter($form_state['values']['unregistered_xmls']);
   foreach ($nids as $nid) {
     $node = db_select('node', 'n')
       ->fields('n')
@@ -319,39 +209,6 @@ function build_galaxy_tool_repository($form, &$form_state) {
     $fid = $node['tool_xml_fid'];
     file_unmanaged_copy(file_load($fid)->uri, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
   }
-}
 
-/**
- * @param $form
- * @param $form_state
- */
-function add_report_templates($form, &$form_state) {
-  $xmls = array_filter($form_state['values']['xmls']);
-  foreach ($xmls as $xml) {
-    get_rmarkdown_non_xml_templates($xml, 'rmarkdown_report');
-  }
-}
-
-/**
- * @param $form
- * @param $form_state
- */
-//function add_website_templates($form, &$form_state) {
-//  $xmls = array_filter($form_state['values']['xmls']);
-//  foreach ($xmls as $xml) {
-//    get_rmarkdown_non_xml_templates($xml, 'rmarkdown_website');
-//  }
-//}
-
-/**
- * @param $form
- * @param $form_state
- * Remove XML files from public://galaxy_tool_repository
- */
-function remove_xmls_from_galaxy_tool_repository($form, &$form_state) {
-  $delete_xml = array_filter($form_state['values']['xmls']);
-  foreach ($delete_xml as $xml) {
-    file_unmanaged_delete('public://galaxy_tool_repository/' . $xml);
-    delete_rmarkdown_non_xml_templates($xml);
-  }
+  $form_state['rebuild'] = TRUE;
 }
