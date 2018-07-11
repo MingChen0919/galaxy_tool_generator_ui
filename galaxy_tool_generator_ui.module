@@ -26,18 +26,6 @@ const RMARKDOWN_JSTREE = AURORA_TOOL_TEMPLATES_URL . 'vakata-jstree-3.3.5.zip';
  * Implements hook_init().
  */
 function galaxy_tool_generator_ui_init() {
-  //  $library = libraries_detect('blend4php');
-  //  if (!$library) {
-  //    drupal_set_message(t('The blend4php library is not installed. Please <code>git clone</code>
-  //        the module from ' . l('here', 'https://github.com/galaxyproject/blend4php.git') .
-  //      ' and place it into the <span style="color: #FF5666">sites/all/libraries/</span> directory.'), 'warning');
-  //  }
-  //
-  //  // Try to load the blend4php library.
-  //  $library = libraries_load('blend4php');
-  //  if (empty($library['loaded'])) {
-  //    drupal_set_message(t('The <code>blend4php</code> library loading failed!'), 'warning');
-  //  }
   drupal_add_css(drupal_get_path('module', 'galaxy_tool_generator_ui') . '/css/hide-webform-components-table-columns.css');
 }
 
