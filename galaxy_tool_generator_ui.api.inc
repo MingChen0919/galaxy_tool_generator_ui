@@ -505,11 +505,20 @@ function convert_xml_to_webform_components($xml_file_path) {
           }
 
         }
+        // adjust node name to make it more informative
+        $name = $node->nodeName;
+        if ($node->nodeName == 'requirement') {
+          $name = $node->nodeName . '_' . $attributes['XML_VALUE'];
+        }
+        if (isset($attributes['name'])) {
+          $name = $node->nodeName . '_' . $attributes['name'];
+        }
+
         $webform_components[] = [
           'cid' => $cid,
           'pid' => $pcid,
           'form_key' => $node->nodeName . '_' . $cid,
-          'name' => $node->nodeName,
+          'name' => $name,
           'type' => $node_path,
           'value' => '',
           'extra' => serialize([
