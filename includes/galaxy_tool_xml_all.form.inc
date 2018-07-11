@@ -213,7 +213,7 @@ function register_selected_xmls($form, &$form_state) {
   // sync galaxy_tool_repository to specified shed tool path.
   $shed_tool_path = variable_get('shed_tool_path', '');
   $full_shed_tool_path = 'public://' . $shed_tool_path;
-  if (file_exists($full_shed_tool_path)) {
+  if ($shed_tool_path !='' and file_exists($full_shed_tool_path)) {
     $command = 'cd /var/www/html/sites/default/files/' . $shed_tool_path . ' && ' .
       'rm -rf * &&' .
       'cp -r /var/www/html/sites/default/files/galaxy_tool_repository/* /var/www/html/sites/default/files/' . $shed_tool_path;
