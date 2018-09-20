@@ -369,6 +369,51 @@ function create_galaxy_tool($form, &$form_state) {
         ->fields($component)
         ->execute();
     }
+
+    $galaxy_tool_repository = 'public://galaxy_tool_repository/';
+    file_prepare_directory($galaxy_tool_repository, FILE_CREATE_DIRECTORY);
+    $rmarkdown_report_rmd = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/rmarkdown_report.Rmd';
+    $rmarkdown_report_render_r = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/rmarkdown_report_render.R';
+    $rmarkdown_report_outputs = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/galaxy_outputs.sh';
+    $rmarkdown_report_getopt = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/getopt.csv';
+    $rmarkdown_report_sh = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/rmarkdown_report.sh';
+
+
+    if (!file_exists($galaxy_tool_repository . 'rmarkdown_report.Rmd')) {
+      file_unmanaged_copy($rmarkdown_report_rmd, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
+    }
+    else {
+      drupal_set_message(t('<b>rmarkdown_report.Rmd</b> already exists in the galaxy_tool_repository directory. 
+        You can remove it and then add a new one.'));
+    }
+    if (!file_exists($galaxy_tool_repository . 'rmarkdown_report_render.R')) {
+      file_unmanaged_copy($rmarkdown_report_render_r, $galaxy_tool_repository);
+    }
+    else {
+      drupal_set_message(t('<b>rmarkdown_report_render.R</b> already exists in the galaxy_tool_repository directory. 
+        You can remove it and then add a new one.'));
+    }
+    if (!file_exists($galaxy_tool_repository . 'getopt.csv')) {
+      file_unmanaged_copy($rmarkdown_report_getopt, $galaxy_tool_repository);
+    }
+    else {
+      drupal_set_message(t('<b>getopt.csv</b> already exists in the galaxy_tool_repository directory. 
+        You can remove it and then add a new one.'));
+    }
+    if (!file_exists($galaxy_tool_repository . 'galaxy_outputs.sh')) {
+      file_unmanaged_copy($rmarkdown_report_outputs, $galaxy_tool_repository);
+    }
+    else {
+      drupal_set_message(t('<b>galaxy_outputs.sh</b> already exists in the galaxy_tool_repository directory. 
+        You can remove it and then add a new one.'));
+    }
+    if (!file_exists($galaxy_tool_repository . 'rmarkdown_report.sh')) {
+      file_unmanaged_copy($rmarkdown_report_sh, $galaxy_tool_repository);
+    }
+    else {
+      drupal_set_message(t('<b>rmarkdown_report.sh</b> already exists in the galaxy_tool_repository directory. 
+        You can remove it and then add a new one.'));
+    }
   }
 
   // use uploaded XML file
@@ -394,9 +439,14 @@ function create_galaxy_tool($form, &$form_state) {
 function create_galaxy_tool_form_validate($form, &$form_state) {
   //==========validate xml file name========
   if (!preg_match('/^[a-z]+[a-z0-9_]*\.xml/', $form_state['values']['title'])) {
-    form_set_error('', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
+    form_set_error('start_with_tool_template', t('File name can only contains <span style="color: #FF5666">"a-z"</span>, 
         <span style="color: #FF5666">"0-9"</span> and <span style="color: #FF5666">"_"</span>, 
         and starts with letters and ends with exsion <span style="color: #FF5666">.xml</span>'));
+  }
+
+  if ($form_state['values']['start_with_tool_template'] == 'Aurora Galaxy Tool' and $form_state['values']['title'] != 'rmarkdown_report.xml') {
+    form_set_error('start_with_tool_template', t('If you are creating an Aurora Galaxy Tool, your XML file name 
+    should only be <b>rmarkdown_report.xml</b>.'));
   }
 }
 
