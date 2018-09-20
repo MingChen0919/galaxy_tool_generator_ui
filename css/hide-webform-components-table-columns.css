@@ -1,9 +1,9 @@
 #webform-components-form .tabledrag-toggle-weight-wrapper {
     display: none;
 }
-table#webform-components th:nth-child(2), th:nth-child(4), th:nth-child(5) {
-    display: none;
-}
+/*table#webform-components th:nth-child(2), th:nth-child(4), th:nth-child(5) {*/
+    /*display: none;*/
+/*}*/
 table#webform-components td.webform-component-formkey,.webform-component-value,.webform-component-required {
     display: none;
 }
