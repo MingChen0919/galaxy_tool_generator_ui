@@ -21,7 +21,7 @@
         export REPORT_FILES_PATH='$report.files_path' &&
 
         ############ create a hidden file to store r markdown rendering log
-        touch $report.files_path/.r_rendering.log.txt &&
+        touch $report.files_path/r_rendering.log.txt &&
 
         ############ finally run the render.R script
         Rscript '${__tool_directory__}/rmarkdown_report_render.R'

@@ -1,7 +1,7 @@
 ##============ Sink warnings and errors to a file ==============
 ## use the sink() function to wrap all code within it.
 ##==============================================================
-zz = file(paste0(Sys.getenv('REPORT_FILES_PATH'), '/.r_rendering.log.txt'))
+zz = file(paste0(Sys.getenv('REPORT_FILES_PATH'), '/r_rendering.log.txt'))
 sink(zz)
 sink(zz, type = 'message')
 
