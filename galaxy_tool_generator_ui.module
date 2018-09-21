@@ -378,6 +378,7 @@ function create_galaxy_tool($form, &$form_state) {
     $rmarkdown_report_outputs = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/galaxy_outputs.sh';
     $rmarkdown_report_getopt = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/getopt.csv';
     $rmarkdown_report_sh = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/rmarkdown_report.sh';
+    $rmarkdown_jstree = drupal_get_path('module', 'galaxy_tool_generator_ui') . '/aurora_tool_templates/vakata-jstree-3.3.5.zip';
 
 
     if (!file_exists($galaxy_tool_repository . 'rmarkdown_report.Rmd')) {
@@ -413,6 +414,13 @@ function create_galaxy_tool($form, &$form_state) {
     }
     else {
       drupal_set_message(t('<b>rmarkdown_report.sh</b> already exists in the galaxy_tool_repository directory. 
+        You can remove it and then add a new one.'));
+    }
+    if (!file_exists($galaxy_tool_repository . 'vakata-jstree-3.3.5.zip')) {
+      file_unmanaged_copy($rmarkdown_jstree, $galaxy_tool_repository, FILE_EXISTS_REPLACE);
+    }
+    else {
+      drupal_set_message(t('<b>vakata-jstree-3.3.5.zip</b> already exists in the galaxy_tool_repository directory. 
         You can remove it and then add a new one.'));
     }
   }
