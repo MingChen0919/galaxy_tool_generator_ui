@@ -224,7 +224,8 @@ function galaxy_tool_generator_ui_form_webform_node_form_alter(&$form, &$form_st
   $form['title'] = [
     '#type' => 'textfield',
     '#title' => t('XML file name'),
-    '#description' => t('Galaxy tool XML file name with extension, e.g. <span style="color: #FF5666">hisat2.xml, bowtie2.xml</span>.'),
+    '#description' => t('Galaxy tool XML file name with extension, e.g. <span style="color: #FF5666">hisat2.xml, bowtie2.xml</span>.<br/>
+        If you are creating an Aurora Galaxy Tool. The XML file name should be <span style="color: #FF5666">rmarkdown_report.xml</span>.'),
     '#required' => TRUE,
     '#maxlength' => 255,
     '#weight' => -5,
